@@ -2,11 +2,8 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>GoalRush | Football Starts Here</title>
 
@@ -22,7 +19,6 @@
             background: #f4f4f4;
             color: #222;
         }
-
 
         /* =========================
            NAVIGATION
@@ -64,7 +60,6 @@
             color: #4CAF50;
         }
 
-
         /* =========================
            HERO
         ========================== */
@@ -101,6 +96,7 @@
             border-radius: 8px;
             text-decoration: none;
             font-weight: bold;
+            transition: 0.2s;
         }
 
         .primary-button {
@@ -116,7 +112,6 @@
         .hero-button:hover {
             transform: translateY(-2px);
         }
-
 
         /* =========================
            GENERAL
@@ -148,7 +143,6 @@
             background: #126b4f;
         }
 
-
         /* =========================
            LIVE MATCHES
         ========================== */
@@ -177,11 +171,10 @@
 
         .match-grid {
             display: grid;
-            grid-template-columns:
-                repeat(
-                    auto-fit,
-                    minmax(260px, 1fr)
-                );
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(260px, 1fr)
+            );
             gap: 18px;
         }
 
@@ -190,9 +183,13 @@
             padding: 20px;
             border-radius: 12px;
             text-align: center;
-            box-shadow:
-                0 3px 8px
-                rgba(0,0,0,0.1);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        }
+
+        .competition {
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 15px;
         }
 
         .teams {
@@ -234,6 +231,11 @@
             font-size: 13px;
         }
 
+        .match-status {
+            margin-top: 10px;
+            font-size: 13px;
+            color: #666;
+        }
 
         /* =========================
            NEWS
@@ -241,11 +243,10 @@
 
         .news-grid {
             display: grid;
-            grid-template-columns:
-                repeat(
-                    auto-fit,
-                    minmax(260px, 1fr)
-                );
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(260px, 1fr)
+            );
             gap: 20px;
         }
 
@@ -253,9 +254,7 @@
             background: white;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow:
-                0 4px 10px
-                rgba(0,0,0,0.12);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.12);
         }
 
         .news-image {
@@ -289,7 +288,6 @@
             font-weight: bold;
         }
 
-
         /* =========================
            STANDINGS
         ========================== */
@@ -298,9 +296,7 @@
             background: white;
             border-radius: 12px;
             overflow-x: auto;
-            box-shadow:
-                0 4px 10px
-                rgba(0,0,0,0.12);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.12);
         }
 
         .standings-table {
@@ -339,7 +335,6 @@
             color: #0b3d2e;
         }
 
-
         /* =========================
            MESSAGE
         ========================== */
@@ -356,7 +351,6 @@
             color: #c62828;
         }
 
-
         /* =========================
            FEATURES
         ========================== */
@@ -369,15 +363,11 @@
         .feature-grid {
             max-width: 1050px;
             margin: auto;
-
             display: grid;
-
-            grid-template-columns:
-                repeat(
-                    auto-fit,
-                    minmax(220px, 1fr)
-                );
-
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(220px, 1fr)
+            );
             gap: 20px;
         }
 
@@ -411,7 +401,6 @@
             font-weight: bold;
         }
 
-
         /* =========================
            FOOTER
         ========================== */
@@ -426,7 +415,6 @@
         footer p {
             margin: 6px;
         }
-
 
         /* =========================
            MOBILE
@@ -468,9 +456,7 @@
 
 </head>
 
-
 <body>
-
 
 <!-- =========================
      NAVIGATION
@@ -478,20 +464,13 @@
 
 <nav>
 
-    <a
-        href="index.html"
-        class="logo"
-    >
+    <a href="index.html" class="logo">
         ⚽ GoalRush
     </a>
 
-
     <div class="nav-links">
 
-        <a
-            href="index.html"
-            class="active"
-        >
+        <a href="index.html" class="active">
             🏠 Home
         </a>
 
@@ -523,11 +502,10 @@
     </h1>
 
     <p>
-        Football news, live scores,
+        Soccer news, live scores,
         league tables and quizzes —
         everything football starts here.
     </p>
-
 
     <div class="hero-buttons">
 
@@ -573,7 +551,6 @@
 
         </div>
 
-
         <div
             id="liveContainer"
             class="match-grid"
@@ -591,15 +568,14 @@
 
 
 <!-- =========================
-     NEWS
+     SOCCER NEWS
 ========================== -->
 
 <section class="container">
 
     <h2 class="section-title">
-        📰 Latest Football News
+        📰 Latest Soccer News
     </h2>
-
 
     <div
         id="newsContainer"
@@ -607,11 +583,10 @@
     >
 
         <div class="message">
-            Loading latest news...
+            Loading latest soccer news...
         </div>
 
     </div>
-
 
     <br>
 
@@ -635,7 +610,6 @@
         🏆 Premier League Table
     </h2>
 
-
     <div id="standingsContainer">
 
         <div class="message">
@@ -643,7 +617,6 @@
         </div>
 
     </div>
-
 
     <br>
 
@@ -667,9 +640,7 @@
         🚀 Explore GoalRush
     </h2>
 
-
     <div class="feature-grid">
-
 
         <div class="feature-card">
 
@@ -678,11 +649,11 @@
             </div>
 
             <h3>
-                Football News
+                Soccer News
             </h3>
 
             <p>
-                Get the latest football
+                Get the latest soccer
                 stories and headlines.
             </p>
 
@@ -745,7 +716,6 @@
 
         </div>
 
-
     </div>
 
 </section>
@@ -774,18 +744,41 @@
 
 <script>
 
+/* ==================================================
+   GOALRUSH VERCEL BACKEND
+================================================== */
 
-// ==================================================
-// FALLBACK IMAGE
-// ==================================================
+const API_BASE =
+    "https://goal-rush-mauve.vercel.app";
+
+
+/* ==================================================
+   FALLBACK IMAGE
+================================================== */
 
 const fallbackImage =
     "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=1000&q=80";
 
 
-// ==================================================
-// LOAD LIVE MATCHES
-// ==================================================
+/* ==================================================
+   ESCAPE HTML
+================================================== */
+
+function escapeHTML(text) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent =
+        text ?? "";
+
+    return div.innerHTML;
+}
+
+
+/* ==================================================
+   LOAD LIVE MATCHES
+================================================== */
 
 async function loadLiveMatches() {
 
@@ -794,18 +787,24 @@ async function loadLiveMatches() {
             "liveContainer"
         );
 
-
     try {
 
         const response =
             await fetch(
-                "/api/live"
+                API_BASE + "/api/live"
             );
 
+        if (!response.ok) {
+
+            throw new Error(
+                "Live matches request failed: " +
+                response.status
+            );
+
+        }
 
         const data =
             await response.json();
-
 
         if (
             !data.matches ||
@@ -824,118 +823,125 @@ async function loadLiveMatches() {
             `;
 
             return;
-
         }
-
 
         container.innerHTML = "";
 
-
         data.matches
             .slice(0, 4)
-            .forEach(
-                function(match) {
+            .forEach(function(match) {
 
-                    const home =
-                        match.homeTeam?.name ||
-                        "Home Team";
+                const home =
+                    match.homeTeam?.name ||
+                    "Home Team";
 
-                    const away =
-                        match.awayTeam?.name ||
-                        "Away Team";
+                const away =
+                    match.awayTeam?.name ||
+                    "Away Team";
 
+                const homeLogo =
+                    match.homeTeam?.crest ||
+                    "";
 
-                    const homeLogo =
-                        match.homeTeam?.crest ||
-                        "";
+                const awayLogo =
+                    match.awayTeam?.crest ||
+                    "";
 
-                    const awayLogo =
-                        match.awayTeam?.crest ||
-                        "";
+                const homeScore =
+                    match.score?.fullTime?.home ??
+                    match.score?.current?.home ??
+                    0;
 
+                const awayScore =
+                    match.score?.fullTime?.away ??
+                    match.score?.current?.away ??
+                    0;
 
-                    const homeScore =
-                        match.score?.fullTime?.home ??
-                        0;
+                const competition =
+                    match.competition?.name ||
+                    "Football";
 
-                    const awayScore =
-                        match.score?.fullTime?.away ??
-                        0;
+                const card =
+                    document.createElement("div");
 
+                card.className =
+                    "match-card";
 
-                    const card =
-                        document.createElement(
-                            "div"
-                        );
+                card.innerHTML = `
 
+                    <div class="competition">
+                        ${escapeHTML(competition)}
+                    </div>
 
-                    card.className =
-                        "match-card";
+                    <div class="teams">
 
+                        <div class="team">
 
-                    card.innerHTML = `
-
-                        <div class="teams">
-
-                            <div class="team">
-
+                            ${
+                                homeLogo
+                                ? `
                                 <img
                                     class="team-logo"
-                                    src="${homeLogo}"
-                                    alt="${home}"
+                                    src="${escapeHTML(homeLogo)}"
+                                    alt="${escapeHTML(home)}"
                                     onerror="this.style.display='none'"
                                 >
+                                `
+                                : ""
+                            }
 
-                                <span>
-                                    ${escapeHTML(home)}
-                                </span>
+                            <span>
+                                ${escapeHTML(home)}
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <div class="score">
+
+                                ${homeScore}
+                                -
+                                ${awayScore}
 
                             </div>
 
-
-                            <div>
-
-                                <div class="score">
-
-                                    ${homeScore}
-                                    -
-                                    ${awayScore}
-
-                                </div>
-
-                                <div class="live-badge">
-                                    🔴 LIVE
-                                </div>
-
-                            </div>
-
-
-                            <div class="team">
-
-                                <img
-                                    class="team-logo"
-                                    src="${awayLogo}"
-                                    alt="${away}"
-                                    onerror="this.style.display='none'"
-                                >
-
-                                <span>
-                                    ${escapeHTML(away)}
-                                </span>
-
+                            <div class="live-badge">
+                                🔴 LIVE
                             </div>
 
                         </div>
 
-                    `;
 
+                        <div class="team">
 
-                    container.appendChild(
-                        card
-                    );
+                            ${
+                                awayLogo
+                                ? `
+                                <img
+                                    class="team-logo"
+                                    src="${escapeHTML(awayLogo)}"
+                                    alt="${escapeHTML(away)}"
+                                    onerror="this.style.display='none'"
+                                >
+                                `
+                                : ""
+                            }
 
-                }
-            );
+                            <span>
+                                ${escapeHTML(away)}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+                container.appendChild(card);
+
+            });
 
     }
 
@@ -946,13 +952,15 @@ async function loadLiveMatches() {
             error
         );
 
-
         container.innerHTML = `
 
             <div class="message error">
 
-                ❌ Could not load
-                live matches.
+                ❌ Could not load live matches.
+
+                <br><br>
+
+                Please try again later.
 
             </div>
 
@@ -963,9 +971,9 @@ async function loadLiveMatches() {
 }
 
 
-// ==================================================
-// LOAD NEWS
-// ==================================================
+/* ==================================================
+   LOAD SOCCER NEWS
+================================================== */
 
 async function loadNews() {
 
@@ -974,18 +982,25 @@ async function loadNews() {
             "newsContainer"
         );
 
-
     try {
 
         const response =
             await fetch(
-                "/api/news?search=football"
+                API_BASE +
+                "/api/news?search=soccer"
             );
 
+        if (!response.ok) {
+
+            throw new Error(
+                "News request failed: " +
+                response.status
+            );
+
+        }
 
         const data =
             await response.json();
-
 
         if (
             !data.articles ||
@@ -996,7 +1011,7 @@ async function loadNews() {
 
                 <div class="message">
 
-                    No football news
+                    No soccer news
                     available right now.
 
                 </div>
@@ -1004,122 +1019,104 @@ async function loadNews() {
             `;
 
             return;
-
         }
-
 
         container.innerHTML = "";
 
-
         data.articles
             .slice(0, 6)
-            .forEach(
-                function(article) {
+            .forEach(function(article) {
 
-                    const card =
-                        document.createElement(
-                            "article"
-                        );
+                const card =
+                    document.createElement("article");
 
+                card.className =
+                    "news-card";
 
-                    card.className =
-                        "news-card";
+                const image =
+                    article.image ||
+                    fallbackImage;
 
+                const title =
+                    article.title ||
+                    "Soccer News";
 
-                    const image =
-                        article.image ||
-                        fallbackImage;
+                const description =
+                    article.description ||
+                    "Read the latest soccer story.";
 
+                const url =
+                    article.url ||
+                    "news.html";
 
-                    const title =
-                        article.title ||
-                        "Football News";
+                card.innerHTML = `
 
+                    <img
+                        class="news-image"
+                        src="${escapeHTML(image)}"
+                        alt="Soccer news"
+                    >
 
-                    const description =
-                        article.description ||
-                        "Read the latest football story.";
+                    <div class="news-content">
 
+                        <h3>
+                            ${escapeHTML(title)}
+                        </h3>
 
-                    const url =
-                        article.url ||
-                        "news.html";
+                        <p>
+                            ${escapeHTML(description)}
+                        </p>
 
-
-                    card.innerHTML = `
-
-                        <img
-                            class="news-image"
-                            src="${image}"
-                            alt="Football news"
+                        <a
+                            href="${escapeHTML(url)}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="read-button"
                         >
+                            Read Article →
+                        </a>
 
-                        <div class="news-content">
+                    </div>
 
-                            <h3>
-                                ${escapeHTML(title)}
-                            </h3>
+                `;
 
-                            <p>
-                                ${escapeHTML(
-                                    description
-                                )}
-                            </p>
-
-                            <a
-                                href="${url}"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="read-button"
-                            >
-                                Read Article →
-                            </a>
-
-                        </div>
-
-                    `;
-
-
-                    const imageElement =
-                        card.querySelector(
-                            ".news-image"
-                        );
-
-
-                    imageElement.onerror =
-                        function() {
-
-                            this.onerror = null;
-
-                            this.src =
-                                fallbackImage;
-
-                        };
-
-
-                    container.appendChild(
-                        card
+                const imageElement =
+                    card.querySelector(
+                        ".news-image"
                     );
 
-                }
-            );
+                imageElement.onerror =
+                    function() {
+
+                        this.onerror = null;
+
+                        this.src =
+                            fallbackImage;
+
+                    };
+
+                container.appendChild(card);
+
+            });
 
     }
 
     catch (error) {
 
         console.error(
-            "News error:",
+            "Soccer news error:",
             error
         );
-
 
         container.innerHTML = `
 
             <div class="message error">
 
-                ❌ Could not load
-                football news.
+                ❌ Could not load soccer news.
+
+                <br><br>
+
+                Please try again later.
 
             </div>
 
@@ -1130,9 +1127,9 @@ async function loadNews() {
 }
 
 
-// ==================================================
-// LOAD STANDINGS
-// ==================================================
+/* ==================================================
+   LOAD PREMIER LEAGUE STANDINGS
+================================================== */
 
 async function loadStandings() {
 
@@ -1141,39 +1138,37 @@ async function loadStandings() {
             "standingsContainer"
         );
 
-
     try {
 
         const response =
             await fetch(
+                API_BASE +
                 "/api/standings?competition=PL"
             );
-
-
-        const data =
-            await response.json();
-
 
         if (!response.ok) {
 
             throw new Error(
-                data.error ||
-                "Standings error"
+                "Standings request failed: " +
+                response.status
             );
 
         }
 
+        const data =
+            await response.json();
 
         const table =
             data.standings?.find(
                 function(standing) {
 
-                    return standing.type === "TOTAL";
+                    return (
+                        standing.type === "TOTAL"
+                    );
 
                 }
             ) ||
             data.standings?.[0];
-
 
         if (
             !table ||
@@ -1184,16 +1179,15 @@ async function loadStandings() {
 
                 <div class="message">
 
-                    No standings available.
+                    No Premier League
+                    standings available.
 
                 </div>
 
             `;
 
             return;
-
         }
-
 
         let html = `
 
@@ -1205,37 +1199,14 @@ async function loadStandings() {
 
                         <tr>
 
-                            <th>
-                                #
-                            </th>
-
-                            <th>
-                                Team
-                            </th>
-
-                            <th>
-                                P
-                            </th>
-
-                            <th>
-                                W
-                            </th>
-
-                            <th>
-                                D
-                            </th>
-
-                            <th>
-                                L
-                            </th>
-
-                            <th>
-                                GD
-                            </th>
-
-                            <th>
-                                Pts
-                            </th>
+                            <th>#</th>
+                            <th>Team</th>
+                            <th>P</th>
+                            <th>W</th>
+                            <th>D</th>
+                            <th>L</th>
+                            <th>GD</th>
+                            <th>Pts</th>
 
                         </tr>
 
@@ -1245,81 +1216,75 @@ async function loadStandings() {
 
         `;
 
-
-        // Show top 10 teams on Home page
-
         table.table
             .slice(0, 10)
-            .forEach(
-                function(row) {
+            .forEach(function(row) {
 
-                    const teamName =
-                        row.team?.shortName ||
-                        row.team?.name ||
-                        "Unknown";
+                const teamName =
+                    row.team?.shortName ||
+                    row.team?.name ||
+                    "Unknown";
 
+                const crest =
+                    row.team?.crest ||
+                    "";
 
-                    const crest =
-                        row.team?.crest ||
-                        "";
+                html += `
 
+                    <tr>
 
-                    html += `
+                        <td>
+                            ${row.position ?? "-"}
+                        </td>
 
-                        <tr>
+                        <td class="standing-team">
 
-                            <td>
-                                ${row.position}
-                            </td>
-
-                            <td
-                                class="standing-team"
-                            >
-
+                            ${
+                                crest
+                                ? `
                                 <img
                                     class="standing-logo"
-                                    src="${crest}"
+                                    src="${escapeHTML(crest)}"
                                     alt=""
                                     onerror="this.style.display='none'"
                                 >
+                                `
+                                : ""
+                            }
 
-                                ${escapeHTML(
-                                    teamName
-                                )}
+                            ${escapeHTML(teamName)}
 
-                            </td>
+                        </td>
 
-                            <td>
-                                ${row.playedGames ?? 0}
-                            </td>
+                        <td>
+                            ${row.playedGames ?? 0}
+                        </td>
 
-                            <td>
-                                ${row.won ?? 0}
-                            </td>
+                        <td>
+                            ${row.won ?? 0}
+                        </td>
 
-                            <td>
-                                ${row.draw ?? 0}
-                            </td>
+                        <td>
+                            ${row.draw ?? 0}
+                        </td>
 
-                            <td>
-                                ${row.lost ?? 0}
-                            </td>
+                        <td>
+                            ${row.lost ?? 0}
+                        </td>
 
-                            <td>
-                                ${row.goalDifference ?? 0}
-                            </td>
+                        <td>
+                            ${row.goalDifference ?? 0}
+                        </td>
 
-                            <td class="points">
-                                ${row.points ?? 0}
-                            </td>
+                        <td class="points">
+                            ${row.points ?? 0}
+                        </td>
 
-                        </tr>
+                    </tr>
 
-                    `;
+                `;
 
-                }
-            );
-
+            });
 
         html += `
 
@@ -1330,7 +1295,6 @@ async function loadStandings() {
             </div>
 
         `;
-
 
         container.innerHTML =
             html;
@@ -1344,13 +1308,16 @@ async function loadStandings() {
             error
         );
 
-
         container.innerHTML = `
 
             <div class="message error">
 
                 ❌ Could not load
                 Premier League standings.
+
+                <br><br>
+
+                Please try again later.
 
             </div>
 
@@ -1361,28 +1328,9 @@ async function loadStandings() {
 }
 
 
-// ==================================================
-// ESCAPE HTML
-// ==================================================
-
-function escapeHTML(text) {
-
-    const div =
-        document.createElement(
-            "div"
-        );
-
-    div.textContent =
-        text ?? "";
-
-    return div.innerHTML;
-
-}
-
-
-// ==================================================
-// START
-// ==================================================
+/* ==================================================
+   START
+================================================== */
 
 loadLiveMatches();
 
@@ -1391,25 +1339,21 @@ loadNews();
 loadStandings();
 
 
-// ==================================================
-// AUTO REFRESH
-// ==================================================
+/* ==================================================
+   AUTO REFRESH
+================================================== */
 
-setInterval(
-    function() {
+setInterval(function() {
 
-        loadLiveMatches();
+    loadLiveMatches();
 
-        loadNews();
+    loadNews();
 
-        loadStandings();
+    loadStandings();
 
-    },
-    60000
-);
+}, 60000);
 
 </script>
-
 
 </body>
 
