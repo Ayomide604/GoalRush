@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta name="viewport"
@@ -82,9 +83,7 @@
 
         .status {
             display: inline-block;
-
             padding: 7px 14px;
-
             border-radius: 20px;
 
             background: #0b3d2e;
@@ -105,9 +104,12 @@
             background: #856404;
         }
 
+        /* =========================
+           TEAMS
+        ========================== */
+
         .teams {
             display: flex;
-
             justify-content: center;
             align-items: center;
 
@@ -134,10 +136,11 @@
         .score {
             font-size: 42px;
             font-weight: bold;
+            color: #0b3d2e;
         }
 
         /* =========================
-           INFO
+           INFORMATION
         ========================== */
 
         .info {
@@ -215,14 +218,6 @@
             flex: 1;
         }
 
-        .home-event {
-            text-align: left;
-        }
-
-        .away-event {
-            text-align: right;
-        }
-
         .no-events {
             text-align: center;
 
@@ -232,7 +227,40 @@
         }
 
         /* =========================
-           LOADING / ERROR
+           LOADING
+        ========================== */
+
+        .loader {
+            width: 35px;
+            height: 35px;
+
+            border: 4px solid #ddd;
+
+            border-top:
+                4px solid #0b3d2e;
+
+            border-radius: 50%;
+
+            margin: 0 auto 15px;
+
+            animation:
+                spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+
+        }
+
+        /* =========================
+           MESSAGES
         ========================== */
 
         .message {
@@ -249,14 +277,44 @@
             color: #c62828;
         }
 
+        .back-button {
+            display: inline-block;
+
+            margin-top: 15px;
+
+            padding: 10px 16px;
+
+            background: #0b3d2e;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+        }
+
+        .back-button:hover {
+            background: #126b4f;
+        }
+
         /* =========================
            MOBILE
         ========================== */
 
         @media (max-width: 600px) {
 
+            .container {
+                padding: 15px 10px;
+            }
+
+            .match-card {
+                padding: 20px 12px;
+            }
+
             .teams {
-                gap: 10px;
+                gap: 8px;
             }
 
             .team {
@@ -269,11 +327,11 @@
             }
 
             .team h2 {
-                font-size: 16px;
+                font-size: 15px;
             }
 
             .score {
-                font-size: 30px;
+                font-size: 28px;
             }
 
             .event {
@@ -304,19 +362,25 @@
 <main class="container">
 
 
-    <!-- MATCH -->
+    <!-- =========================
+         MATCH
+    ========================== -->
 
     <div
         id="matchContainer"
         class="message"
     >
 
+        <div class="loader"></div>
+
         ⚽ Loading match...
 
     </div>
 
 
-    <!-- EVENTS -->
+    <!-- =========================
+         MATCH EVENTS
+    ========================== -->
 
     <div
         id="eventsSection"
@@ -343,7 +407,15 @@
 
 
 // ==================================================
-// GET MATCH ID
+// GOALRUSH VERCEL API
+// ==================================================
+
+const API_BASE =
+    "https://goal-rush-mauve.vercel.app";
+
+
+// ==================================================
+// GET MATCH ID FROM URL
 // ==================================================
 
 const params =
@@ -355,6 +427,10 @@ const params =
 const matchId =
     params.get("id");
 
+
+// ==================================================
+// ELEMENTS
+// ==================================================
 
 const matchContainer =
     document.getElementById(
@@ -375,7 +451,7 @@ const timeline =
 
 
 // ==================================================
-// CHECK ID
+// CHECK MATCH ID
 // ==================================================
 
 if (!matchId) {
@@ -391,11 +467,16 @@ if (!matchId) {
             page and select a match.
         </p>
 
+        <a
+            href="scores.html"
+            class="back-button"
+        >
+            ← Back to Scores
+        </a>
+
     `;
 
-}
-
-else {
+} else {
 
     loadMatch();
 
@@ -410,36 +491,96 @@ async function loadMatch() {
 
     try {
 
-        const response =
-            await fetch(
-                "/api/match/" +
-                encodeURIComponent(matchId)
+        const apiURL =
+            API_BASE +
+            "/api/match/" +
+            encodeURIComponent(
+                matchId
             );
 
 
-        const match =
-            await response.json();
+        console.log(
+            "Loading:",
+            apiURL
+        );
+
+
+        const response =
+            await fetch(
+                apiURL,
+                {
+                    method: "GET",
+                    headers: {
+                        "Accept":
+                            "application/json"
+                    }
+                }
+            );
+
+
+        /*
+         * Read the response as TEXT first.
+         * This prevents the annoying
+         * "Unexpected token <" error
+         * when the server sends HTML.
+         */
+
+        const responseText =
+            await response.text();
+
+
+        let match;
+
+
+        try {
+
+            match =
+                JSON.parse(
+                    responseText
+                );
+
+        }
+
+        catch (jsonError) {
+
+            console.error(
+                "Server returned:",
+                responseText
+            );
+
+
+            throw new Error(
+                "The GoalRush server did not return JSON."
+            );
+
+        }
 
 
         if (!response.ok) {
 
             throw new Error(
                 match.error ||
-                "Could not load match"
+                "Could not load match."
             );
 
         }
 
 
-        displayMatch(match);
+        displayMatch(
+            match
+        );
 
-        displayEvents(match);
+
+        displayEvents(
+            match
+        );
 
     }
 
     catch (error) {
 
         console.error(
+            "Match error:",
             error
         );
 
@@ -451,8 +592,22 @@ async function loadMatch() {
             </h2>
 
             <p>
-                ${error.message}
+                ${escapeHTML(
+                    error.message
+                )}
             </p>
+
+            <p>
+                Please try again or return
+                to the Scores page.
+            </p>
+
+            <a
+                href="scores.html"
+                class="back-button"
+            >
+                ← Back to Scores
+            </a>
 
         `;
 
@@ -465,7 +620,9 @@ async function loadMatch() {
 // DISPLAY MATCH
 // ==================================================
 
-function displayMatch(match) {
+function displayMatch(
+    match
+) {
 
     const home =
         match.homeTeam?.name ||
@@ -524,7 +681,8 @@ function displayMatch(match) {
 
         <div class="competition">
 
-            🏆 ${escapeHTML(
+            🏆
+            ${escapeHTML(
                 competition
             )}
 
@@ -541,44 +699,86 @@ function displayMatch(match) {
         <div class="teams">
 
 
+            <!-- HOME -->
+
             <div class="team">
 
-                <img
-                    src="${homeLogo}"
-                    alt="${escapeHTML(home)}"
-                    onerror="this.style.display='none'"
-                >
+                ${
+                    homeLogo
+                    ?
+                    `
+                    <img
+                        src="${escapeAttribute(homeLogo)}"
+                        alt="${escapeAttribute(home)}"
+                        onerror="
+                            this.style.display='none'
+                        "
+                    >
+                    `
+                    :
+                    ""
+                }
+
 
                 <h2>
-                    ${escapeHTML(home)}
+
+                    ${escapeHTML(
+                        home
+                    )}
+
                 </h2>
 
             </div>
 
 
+            <!-- SCORE -->
+
             <div>
 
                 <div class="score">
 
-                    ${homeScore}
+                    ${escapeHTML(
+                        String(homeScore)
+                    )}
+
                     -
-                    ${awayScore}
+
+                    ${escapeHTML(
+                        String(awayScore)
+                    )}
 
                 </div>
 
             </div>
 
 
+            <!-- AWAY -->
+
             <div class="team">
 
-                <img
-                    src="${awayLogo}"
-                    alt="${escapeHTML(away)}"
-                    onerror="this.style.display='none'"
-                >
+                ${
+                    awayLogo
+                    ?
+                    `
+                    <img
+                        src="${escapeAttribute(awayLogo)}"
+                        alt="${escapeAttribute(away)}"
+                        onerror="
+                            this.style.display='none'
+                        "
+                    >
+                    `
+                    :
+                    ""
+                }
+
 
                 <h2>
-                    ${escapeHTML(away)}
+
+                    ${escapeHTML(
+                        away
+                    )}
+
                 </h2>
 
             </div>
@@ -587,34 +787,49 @@ function displayMatch(match) {
         </div>
 
 
+        <!-- INFORMATION -->
+
         <div class="info">
 
+
             <div class="info-row">
 
-                📅 <strong>Date:</strong>
+                📅
 
-                ${date}
+                <strong>
+                    Date:
+                </strong>
+
+                ${escapeHTML(
+                    date
+                )}
 
             </div>
 
 
             <div class="info-row">
 
-                🏟️ <strong>Venue:</strong>
+                🏟️
 
-                ${
-                    escapeHTML(
-                        match.venue ||
-                        "Not available"
-                    )
-                }
+                <strong>
+                    Venue:
+                </strong>
+
+                ${escapeHTML(
+                    match.venue ||
+                    "Not available"
+                )}
 
             </div>
 
 
             <div class="info-row">
 
-                🏆 <strong>Competition:</strong>
+                🏆
+
+                <strong>
+                    Competition:
+                </strong>
 
                 ${escapeHTML(
                     competition
@@ -625,14 +840,21 @@ function displayMatch(match) {
 
             <div class="info-row">
 
-                📊 <strong>Matchday:</strong>
+                📊
 
-                ${
-                    match.matchday ||
-                    "Not available"
-                }
+                <strong>
+                    Matchday:
+                </strong>
+
+                ${escapeHTML(
+                    String(
+                        match.matchday ||
+                        "Not available"
+                    )
+                )}
 
             </div>
+
 
         </div>
 
@@ -642,10 +864,12 @@ function displayMatch(match) {
 
 
 // ==================================================
-// STATUS
+// MATCH STATUS
 // ==================================================
 
-function getStatus(status) {
+function getStatus(
+    status
+) {
 
     if (
         status === "IN_PLAY"
@@ -719,19 +943,9 @@ function getStatus(status) {
 // MATCH EVENTS
 // ==================================================
 
-function displayEvents(match) {
-
-    /*
-       Some football-data.org plans/API responses
-       do not include detailed events.
-
-       If events are available, this function
-       displays them.
-
-       Otherwise GoalRush tells the user that
-       event information isn't available.
-    */
-
+function displayEvents(
+    match
+) {
 
     eventsSection.style.display =
         "block";
@@ -762,7 +976,8 @@ function displayEvents(match) {
     }
 
 
-    timeline.innerHTML = "";
+    timeline.innerHTML =
+        "";
 
 
     events.forEach(
@@ -786,7 +1001,9 @@ function displayEvents(match) {
                 event.type === "GOAL"
             ) {
 
-                icon = "⚽";
+                icon =
+                    "⚽";
+
 
                 text =
                     event.player?.name ||
@@ -795,10 +1012,13 @@ function displayEvents(match) {
             }
 
             else if (
-                event.type === "YELLOW_CARD"
+                event.type ===
+                "YELLOW_CARD"
             ) {
 
-                icon = "🟨";
+                icon =
+                    "🟨";
+
 
                 text =
                     event.player?.name ||
@@ -807,10 +1027,13 @@ function displayEvents(match) {
             }
 
             else if (
-                event.type === "RED_CARD"
+                event.type ===
+                "RED_CARD"
             ) {
 
-                icon = "🟥";
+                icon =
+                    "🟥";
+
 
                 text =
                     event.player?.name ||
@@ -819,10 +1042,13 @@ function displayEvents(match) {
             }
 
             else if (
-                event.type === "SUBSTITUTION"
+                event.type ===
+                "SUBSTITUTION"
             ) {
 
-                icon = "🔄";
+                icon =
+                    "🔄";
+
 
                 text =
                     event.player?.name ||
@@ -845,7 +1071,11 @@ function displayEvents(match) {
 
                 <div class="event-time">
 
-                    ${minute ? minute + "'" : ""}
+                    ${escapeHTML(
+                        String(minute)
+                    )}
+
+                    ${minute ? "'" : ""}
 
                 </div>
 
@@ -859,7 +1089,9 @@ function displayEvents(match) {
 
                 <div class="event-text">
 
-                    ${escapeHTML(text)}
+                    ${escapeHTML(
+                        text
+                    )}
 
                 </div>
 
@@ -880,12 +1112,15 @@ function displayEvents(match) {
 // ESCAPE HTML
 // ==================================================
 
-function escapeHTML(text) {
+function escapeHTML(
+    text
+) {
 
     const div =
         document.createElement(
             "div"
         );
+
 
     div.textContent =
         text ?? "";
@@ -894,6 +1129,45 @@ function escapeHTML(text) {
     return div.innerHTML;
 
 }
+
+
+// ==================================================
+// ESCAPE ATTRIBUTE
+// ==================================================
+
+function escapeAttribute(
+    text
+) {
+
+    return escapeHTML(
+        text
+    ).replace(
+        /"/g,
+        "&quot;"
+    );
+
+}
+
+
+// ==================================================
+// AUTO REFRESH
+// ==================================================
+
+setInterval(
+    function() {
+
+        if (
+            matchId
+        ) {
+
+            loadMatch();
+
+        }
+
+    },
+    60000
+);
+
 
 </script>
 

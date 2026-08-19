@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta name="viewport"
@@ -23,19 +22,12 @@
             color: #222;
         }
 
-
-        /* =========================
-           NAVIGATION
-        ========================== */
-
         nav {
             background: #0b3d2e;
             padding: 15px 30px;
-
             display: flex;
             justify-content: space-between;
             align-items: center;
-
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -62,18 +54,10 @@
             transition: 0.2s;
         }
 
-        .nav-links a:hover {
-            color: #4CAF50;
-        }
-
+        .nav-links a:hover,
         .nav-links a.active {
             color: #4CAF50;
         }
-
-
-        /* =========================
-           HERO
-        ========================== */
 
         .hero {
             background: #0b3d2e;
@@ -92,35 +76,23 @@
             font-size: 18px;
         }
 
-
-        /* =========================
-           SEARCH
-        ========================== */
-
         .search-box {
             background: white;
             padding: 22px;
-
             display: flex;
             justify-content: center;
             align-items: center;
-
             gap: 10px;
-
             border-bottom: 1px solid #ddd;
         }
 
         .search-box input {
             width: 320px;
             max-width: 80%;
-
             padding: 12px 14px;
-
             border: 1px solid #ccc;
             border-radius: 8px;
-
             font-size: 16px;
-
             outline: none;
         }
 
@@ -130,15 +102,11 @@
 
         .search-box button {
             padding: 12px 20px;
-
             border: none;
             border-radius: 8px;
-
             background: #0b3d2e;
             color: white;
-
             cursor: pointer;
-
             font-size: 16px;
             font-weight: bold;
         }
@@ -147,16 +115,9 @@
             background: #126b4f;
         }
 
-
-        /* =========================
-           NEWS AREA
-        ========================== */
-
         .news-container {
             max-width: 1100px;
-
             margin: auto;
-
             padding: 30px 20px;
         }
 
@@ -171,39 +132,19 @@
             margin-bottom: 20px;
         }
 
-
-        /* =========================
-           NEWS GRID
-        ========================== */
-
         .news-grid {
             display: grid;
-
             grid-template-columns:
-                repeat(
-                    auto-fit,
-                    minmax(280px, 1fr)
-                );
-
+                repeat(auto-fit, minmax(280px, 1fr));
             gap: 22px;
         }
 
-
-        /* =========================
-           NEWS CARD
-        ========================== */
-
         .news-card {
             background: white;
-
             border-radius: 14px;
-
             overflow: hidden;
-
             box-shadow:
-                0 4px 12px
-                rgba(0,0,0,0.12);
-
+                0 4px 12px rgba(0,0,0,0.12);
             transition:
                 transform 0.2s ease,
                 box-shadow 0.2s ease;
@@ -211,49 +152,29 @@
 
         .news-card:hover {
             transform: translateY(-5px);
-
             box-shadow:
-                0 8px 20px
-                rgba(0,0,0,0.16);
+                0 8px 20px rgba(0,0,0,0.16);
         }
-
-
-        /* =========================
-           NEWS IMAGE
-        ========================== */
 
         .image-wrapper {
             width: 100%;
             height: 195px;
-
             background: #ddd;
-
             overflow: hidden;
-
             position: relative;
         }
 
         .news-image {
             width: 100%;
             height: 100%;
-
             object-fit: cover;
-
             display: block;
-
-            transition:
-                transform 0.3s ease;
+            transition: transform 0.3s ease;
         }
 
-        .news-card:hover
-        .news-image {
+        .news-card:hover .news-image {
             transform: scale(1.04);
         }
-
-
-        /* =========================
-           NEWS CONTENT
-        ========================== */
 
         .news-content {
             padding: 18px;
@@ -261,59 +182,37 @@
 
         .news-content h2 {
             font-size: 20px;
-
-            margin:
-                0 0 12px;
-
+            margin: 0 0 12px;
             line-height: 1.35;
         }
 
         .news-description {
             color: #555;
-
             line-height: 1.5;
-
             margin-bottom: 12px;
         }
 
         .news-date {
             color: #777;
-
             font-size: 13px;
-
             margin: 12px 0;
         }
 
         .news-source {
             color: #0b3d2e;
-
             font-size: 13px;
-
             font-weight: bold;
-
             margin-bottom: 14px;
         }
 
-
-        /* =========================
-           READ BUTTON
-        ========================== */
-
         .read-button {
             display: inline-block;
-
             background: #0b3d2e;
-
             color: white;
-
             padding: 10px 15px;
-
             border-radius: 7px;
-
             text-decoration: none;
-
             font-weight: bold;
-
             transition: 0.2s;
         }
 
@@ -321,55 +220,30 @@
             background: #126b4f;
         }
 
-
-        /* =========================
-           MESSAGE
-        ========================== */
-
         .message {
             background: white;
-
             padding: 30px;
-
             border-radius: 12px;
-
             text-align: center;
-
             color: #666;
-
-            grid-column:
-                1 / -1;
+            grid-column: 1 / -1;
         }
 
         .error {
             color: #c62828;
         }
 
-
-        /* =========================
-           LOADING
-        ========================== */
-
         .loader {
             width: 35px;
             height: 35px;
-
             border: 4px solid #ddd;
-
-            border-top:
-                4px solid #0b3d2e;
-
+            border-top: 4px solid #0b3d2e;
             border-radius: 50%;
-
-            margin:
-                0 auto 15px;
-
-            animation:
-                spin 0.8s linear infinite;
+            margin: 0 auto 15px;
+            animation: spin 0.8s linear infinite;
         }
 
         @keyframes spin {
-
             from {
                 transform: rotate(0deg);
             }
@@ -377,23 +251,13 @@
             to {
                 transform: rotate(360deg);
             }
-
         }
-
-
-        /* =========================
-           FOOTER
-        ========================== */
 
         footer {
             background: #0b3d2e;
-
             color: white;
-
             text-align: center;
-
             padding: 30px;
-
             margin-top: 40px;
         }
 
@@ -401,26 +265,16 @@
             margin-top: 0;
         }
 
-
-        /* =========================
-           MOBILE
-        ========================== */
-
         @media (max-width: 600px) {
 
             nav {
                 flex-direction: column;
-
                 gap: 12px;
-
-                padding:
-                    15px;
+                padding: 15px;
             }
 
             .nav-links {
-                justify-content:
-                    center;
-
+                justify-content: center;
                 gap: 10px;
             }
 
@@ -437,8 +291,7 @@
             }
 
             .search-box {
-                flex-direction:
-                    column;
+                flex-direction: column;
             }
 
             .search-box input {
@@ -451,38 +304,25 @@
             }
 
             .news-container {
-                padding:
-                    25px 15px;
+                padding: 25px 15px;
             }
 
             .news-grid {
-                grid-template-columns:
-                    1fr;
+                grid-template-columns: 1fr;
             }
-
         }
 
     </style>
 
 </head>
 
-
 <body>
-
-
-<!-- =========================
-     NAVIGATION
-========================== -->
 
 <nav>
 
-    <a
-        href="index.html"
-        class="logo"
-    >
+    <a href="index.html" class="logo">
         ⚽ GoalRush
     </a>
-
 
     <div class="nav-links">
 
@@ -494,10 +334,7 @@
             ⚽ Scores
         </a>
 
-        <a
-            href="news.html"
-            class="active"
-        >
+        <a href="news.html" class="active">
             📰 News
         </a>
 
@@ -508,11 +345,6 @@
     </div>
 
 </nav>
-
-
-<!-- =========================
-     HERO
-========================== -->
 
 <section class="hero">
 
@@ -526,11 +358,6 @@
     </p>
 
 </section>
-
-
-<!-- =========================
-     SEARCH
-========================== -->
 
 <div class="search-box">
 
@@ -549,30 +376,18 @@
 
 </div>
 
-
-<!-- =========================
-     NEWS
-========================== -->
-
 <main class="news-container">
 
     <h2 class="news-heading">
         Latest Football News
     </h2>
 
-    <p
-        id="refreshInfo"
-        class="refresh-info"
-    >
+    <p id="refreshInfo" class="refresh-info">
         🔄 News automatically refreshes
         every 60 seconds.
     </p>
 
-
-    <div
-        id="newsContainer"
-        class="news-grid"
-    >
+    <div id="newsContainer" class="news-grid">
 
         <div class="message">
 
@@ -586,11 +401,6 @@
     </div>
 
 </main>
-
-
-<!-- =========================
-     FOOTER
-========================== -->
 
 <footer>
 
@@ -608,65 +418,33 @@
 
 </footer>
 
-
 <script>
 
-
-// ==================================================
-// ELEMENTS
-// ==================================================
-
 const newsContainer =
-    document.getElementById(
-        "newsContainer"
-    );
-
+    document.getElementById("newsContainer");
 
 const newsSearch =
-    document.getElementById(
-        "newsSearch"
-    );
-
+    document.getElementById("newsSearch");
 
 const searchButton =
-    document.getElementById(
-        "searchButton"
-    );
-
+    document.getElementById("searchButton");
 
 const refreshInfo =
-    document.getElementById(
-        "refreshInfo"
-    );
-
-
-// ==================================================
-// FALLBACK IMAGE
-// ==================================================
+    document.getElementById("refreshInfo");
 
 const fallbackImage =
     "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=1000&q=80";
 
-
-// ==================================================
-// CURRENT SEARCH
-// ==================================================
-
-let currentSearch =
-    "football";
+let currentSearch = "football";
 
 
 // ==================================================
 // LOAD NEWS
 // ==================================================
 
-async function loadNews(
-    searchTerm = "football"
-) {
+async function loadNews(searchTerm = "football") {
 
-    currentSearch =
-        searchTerm;
-
+    currentSearch = searchTerm;
 
     newsContainer.innerHTML = `
 
@@ -674,28 +452,23 @@ async function loadNews(
 
             <div class="loader"></div>
 
-            📰 Loading news
-            about "${escapeHTML(searchTerm)}"...
+            📰 Loading news about
+            "${escapeHTML(searchTerm)}"...
 
         </div>
 
     `;
 
-
     try {
 
         const response =
             await fetch(
-                "/api/news?search=" +
-                encodeURIComponent(
-                    searchTerm
-                )
+                "https://goal-rush-mauve.vercel.app/api/news?search=" +
+                encodeURIComponent(searchTerm)
             );
-
 
         const data =
             await response.json();
-
 
         if (!response.ok) {
 
@@ -704,7 +477,6 @@ async function loadNews(
                 <div class="message error">
 
                     ❌
-
                     ${escapeHTML(
                         data.error ||
                         "Could not load news."
@@ -715,9 +487,7 @@ async function loadNews(
             `;
 
             return;
-
         }
-
 
         if (
             !data.articles ||
@@ -740,155 +510,103 @@ async function loadNews(
             `;
 
             return;
-
         }
-
 
         newsContainer.innerHTML = "";
 
+        data.articles.forEach(function(article) {
 
-        data.articles.forEach(
-            function(article) {
+            const card =
+                document.createElement("article");
 
-                const card =
-                    document.createElement(
-                        "article"
-                    );
+            card.className = "news-card";
 
+            const image =
+                article.image ||
+                fallbackImage;
 
-                card.className =
-                    "news-card";
+            const title =
+                article.title ||
+                "Football News";
 
+            const description =
+                article.description ||
+                "Read the latest football story.";
 
-                // =========================
-                // ARTICLE DATA
-                // =========================
-
-                const image =
-                    article.image ||
-                    fallbackImage;
-
-
-                const title =
-                    article.title ||
-                    "Football News";
-
-
-                const description =
-                    article.description ||
-                    "Read the latest football story.";
-
-
-                const published =
+            const published =
+                article.publishedAt
+                ? new Date(
                     article.publishedAt
-                    ? new Date(
-                        article.publishedAt
-                    ).toLocaleString()
-                    : "Date unavailable";
+                ).toLocaleString()
+                : "Date unavailable";
 
+            const source =
+                article.source?.name ||
+                article.source ||
+                "Football News";
 
-                const source =
-                    article.source?.name ||
-                    article.source ||
-                    "Football News";
+            const url =
+                article.url ||
+                "#";
 
+            card.innerHTML = `
 
-                const url =
-                    article.url ||
-                    "#";
+                <div class="image-wrapper">
 
+                    <img
+                        class="news-image"
+                        src="${escapeAttribute(image)}"
+                        alt="Football news"
+                    >
 
-                // =========================
-                // CARD
-                // =========================
+                </div>
 
-                card.innerHTML = `
+                <div class="news-content">
 
-                    <div class="image-wrapper">
+                    <h2>
+                        ${escapeHTML(title)}
+                    </h2>
 
-                        <img
-                            class="news-image"
-                            src="${escapeAttribute(image)}"
-                            alt="Football news"
-                        >
+                    <p class="news-description">
+                        ${escapeHTML(description)}
+                    </p>
 
+                    <div class="news-source">
+                        📰 ${escapeHTML(source)}
                     </div>
 
+                    <p class="news-date">
+                        📅 ${escapeHTML(published)}
+                    </p>
 
-                    <div class="news-content">
+                    <a
+                        class="read-button"
+                        href="${escapeAttribute(url)}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Read Article →
+                    </a>
 
-                        <h2>
-                            ${escapeHTML(title)}
-                        </h2>
+                </div>
 
+            `;
 
-                        <p class="news-description">
+            const imageElement =
+                card.querySelector(".news-image");
 
-                            ${escapeHTML(
-                                description
-                            )}
+            imageElement.onerror =
+                function() {
 
-                        </p>
+                    this.onerror = null;
 
+                    this.src =
+                        fallbackImage;
+                };
 
-                        <div class="news-source">
+            newsContainer.appendChild(card);
 
-                            📰 ${escapeHTML(source)}
-
-                        </div>
-
-
-                        <p class="news-date">
-
-                            📅 ${escapeHTML(published)}
-
-                        </p>
-
-
-                        <a
-                            class="read-button"
-                            href="${escapeAttribute(url)}"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-
-                            Read Article →
-
-                        </a>
-
-                    </div>
-
-                `;
-
-
-                // =========================
-                // IMAGE FALLBACK
-                // =========================
-
-                const imageElement =
-                    card.querySelector(
-                        ".news-image"
-                    );
-
-
-                imageElement.onerror =
-                    function() {
-
-                        this.onerror = null;
-
-                        this.src =
-                            fallbackImage;
-
-                    };
-
-
-                newsContainer.appendChild(
-                    card
-                );
-
-            }
-        );
-
+        });
 
         refreshInfo.textContent =
             "✅ News loaded. Automatically refreshes every 60 seconds.";
@@ -902,18 +620,12 @@ async function loadNews(
             error
         );
 
-
         newsContainer.innerHTML = `
 
             <div class="message error">
 
                 ❌ Could not connect
                 to the GoalRush news server.
-
-                <br><br>
-
-                Make sure your Node.js
-                server is running.
 
             </div>
 
@@ -928,22 +640,15 @@ async function loadNews(
 // ESCAPE HTML
 // ==================================================
 
-function escapeHTML(
-    text
-) {
+function escapeHTML(text) {
 
     const div =
-        document.createElement(
-            "div"
-        );
-
+        document.createElement("div");
 
     div.textContent =
         text ?? "";
 
-
     return div.innerHTML;
-
 }
 
 
@@ -951,16 +656,10 @@ function escapeHTML(
 // ESCAPE ATTRIBUTE
 // ==================================================
 
-function escapeAttribute(
-    text
-) {
+function escapeAttribute(text) {
 
-    return escapeHTML(
-        text
-    ).replace(
-        /"/g,
-        "&quot;"
-    );
+    return escapeHTML(text)
+        .replace(/"/g, "&quot;");
 
 }
 
@@ -974,22 +673,13 @@ function performSearch() {
     const term =
         newsSearch.value.trim();
 
+    if (term === "") {
 
-    if (
-        term === ""
-    ) {
+        loadNews("football");
 
-        loadNews(
-            "football"
-        );
+    } else {
 
-    }
-
-    else {
-
-        loadNews(
-            term
-        );
+        loadNews(term);
 
     }
 
@@ -1010,9 +700,7 @@ newsSearch.addEventListener(
     "keydown",
     function(event) {
 
-        if (
-            event.key === "Enter"
-        ) {
+        if (event.key === "Enter") {
 
             performSearch();
 
@@ -1026,14 +714,11 @@ newsSearch.addEventListener(
 // INITIAL LOAD
 // ==================================================
 
-loadNews(
-    "football"
-);
+loadNews("football");
 
 
 // ==================================================
 // AUTO REFRESH
-// EVERY 60 SECONDS
 // ==================================================
 
 setInterval(
@@ -1049,7 +734,6 @@ setInterval(
 );
 
 </script>
-
 
 </body>
 
