@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>GoalRush | Football Quiz</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            color: #222;
+        }
+
+
+        /* =========================
+           NAVIGATION
+        ========================== */
+
+        nav {
+            background: #0b3d2e;
+            padding: 15px 25px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            color: white;
+            text-decoration: none;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 5px;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #4CAF50;
+        }
+
+        .nav-links a.active {
+            color: #4CAF50;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================== */
+
+        header {
+            background: #0b3d2e;
+            color: white;
+            text-align: center;
+            padding: 45px 20px;
+        }
+
+        header h1 {
+            margin: 0 0 10px;
+            font-size: 40px;
+        }
+
+        header p {
+            margin: 0;
+            font-size: 18px;
+        }
+
+
+        /* =========================
+           QUIZ CONTAINER
+        ========================== */
+
+        .quiz-container {
+            max-width: 750px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+
+        /* =========================
+           QUIZ CARD
+        ========================== */
+
+        .quiz-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+
+            box-shadow:
+                0 5px 15px
+                rgba(0, 0, 0, 0.15);
+        }
+
+
+        .question-number {
+            color: #0b3d2e;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+
+        .question {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+
+        /* =========================
+           ANSWERS
+        ========================== */
+
+        .answers {
+            display: grid;
+            gap: 12px;
+        }
+
+
+        .answer {
+            width: 100%;
+            padding: 15px;
+
+            border: 2px solid #ddd;
+            border-radius: 10px;
+
+            background: white;
+
+            text-align: left;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .answer:hover {
+            border-color: #0b3d2e;
+            background: #f1f8f5;
+        }
+
+
+        .answer.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+
+        .answer.wrong {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+
+        .answer:disabled {
+            cursor: not-allowed;
+        }
+
+
+        /* =========================
+           NEXT BUTTON
+        ========================== */
+
+        .next-button {
+            width: 100%;
+            margin-top: 25px;
+
+            padding: 14px;
+
+            border: none;
+            border-radius: 9px;
+
+            background: #0b3d2e;
+            color: white;
+
+            font-size: 17px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            display: none;
+        }
+
+
+        .next-button:hover {
+            background: #126b4f;
+        }
+
+
+        /* =========================
+           SCORE
+        ========================== */
+
+        .score-box {
+            text-align: center;
+            padding: 20px;
+        }
+
+
+        .score-box h2 {
+            color: #0b3d2e;
+            font-size: 32px;
+        }
+
+
+        .final-score {
+            font-size: 50px;
+            font-weight: bold;
+            color: #0b3d2e;
+            margin: 20px;
+        }
+
+
+        .restart-button {
+            padding: 13px 25px;
+
+            border: none;
+            border-radius: 8px;
+
+            background: #0b3d2e;
+            color: white;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+
+        .restart-button:hover {
+            background: #126b4f;
+        }
+
+
+        /* =========================
+           PROGRESS
+        ========================== */
+
+        .progress-container {
+            width: 100%;
+            height: 8px;
+
+            background: #ddd;
+
+            border-radius: 10px;
+
+            margin-bottom: 25px;
+
+            overflow: hidden;
+        }
+
+
+        .progress-bar {
+            height: 100%;
+
+            width: 0%;
+
+            background: #0b3d2e;
+
+            transition: width 0.3s ease;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================== */
+
+        footer {
+            background: #0b3d2e;
+            color: white;
+
+            text-align: center;
+
+            padding: 25px;
+
+            margin-top: 40px;
+        }
+
+
+        footer p {
+            margin: 5px;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================== */
+
+        @media (max-width: 700px) {
+
+            nav {
+                flex-direction: column;
+                gap: 12px;
+                padding: 15px;
+            }
+
+
+            .nav-links {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+
+            .nav-links a {
+                font-size: 14px;
+            }
+
+
+            header h1 {
+                font-size: 32px;
+            }
+
+
+            .quiz-container {
+                margin: 20px auto;
+                padding: 15px;
+            }
+
+
+            .quiz-card {
+                padding: 20px;
+            }
+
+
+            .question {
+                font-size: 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVIGATION
+========================== -->
+
+<nav>
+
+    <a
+        href="index.html"
+        class="logo"
+    >
+        ⚽ GoalRush
+    </a>
+
+
+    <div class="nav-links">
+
+        <a href="index.html">
+            🏠 Home
+        </a>
+
+
+        <a href="news.html">
+            📰 News
+        </a>
+
+
+        <a href="scores.html">
+            ⚽ Scores
+        </a>
+
+
+        <a
+            href="quiz.html"
+            class="active"
+        >
+            🧠 Quiz
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- =========================
+     HEADER
+========================== -->
+
+<header>
+
+    <h1>
+        🧠 Football Quiz
+    </h1>
+
+    <p>
+        Test your football knowledge!
+    </p>
+
+</header>
+
+
+<!-- =========================
+     QUIZ
+========================== -->
+
+<div class="quiz-container">
+
+    <div class="quiz-card">
+
+        <div class="progress-container">
+
+            <div
+                id="progressBar"
+                class="progress-bar"
+            ></div>
+
+        </div>
+
+
+        <div id="quiz">
+
+            <div
+                id="questionNumber"
+                class="question-number"
+            ></div>
+
+
+            <div
+                id="question"
+                class="question"
+            ></div>
+
+
+            <div
+                id="answers"
+                class="answers"
+            ></div>
+
+
+            <button
+                id="nextButton"
+                class="next-button"
+            >
+                Next Question →
+            </button>
+
+        </div>
+
+
+        <div
+            id="result"
+            class="score-box"
+            style="display: none;"
+        >
+
+            <h2>
+                🏆 Quiz Complete!
+            </h2>
+
+
+            <p>
+                Your score:
+            </p>
+
+
+            <div
+                id="finalScore"
+                class="final-score"
+            ></div>
+
+
+            <p id="scoreMessage"></p>
+
+
+            <button
+                id="restartButton"
+                class="restart-button"
+            >
+                🔄 Play Again
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     FOOTER
+========================== -->
+
+<footer>
+
+    <p>
+        ⚽ <strong>GoalRush</strong>
+    </p>
+
+    <p>
+        Football Starts Here.
+    </p>
+
+    <p>
+        © 2026 GoalRush
+    </p>
+
+</footer>
+
+
+<script>
+
+    // =========================
+    // QUIZ QUESTIONS
+    // =========================
+
+    const questions = [
+
+        {
+            question:
+                "Which club does Bukayo Saka play for?",
+
+            answers: [
+                "Chelsea",
+                "Arsenal",
+                "Liverpool",
+                "Manchester City"
+            ],
+
+            correct:
+                "Arsenal"
+        },
+
+
+        {
+            question:
+                "How many players does one football team normally have on the pitch?",
+
+            answers: [
+                "9",
+                "10",
+                "11",
+                "12"
+            ],
+
+            correct:
+                "11"
+        },
+
+
+        {
+            question:
+                "Which country won the 2022 FIFA World Cup?",
+
+            answers: [
+                "Brazil",
+                "France",
+                "Argentina",
+                "Germany"
+            ],
+
+            correct:
+                "Argentina"
+        },
+
+
+        {
+            question:
+                "Which club is known as the Reds?",
+
+            answers: [
+                "Liverpool",
+                "Arsenal",
+                "Chelsea",
+                "Everton"
+            ],
+
+            correct:
+                "Liverpool"
+        },
+
+
+        {
+            question:
+                "What colour card means a player is sent off?",
+
+            answers: [
+                "Blue",
+                "Green",
+                "Yellow",
+                "Red"
+            ],
+
+            correct:
+                "Red"
+        },
+
+
+        {
+            question:
+                "Which position normally wears gloves and protects the goal?",
+
+            answers: [
+                "Striker",
+                "Goalkeeper",
+                "Midfielder",
+                "Defender"
+            ],
+
+            correct:
+                "Goalkeeper"
+        },
+
+
+        {
+            question:
+                "How long is a normal football match, excluding added time and extra time?",
+
+            answers: [
+                "60 minutes",
+                "70 minutes",
+                "90 minutes",
+                "120 minutes"
+            ],
+
+            correct:
+                "90 minutes"
+        },
+
+
+        {
+            question:
+                "Which club plays at the Emirates Stadium?",
+
+            answers: [
+                "Arsenal",
+                "Chelsea",
+                "Tottenham",
+                "Liverpool"
+            ],
+
+            correct:
+                "Arsenal"
+        },
+
+
+        {
+            question:
+                "What is awarded when a defending player commits a foul inside their own penalty area?",
+
+            answers: [
+                "Corner kick",
+                "Throw-in",
+                "Penalty kick",
+                "Goal kick"
+            ],
+
+            correct:
+                "Penalty kick"
+        },
+
+
+        {
+            question:
+                "Which competition is played between national teams around the world?",
+
+            answers: [
+                "FIFA World Cup",
+                "Premier League",
+                "Champions League",
+                "FA Cup"
+            ],
+
+            correct:
+                "FIFA World Cup"
+        }
+
+    ];
+
+
+    // =========================
+    // ELEMENTS
+    // =========================
+
+    const questionNumber =
+        document.getElementById(
+            "questionNumber"
+        );
+
+
+    const questionElement =
+        document.getElementById(
+            "question"
+        );
+
+
+    const answersElement =
+        document.getElementById(
+            "answers"
+        );
+
+
+    const nextButton =
+        document.getElementById(
+            "nextButton"
+        );
+
+
+    const progressBar =
+        document.getElementById(
+            "progressBar"
+        );
+
+
+    const quiz =
+        document.getElementById(
+            "quiz"
+        );
+
+
+    const result =
+        document.getElementById(
+            "result"
+        );
+
+
+    const finalScore =
+        document.getElementById(
+            "finalScore"
+        );
+
+
+    const scoreMessage =
+        document.getElementById(
+            "scoreMessage"
+        );
+
+
+    const restartButton =
+        document.getElementById(
+            "restartButton"
+        );
+
+
+    // =========================
+    // VARIABLES
+    // =========================
+
+    let currentQuestion = 0;
+
+    let score = 0;
+
+
+    // =========================
+    // START QUIZ
+    // =========================
+
+    function startQuiz() {
+
+        currentQuestion = 0;
+
+        score = 0;
+
+        quiz.style.display = "block";
+
+        result.style.display = "none";
+
+        showQuestion();
+
+    }
+
+
+    // =========================
+    // SHOW QUESTION
+    // =========================
+
+    function showQuestion() {
+
+        const current =
+            questions[currentQuestion];
+
+
+        questionNumber.textContent =
+            `Question ${currentQuestion + 1} of ${questions.length}`;
+
+
+        questionElement.textContent =
+            current.question;
+
+
+        answersElement.innerHTML = "";
+
+
+        nextButton.style.display =
+            "none";
+
+
+        const progress =
+            ((currentQuestion) /
+            questions.length) * 100;
+
+
+        progressBar.style.width =
+            progress + "%";
+
+
+        current.answers.forEach(
+            function(answer) {
+
+                const button =
+                    document.createElement(
+                        "button"
+                    );
+
+
+                button.className =
+                    "answer";
+
+
+                button.textContent =
+                    answer;
+
+
+                button.addEventListener(
+                    "click",
+                    function() {
+
+                        selectAnswer(
+                            button,
+                            answer,
+                            current.correct
+                        );
+
+                    }
+                );
+
+
+                answersElement.appendChild(
+                    button
+                );
+
+            }
+        );
+
+    }
+
+
+    // =========================
+    // SELECT ANSWER
+    // =========================
+
+    function selectAnswer(
+        button,
+        selected,
+        correct
+    ) {
+
+        const allAnswers =
+            document.querySelectorAll(
+                ".answer"
+            );
+
+
+        allAnswers.forEach(
+            function(answerButton) {
+
+                answerButton.disabled =
+                    true;
+
+            }
+        );
+
+
+        if (selected === correct) {
+
+            button.classList.add(
+                "correct"
+            );
+
+            score++;
+
+        }
+
+        else {
+
+            button.classList.add(
+                "wrong"
+            );
+
+
+            allAnswers.forEach(
+                function(answerButton) {
+
+                    if (
+                        answerButton.textContent ===
+                        correct
+                    ) {
+
+                        answerButton.classList.add(
+                            "correct"
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        nextButton.style.display =
+            "block";
+
+
+        if (
+            currentQuestion ===
+            questions.length - 1
+        ) {
+
+            nextButton.textContent =
+                "🏆 See Final Score";
+
+        }
+
+    }
+
+
+    // =========================
+    // NEXT QUESTION
+    // =========================
+
+    nextButton.addEventListener(
+        "click",
+        function() {
+
+            currentQuestion++;
+
+
+            if (
+                currentQuestion <
+                questions.length
+            ) {
+
+                showQuestion();
+
+            }
+
+            else {
+
+                showResult();
+
+            }
+
+        }
+    );
+
+
+    // =========================
+    // SHOW RESULT
+    // =========================
+
+    function showResult() {
+
+        quiz.style.display =
+            "none";
+
+
+        result.style.display =
+            "block";
+
+
+        progressBar.style.width =
+            "100%";
+
+
+        finalScore.textContent =
+            `${score} / ${questions.length}`;
+
+
+        if (score === questions.length) {
+
+            scoreMessage.textContent =
+                "🔥 Perfect score! You're a football master!";
+
+        }
+
+        else if (
+            score >= 7
+        ) {
+
+            scoreMessage.textContent =
+                "👏 Excellent! You really know your football!";
+
+        }
+
+        else if (
+            score >= 5
+        ) {
+
+            scoreMessage.textContent =
+                "👍 Good job! Keep learning and you'll get even better.";
+
+        }
+
+        else {
+
+            scoreMessage.textContent =
+                "⚽ Keep practicing! Try the quiz again.";
+
+        }
+
+    }
+
+
+    // =========================
+    // RESTART
+    // =========================
+
+    restartButton.addEventListener(
+        "click",
+        function() {
+
+            startQuiz();
+
+        }
+    );
+
+
+    // =========================
+    // START
+    // =========================
+
+    startQuiz();
+
+</script>
+
+
+</body>
+
+</html>

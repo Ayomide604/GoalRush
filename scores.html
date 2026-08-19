@@ -1,0 +1,1799 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>GoalRush - Live Scores</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f4f4;
+            color: #222;
+        }
+
+        header {
+            background: #0b3d2e;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        header p {
+            margin-bottom: 0;
+        }
+
+        .search-box {
+            padding: 25px;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-box input {
+            padding: 12px;
+            width: 250px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .search-box button {
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            background: #0b3d2e;
+            color: white;
+        }
+
+        .search-box button:hover {
+            background: #126b4f;
+        }
+
+        .scores-container {
+            padding: 30px;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .section-title {
+            color: #0b3d2e;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .live-title {
+            color: #c62828;
+        }
+
+        .match-card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 10px rgba(0,0,0,0.15);
+
+            text-align: center;
+            cursor: pointer;
+
+            transition:
+                transform 0.15s ease,
+                box-shadow 0.15s ease;
+        }
+
+        .match-card:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 6px 14px rgba(0,0,0,0.2);
+        }
+
+        .match-card:active {
+            transform: scale(0.99);
+        }
+
+        .teams {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .team {
+            width: 38%;
+            font-size: 16px;
+            font-weight: bold;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            gap: 8px;
+        }
+
+        .team-logo {
+            width: 55px;
+            height: 55px;
+            object-fit: contain;
+        }
+
+        .score {
+            font-size: 28px;
+            font-weight: bold;
+            color: #0b3d2e;
+        }
+
+        .live-score {
+            color: #c62828;
+        }
+
+        .status {
+            display: inline-block;
+
+            margin-top: 12px;
+
+            padding: 6px 12px;
+
+            border-radius: 20px;
+
+            font-weight: bold;
+        }
+
+        .live {
+            background: #ffe0e0;
+            color: #c62828;
+        }
+
+        .finished {
+            background: #eeeeee;
+            color: #555;
+        }
+
+        .upcoming {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .date,
+        .competition {
+            margin-top: 10px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .tap-text {
+            display: block;
+            margin-top: 12px;
+            color: #0b3d2e;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .empty-message {
+            text-align: center;
+
+            padding: 25px;
+
+            background: white;
+
+            border-radius: 12px;
+
+            color: #666;
+
+            box-shadow:
+                0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .error {
+            color: red;
+        }
+
+
+        /* =========================
+           STANDINGS
+        ========================= */
+
+        .standings-wrapper {
+            background: white;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 10px rgba(0,0,0,0.15);
+
+            overflow-x: auto;
+        }
+
+        .standings-table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 650px;
+        }
+
+        .standings-table th {
+            background: #0b3d2e;
+
+            color: white;
+
+            padding: 13px 8px;
+
+            text-align: center;
+
+            font-size: 13px;
+        }
+
+        .standings-table td {
+            padding: 12px 8px;
+
+            border-bottom: 1px solid #eee;
+
+            text-align: center;
+
+            font-size: 14px;
+        }
+
+        .standings-table tr:hover {
+            background: #f5f5f5;
+        }
+
+        .standing-team {
+            text-align: left !important;
+
+            font-weight: bold;
+
+            min-width: 200px;
+        }
+
+        .standing-logo {
+            width: 30px;
+            height: 30px;
+
+            object-fit: contain;
+
+            vertical-align: middle;
+
+            margin-right: 8px;
+        }
+
+        .points {
+            font-weight: bold;
+
+            color: #0b3d2e;
+        }
+
+        .league-selector {
+            margin-bottom: 15px;
+
+            display: flex;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+        }
+
+        .league-selector select {
+            padding: 11px;
+
+            border-radius: 8px;
+
+            border: 1px solid #ccc;
+
+            font-size: 15px;
+        }
+
+        .league-selector button {
+            padding: 11px 18px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #0b3d2e;
+
+            color: white;
+
+            cursor: pointer;
+        }
+
+        .league-selector button:hover {
+            background: #126b4f;
+        }
+
+
+        /* =========================
+           TEAM SEARCH
+        ========================= */
+
+        .team-heading {
+            color: #0b3d2e;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .search-box {
+                flex-direction: column;
+            }
+
+            .search-box input {
+                width: 80%;
+            }
+
+            .scores-container {
+                padding: 15px;
+            }
+
+            .team {
+                font-size: 14px;
+            }
+
+            .team-logo {
+                width: 45px;
+                height: 45px;
+            }
+
+            .score {
+                font-size: 23px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <h1>⚽ GoalRush Live Scores</h1>
+
+    <p>
+        Live football scores, results,
+        fixtures and standings
+    </p>
+
+</header>
+
+
+<!-- =========================
+     SEARCH
+========================== -->
+
+<div class="search-box">
+
+    <input
+        type="text"
+        id="teamSearch"
+        placeholder="Search for a team..."
+    >
+
+    <button
+        id="searchButton"
+        type="button"
+    >
+        Search
+    </button>
+
+</div>
+
+
+<div class="scores-container">
+
+
+    <!-- =========================
+         LIVE
+    ========================== -->
+
+    <h2 class="section-title live-title">
+        🔴 LIVE NOW
+    </h2>
+
+    <div id="liveContainer">
+
+        <p class="empty-message">
+            Checking for live matches...
+        </p>
+
+    </div>
+
+
+    <!-- =========================
+         RESULTS
+    ========================== -->
+
+    <h2 class="section-title">
+        🏁 RECENT RESULTS
+    </h2>
+
+    <div id="resultsContainer">
+
+        <p class="empty-message">
+            Loading recent results...
+        </p>
+
+    </div>
+
+
+    <!-- =========================
+         STANDINGS
+    ========================== -->
+
+    <h2 class="section-title">
+        🏆 LEAGUE STANDINGS
+    </h2>
+
+    <div class="league-selector">
+
+        <select id="leagueSelect">
+
+            <option value="PL">
+                Premier League
+            </option>
+
+            <option value="PD">
+                La Liga
+            </option>
+
+            <option value="SA">
+                Serie A
+            </option>
+
+            <option value="BL1">
+                Bundesliga
+            </option>
+
+            <option value="FL1">
+                Ligue 1
+            </option>
+
+        </select>
+
+
+        <button id="standingsButton">
+            Show Table
+        </button>
+
+    </div>
+
+
+    <div id="standingsContainer">
+
+        <p class="empty-message">
+            Loading standings...
+        </p>
+
+    </div>
+
+
+    <!-- =========================
+         TEAM MATCHES
+    ========================== -->
+
+    <h2 class="section-title">
+        🔎 TEAM MATCHES
+    </h2>
+
+    <div id="teamContainer">
+
+        <p class="empty-message">
+            Search for a team to see matches.
+        </p>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+
+// ==================================================
+// ELEMENTS
+// ==================================================
+
+const searchButton =
+    document.getElementById(
+        "searchButton"
+    );
+
+
+const teamSearch =
+    document.getElementById(
+        "teamSearch"
+    );
+
+
+const liveContainer =
+    document.getElementById(
+        "liveContainer"
+    );
+
+
+const resultsContainer =
+    document.getElementById(
+        "resultsContainer"
+    );
+
+
+const standingsContainer =
+    document.getElementById(
+        "standingsContainer"
+    );
+
+
+const teamContainer =
+    document.getElementById(
+        "teamContainer"
+    );
+
+
+const leagueSelect =
+    document.getElementById(
+        "leagueSelect"
+    );
+
+
+const standingsButton =
+    document.getElementById(
+        "standingsButton"
+    );
+
+
+// ==================================================
+// SEARCH BUTTON
+// ==================================================
+
+searchButton.addEventListener(
+    "click",
+    searchTeam
+);
+
+
+// ==================================================
+// ENTER KEY SEARCH
+// ==================================================
+
+teamSearch.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Enter") {
+
+            searchTeam();
+
+        }
+
+    }
+);
+
+
+// ==================================================
+// STANDINGS BUTTON
+// ==================================================
+
+standingsButton.addEventListener(
+    "click",
+    function() {
+
+        loadStandings(
+            leagueSelect.value
+        );
+
+    }
+);
+
+
+// ==================================================
+// OPEN MATCH CENTRE
+// ==================================================
+
+function openMatchCentre(
+    matchId
+) {
+
+    if (!matchId) {
+
+        console.error(
+            "No match ID found."
+        );
+
+        return;
+
+    }
+
+
+    window.location.href =
+        "match.html?id=" +
+        encodeURIComponent(matchId);
+
+}
+
+
+// ==================================================
+// LIVE MATCHES
+// ==================================================
+
+async function loadLiveMatches() {
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/live"
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok
+        ) {
+
+            throw new Error(
+                data.error ||
+                "Could not load live matches"
+            );
+
+        }
+
+
+        if (
+            !data.matches ||
+            data.matches.length === 0
+        ) {
+
+            liveContainer.innerHTML = `
+
+                <div class="empty-message">
+
+                    ⚪ No matches are
+                    currently live.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        liveContainer.innerHTML = "";
+
+
+        data.matches.forEach(
+            function(match) {
+
+                const home =
+                    match.homeTeam?.name ||
+                    "Home Team";
+
+
+                const away =
+                    match.awayTeam?.name ||
+                    "Away Team";
+
+
+                const homeLogo =
+                    match.homeTeam?.crest ||
+                    "";
+
+
+                const awayLogo =
+                    match.awayTeam?.crest ||
+                    "";
+
+
+                const homeScore =
+                    match.score?.fullTime?.home ??
+                    0;
+
+
+                const awayScore =
+                    match.score?.fullTime?.away ??
+                    0;
+
+
+                const competition =
+                    match.competition?.name ||
+                    "Football Match";
+
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                card.className =
+                    "match-card";
+
+
+                card.addEventListener(
+                    "click",
+                    function() {
+
+                        openMatchCentre(
+                            match.id
+                        );
+
+                    }
+                );
+
+
+                card.innerHTML = `
+
+                    <div class="teams">
+
+                        <div class="team">
+
+                            <img
+                                class="team-logo"
+                                src="${homeLogo}"
+                                alt="${home}"
+                                onerror="this.style.display='none'"
+                            >
+
+                            <span>
+                                ${home}
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <div class="score live-score">
+
+                                ${homeScore}
+                                -
+                                ${awayScore}
+
+                            </div>
+
+
+                            <div class="status live">
+
+                                🔴 LIVE
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="team">
+
+                            <img
+                                class="team-logo"
+                                src="${awayLogo}"
+                                alt="${away}"
+                                onerror="this.style.display='none'"
+                            >
+
+                            <span>
+                                ${away}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="competition">
+
+                        🏆 ${competition}
+
+                    </div>
+
+
+                    <span class="tap-text">
+
+                        Tap to open Match Centre →
+
+                    </span>
+
+                `;
+
+
+                liveContainer.appendChild(
+                    card
+                );
+
+            }
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Live error:",
+            error
+        );
+
+
+        liveContainer.innerHTML = `
+
+            <div class="empty-message error">
+
+                ❌ Could not load
+                live matches.
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+// ==================================================
+// RECENT RESULTS
+// ==================================================
+
+async function loadRecentResults() {
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/results"
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok
+        ) {
+
+            throw new Error(
+                data.error ||
+                "Could not load results"
+            );
+
+        }
+
+
+        if (
+            !data.matches ||
+            data.matches.length === 0
+        ) {
+
+            resultsContainer.innerHTML = `
+
+                <div class="empty-message">
+
+                    No recent results available.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        resultsContainer.innerHTML = "";
+
+
+        data.matches.forEach(
+            function(match) {
+
+                const home =
+                    match.homeTeam?.name ||
+                    "Home Team";
+
+
+                const away =
+                    match.awayTeam?.name ||
+                    "Away Team";
+
+
+                const homeLogo =
+                    match.homeTeam?.crest ||
+                    "";
+
+
+                const awayLogo =
+                    match.awayTeam?.crest ||
+                    "";
+
+
+                const homeScore =
+                    match.score?.fullTime?.home ??
+                    "-";
+
+
+                const awayScore =
+                    match.score?.fullTime?.away ??
+                    "-";
+
+
+                const date =
+                    match.utcDate
+                    ? new Date(
+                        match.utcDate
+                    ).toLocaleString()
+                    : "Date unavailable";
+
+
+                const competition =
+                    match.competition?.name ||
+                    "Football Match";
+
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                card.className =
+                    "match-card";
+
+
+                card.addEventListener(
+                    "click",
+                    function() {
+
+                        openMatchCentre(
+                            match.id
+                        );
+
+                    }
+                );
+
+
+                card.innerHTML = `
+
+                    <div class="teams">
+
+                        <div class="team">
+
+                            <img
+                                class="team-logo"
+                                src="${homeLogo}"
+                                alt="${home}"
+                                onerror="this.style.display='none'"
+                            >
+
+                            <span>
+                                ${home}
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <div class="score">
+
+                                ${homeScore}
+                                -
+                                ${awayScore}
+
+                            </div>
+
+
+                            <div class="status finished">
+
+                                ✅ FINISHED
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="team">
+
+                            <img
+                                class="team-logo"
+                                src="${awayLogo}"
+                                alt="${away}"
+                                onerror="this.style.display='none'"
+                            >
+
+                            <span>
+                                ${away}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="date">
+
+                        📅 ${date}
+
+                    </div>
+
+
+                    <div class="competition">
+
+                        🏆 ${competition}
+
+                    </div>
+
+
+                    <span class="tap-text">
+
+                        Tap to open Match Centre →
+
+                    </span>
+
+                `;
+
+
+                resultsContainer.appendChild(
+                    card
+                );
+
+            }
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Results error:",
+            error
+        );
+
+
+        resultsContainer.innerHTML = `
+
+            <div class="empty-message error">
+
+                ❌ Could not load recent results.
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+// ==================================================
+// STANDINGS
+// ==================================================
+
+async function loadStandings(
+    competition
+) {
+
+    standingsContainer.innerHTML = `
+
+        <p class="empty-message">
+
+            Loading standings...
+
+        </p>
+
+    `;
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/standings?competition=" +
+                encodeURIComponent(
+                    competition
+                )
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error ||
+                "Could not load standings"
+            );
+
+        }
+
+
+        const table =
+            data.standings?.find(
+                function(standing) {
+
+                    return standing.type === "TOTAL";
+
+                }
+            ) ||
+            data.standings?.[0];
+
+
+        if (
+            !table ||
+            !table.table
+        ) {
+
+            standingsContainer.innerHTML = `
+
+                <div class="empty-message">
+
+                    No league table available.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        let html = `
+
+            <div class="standings-wrapper">
+
+                <table class="standings-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>#</th>
+
+                            <th>Team</th>
+
+                            <th>P</th>
+
+                            <th>W</th>
+
+                            <th>D</th>
+
+                            <th>L</th>
+
+                            <th>GD</th>
+
+                            <th>Pts</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+        `;
+
+
+        table.table.forEach(
+            function(row, index) {
+
+                const position =
+                    row.position ||
+                    index + 1;
+
+
+                const teamName =
+                    row.team?.shortName ||
+                    row.team?.name ||
+                    "Unknown";
+
+
+                const crest =
+                    row.team?.crest ||
+                    "";
+
+
+                html += `
+
+                    <tr>
+
+                        <td>
+                            ${position}
+                        </td>
+
+
+                        <td class="standing-team">
+
+                            <img
+                                class="standing-logo"
+                                src="${crest}"
+                                alt=""
+                                onerror="this.style.display='none'"
+                            >
+
+                            ${teamName}
+
+                        </td>
+
+
+                        <td>
+                            ${row.playedGames ?? 0}
+                        </td>
+
+
+                        <td>
+                            ${row.won ?? 0}
+                        </td>
+
+
+                        <td>
+                            ${row.draw ?? 0}
+                        </td>
+
+
+                        <td>
+                            ${row.lost ?? 0}
+                        </td>
+
+
+                        <td>
+                            ${row.goalDifference ?? 0}
+                        </td>
+
+
+                        <td class="points">
+
+                            ${row.points ?? 0}
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        );
+
+
+        html += `
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        `;
+
+
+        standingsContainer.innerHTML =
+            html;
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Standings error:",
+            error
+        );
+
+
+        standingsContainer.innerHTML = `
+
+            <div class="empty-message error">
+
+                ❌ Could not load standings.
+
+                <br><br>
+
+                ${error.message}
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+// ==================================================
+// TEAM SEARCH
+// ==================================================
+
+async function searchTeam() {
+
+    const team =
+        teamSearch.value.trim();
+
+
+    if (!team) {
+
+        teamContainer.innerHTML = `
+
+            <div class="empty-message">
+
+                Please enter a team name.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    teamContainer.innerHTML = `
+
+        <div class="match-card">
+
+            <h3>
+
+                🔎 Searching for
+                ${team}...
+
+            </h3>
+
+            <p>
+                Loading matches...
+            </p>
+
+        </div>
+
+    `;
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/teams?search=" +
+                encodeURIComponent(
+                    team
+                )
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok
+        ) {
+
+            throw new Error(
+                data.error ||
+                "Search failed"
+            );
+
+        }
+
+
+        if (
+            !data.teams ||
+            data.teams.length === 0
+        ) {
+
+            teamContainer.innerHTML = `
+
+                <div class="empty-message">
+
+                    ❌ Team not found.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        const selectedTeam =
+            data.teams[0];
+
+
+        getMatches(
+            selectedTeam.id,
+            selectedTeam.name
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Search error:",
+            error
+        );
+
+
+        teamContainer.innerHTML = `
+
+            <div class="empty-message error">
+
+                ❌ Could not search for team.
+
+                <br><br>
+
+                ${error.message}
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+// ==================================================
+// TEAM MATCHES
+// ==================================================
+
+async function getMatches(
+    teamId,
+    teamName
+) {
+
+    teamContainer.innerHTML = `
+
+        <div class="match-card">
+
+            <h3>
+
+                ⚽ ${teamName || "Team"}
+
+            </h3>
+
+            <p>
+                Loading matches...
+            </p>
+
+        </div>
+
+    `;
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/matches?teamId=" +
+                encodeURIComponent(
+                    teamId
+                )
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok
+        ) {
+
+            throw new Error(
+                data.error ||
+                "Could not load team matches"
+            );
+
+        }
+
+
+        if (
+            !data.matches ||
+            data.matches.length === 0
+        ) {
+
+            teamContainer.innerHTML = `
+
+                <div class="empty-message">
+
+                    No matches found for
+                    ${teamName || "this team"}.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        teamContainer.innerHTML = "";
+
+
+        data.matches.forEach(
+            function(match) {
+
+                const home =
+                    match.homeTeam?.name ||
+                    "Home Team";
+
+
+                const away =
+                    match.awayTeam?.name ||
+                    "Away Team";
+
+
+                const homeLogo =
+                    match.homeTeam?.crest ||
+                    "";
+
+
+                const awayLogo =
+                    match.awayTeam?.crest ||
+                    "";
+
+
+                const homeScore =
+                    match.score?.fullTime?.home ??
+                    "-";
+
+
+                const awayScore =
+                    match.score?.fullTime?.away ??
+                    "-";
+
+
+                const date =
+                    match.utcDate
+                    ? new Date(
+                        match.utcDate
+                    ).toLocaleString()
+                    : "Date unavailable";
+
+
+                const competition =
+                    match.competition?.name ||
+                    "Football Match";
+
+
+                let statusClass =
+                    "upcoming";
+
+
+                let statusText =
+                    "🕐 UPCOMING";
+
+
+                if (
+                    match.status ===
+                    "FINISHED"
+                ) {
+
+                    statusClass =
+                        "finished";
+
+                    statusText =
+                        "✅ FINISHED";
+
+                }
+
+                else if (
+                    match.status ===
+                    "IN_PLAY" ||
+                    match.status ===
+                    "PAUSED"
+                ) {
+
+                    statusClass =
+                        "live";
+
+                    statusText =
+                        "🔴 LIVE";
+
+                }
+
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                card.className =
+                    "match-card";
+
+
+                card.addEventListener(
+                    "click",
+                    function() {
+
+                        openMatchCentre(
+                            match.id
+                        );
+
+                    }
+                );
+
+
+                card.innerHTML = `
+
+                    <div class="teams">
+
+                        <div class="team">
+
+                            <img
+                                class="team-logo"
+                                src="${homeLogo}"
+                                alt="${home}"
+                                onerror="this.style.display='none'"
+                            >
+
+                            <span>
+                                ${home}
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <div class="score">
+
+                                ${homeScore}
+                                -
+                                ${awayScore}
+
+                            </div>
+
+
+                            <div class="status ${statusClass}">
+
+                                ${statusText}
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="team">
+
+                            <img
+                                class="team-logo"
+                                src="${awayLogo}"
+                                alt="${away}"
+                                onerror="this.style.display='none'"
+                            >
+
+                            <span>
+                                ${away}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="date">
+
+                        📅 ${date}
+
+                    </div>
+
+
+                    <div class="competition">
+
+                        🏆 ${competition}
+
+                    </div>
+
+
+                    <span class="tap-text">
+
+                        Tap to open Match Centre →
+
+                    </span>
+
+                `;
+
+
+                teamContainer.appendChild(
+                    card
+                );
+
+            }
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Matches error:",
+            error
+        );
+
+
+        teamContainer.innerHTML = `
+
+            <div class="empty-message error">
+
+                ❌ Could not load team matches.
+
+                <br><br>
+
+                ${error.message}
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+// ==================================================
+// INITIAL LOAD
+// ==================================================
+
+loadLiveMatches();
+
+loadRecentResults();
+
+loadStandings("PL");
+
+
+// ==================================================
+// AUTO REFRESH EVERY 60 SECONDS
+// ==================================================
+
+setInterval(
+    function() {
+
+        loadLiveMatches();
+
+        loadRecentResults();
+
+        loadStandings(
+            leagueSelect.value
+        );
+
+    },
+    60000
+);
+
+</script>
+
+
+</body>
+
+</html>
