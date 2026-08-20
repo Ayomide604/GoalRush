@@ -78,10 +78,10 @@ app.get("/api/teams", async (req, res) => {
                 errorText
             );
 
-            return res.status(response.status).json({
-                error: "Football API request failed"
-            });
-
+         return res.status(response.status).json({
+    error: "Could not load football news",
+    details: errorText
+});
         }
 
 
