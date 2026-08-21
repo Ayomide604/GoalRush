@@ -9,12 +9,17 @@
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-HH0QG8R3P3"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
 
-      gtag('config', 'G-HH0QG8R3P3');
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-HH0QG8R3P3');
     </script>
 
     <title>GoalRush | Football News</title>
@@ -356,6 +361,7 @@
 
 </nav>
 
+
 <section class="hero">
 
     <h1>
@@ -368,6 +374,7 @@
     </p>
 
 </section>
+
 
 <div class="search-box">
 
@@ -385,6 +392,7 @@
     </button>
 
 </div>
+
 
 <main class="news-container">
 
@@ -410,6 +418,7 @@
 
 </main>
 
+
 <footer>
 
     <h3>
@@ -426,7 +435,20 @@
 
 </footer>
 
+
 <script>
+
+/* ==================================================
+   API SERVER
+================================================== */
+
+const API_BASE =
+    "https://goalrush-api.vercel.app";
+
+
+/* ==================================================
+   ELEMENTS
+================================================== */
 
 const newsContainer =
     document.getElementById("newsContainer");
@@ -440,22 +462,30 @@ const searchButton =
 const refreshInfo =
     document.getElementById("refreshInfo");
 
+
+/* ==================================================
+   FALLBACK IMAGE
+================================================== */
+
 const fallbackImage =
     "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=1000&q=80";
 
-const API_BASE =
-    "https://goal-rush-mauve.vercel.app";
 
-let currentSearch = "football";
+let currentSearch =
+    "football";
 
 
-// ==================================================
-// LOAD NEWS
-// ==================================================
+/* ==================================================
+   LOAD NEWS
+================================================== */
 
-async function loadNews(searchTerm = "football") {
+async function loadNews(
+    searchTerm = "football"
+) {
 
-    currentSearch = searchTerm;
+    currentSearch =
+        searchTerm;
+
 
     newsContainer.innerHTML = `
 
@@ -470,6 +500,7 @@ async function loadNews(searchTerm = "football") {
 
     `;
 
+
     try {
 
         const url =
@@ -477,8 +508,10 @@ async function loadNews(searchTerm = "football") {
             "/api/news?search=" +
             encodeURIComponent(searchTerm);
 
+
         const response =
             await fetch(url);
+
 
         if (!response.ok) {
 
@@ -489,8 +522,10 @@ async function loadNews(searchTerm = "football") {
 
         }
 
+
         const data =
             await response.json();
+
 
         if (
             !data.articles ||
@@ -513,115 +548,144 @@ async function loadNews(searchTerm = "football") {
 
             `;
 
+
             refreshInfo.textContent =
                 "No news was returned by the news server.";
 
+
             return;
+
         }
+
 
         newsContainer.innerHTML = "";
 
-        data.articles.forEach(function(article) {
 
-            const card =
-                document.createElement("article");
+        data.articles.forEach(
+            function(article) {
 
-            card.className =
-                "news-card";
+                const card =
+                    document.createElement("article");
 
-            const image =
-                article.image ||
-                article.urlToImage ||
-                fallbackImage;
 
-            const title =
-                article.title ||
-                "Football News";
+                card.className =
+                    "news-card";
 
-            const description =
-                article.description ||
-                "Read the latest football story.";
 
-            const published =
-                article.publishedAt
-                ? new Date(
+                const image =
+                    article.image ||
+                    article.urlToImage ||
+                    fallbackImage;
+
+
+                const title =
+                    article.title ||
+                    "Football News";
+
+
+                const description =
+                    article.description ||
+                    "Read the latest football story.";
+
+
+                const published =
                     article.publishedAt
-                ).toLocaleString()
-                : "Date unavailable";
+                    ? new Date(
+                        article.publishedAt
+                    ).toLocaleString()
+                    : "Date unavailable";
 
-            const source =
-                article.source?.name ||
-                article.source ||
-                "Football News";
 
-            const url =
-                article.url ||
-                "#";
+                const source =
+                    article.source?.name ||
+                    article.source ||
+                    "Football News";
 
-            card.innerHTML = `
 
-                <div class="image-wrapper">
+                const url =
+                    article.url ||
+                    "#";
 
-                    <img
-                        class="news-image"
-                        src="${escapeAttribute(image)}"
-                        alt="Football news"
-                    >
 
-                </div>
+                card.innerHTML = `
 
-                <div class="news-content">
+                    <div class="image-wrapper">
 
-                    <h2>
-                        ${escapeHTML(title)}
-                    </h2>
+                        <img
+                            class="news-image"
+                            src="${escapeAttribute(image)}"
+                            alt="Football news"
+                        >
 
-                    <p class="news-description">
-                        ${escapeHTML(description)}
-                    </p>
-
-                    <div class="news-source">
-                        📰 ${escapeHTML(source)}
                     </div>
 
-                    <p class="news-date">
-                        📅 ${escapeHTML(published)}
-                    </p>
 
-                    <a
-                        class="read-button"
-                        href="${escapeAttribute(url)}"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Read Article →
-                    </a>
+                    <div class="news-content">
 
-                </div>
+                        <h2>
+                            ${escapeHTML(title)}
+                        </h2>
 
-            `;
 
-            const imageElement =
-                card.querySelector(".news-image");
+                        <p class="news-description">
+                            ${escapeHTML(description)}
+                        </p>
 
-            imageElement.onerror =
-                function() {
 
-                    this.onerror = null;
+                        <div class="news-source">
+                            📰 ${escapeHTML(source)}
+                        </div>
 
-                    this.src =
-                        fallbackImage;
 
-                };
+                        <p class="news-date">
+                            📅 ${escapeHTML(published)}
+                        </p>
 
-            newsContainer.appendChild(card);
 
-        });
+                        <a
+                            class="read-button"
+                            href="${escapeAttribute(url)}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Read Article →
+                        </a>
+
+                    </div>
+
+                `;
+
+
+                const imageElement =
+                    card.querySelector(
+                        ".news-image"
+                    );
+
+
+                imageElement.onerror =
+                    function() {
+
+                        this.onerror = null;
+
+                        this.src =
+                            fallbackImage;
+
+                    };
+
+
+                newsContainer.appendChild(
+                    card
+                );
+
+            }
+        );
+
 
         refreshInfo.textContent =
             "✅ News loaded. Automatically refreshes every 60 seconds.";
 
     }
+
 
     catch (error) {
 
@@ -629,6 +693,7 @@ async function loadNews(searchTerm = "football") {
             "News error:",
             error
         );
+
 
         newsContainer.innerHTML = `
 
@@ -647,6 +712,7 @@ async function loadNews(searchTerm = "football") {
 
         `;
 
+
         refreshInfo.textContent =
             "⚠️ The news server is currently unavailable.";
 
@@ -655,9 +721,9 @@ async function loadNews(searchTerm = "football") {
 }
 
 
-// ==================================================
-// ESCAPE HTML
-// ==================================================
+/* ==================================================
+   ESCAPE HTML
+================================================== */
 
 function escapeHTML(text) {
 
@@ -672,9 +738,9 @@ function escapeHTML(text) {
 }
 
 
-// ==================================================
-// ESCAPE ATTRIBUTE
-// ==================================================
+/* ==================================================
+   ESCAPE ATTRIBUTE
+================================================== */
 
 function escapeAttribute(text) {
 
@@ -684,20 +750,23 @@ function escapeAttribute(text) {
 }
 
 
-// ==================================================
-// SEARCH
-// ==================================================
+/* ==================================================
+   SEARCH
+================================================== */
 
 function performSearch() {
 
     const term =
         newsSearch.value.trim();
 
+
     if (term === "") {
 
         loadNews("football");
 
-    } else {
+    }
+
+    else {
 
         loadNews(term);
 
@@ -706,9 +775,9 @@ function performSearch() {
 }
 
 
-// ==================================================
-// SEARCH BUTTON
-// ==================================================
+/* ==================================================
+   SEARCH BUTTON
+================================================== */
 
 searchButton.addEventListener(
     "click",
@@ -716,9 +785,9 @@ searchButton.addEventListener(
 );
 
 
-// ==================================================
-// ENTER KEY
-// ==================================================
+/* ==================================================
+   ENTER KEY
+================================================== */
 
 newsSearch.addEventListener(
     "keydown",
@@ -734,16 +803,16 @@ newsSearch.addEventListener(
 );
 
 
-// ==================================================
-// INITIAL LOAD
-// ==================================================
+/* ==================================================
+   INITIAL LOAD
+================================================== */
 
 loadNews("football");
 
 
-// ==================================================
-// AUTO REFRESH
-// ==================================================
+/* ==================================================
+   AUTO REFRESH
+================================================== */
 
 setInterval(
     function() {
