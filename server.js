@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const OpenAI = require("openai");
 
 dotenv.config();
 
@@ -12,6 +13,17 @@ app.use(express.static(__dirname));
 
 
 // ==================================================
+// OPENAI
+// ==================================================
+
+const openai = process.env.OPENAI_API_KEY
+    ? new OpenAI({
+        apiKey: process.env.OPENAI_API_KEY
+    })
+    : null;
+
+
+// ==================================================
 // FOOTBALL API HELPER
 // ==================================================
 
@@ -19,7 +31,8 @@ async function footballAPI(url) {
 
     return fetch(url, {
         headers: {
-            "X-Auth-Token": process.env.FOOTBALL_API_TOKEN
+            "X-Auth-Token":
+                process.env.FOOTBALL_API_TOKEN
         }
     });
 
@@ -33,7 +46,7 @@ async function footballAPI(url) {
 app.get("/", (req, res) => {
 
     res.json({
-        message: "GoalRush server is running!",
+        message: "GoalRush API is running!",
         status: "online"
     });
 
@@ -49,7 +62,6 @@ app.get("/api/teams", async (req, res) => {
     const search =
         req.query.search?.trim().toLowerCase();
 
-
     if (!search) {
 
         return res.status(400).json({
@@ -58,7 +70,6 @@ app.get("/api/teams", async (req, res) => {
 
     }
 
-
     try {
 
         const response =
@@ -66,62 +77,58 @@ app.get("/api/teams", async (req, res) => {
                 "https://api.football-data.org/v4/teams?limit=100"
             );
 
-
         if (!response.ok) {
 
             const errorText =
                 await response.text();
 
             console.error(
-                "Football API error:",
+                "TEAM API ERROR:",
                 response.status,
                 errorText
             );
 
-         return res.status(response.status).json({
-    error: "Could not load football news",
-    details: errorText
-});
-        }
+            return res.status(response.status).json({
+                error: "Could not load teams"
+            });
 
+        }
 
         const data =
             await response.json();
 
-
         const teams =
-            (data.teams || []).filter(
-                team =>
+            (data.teams || []).filter(team =>
 
-                    (
-                        team.name &&
-                        team.name
-                            .toLowerCase()
-                            .includes(search)
-                    )
+                (
+                    team.name &&
+                    team.name
+                        .toLowerCase()
+                        .includes(search)
+                )
 
-                    ||
+                ||
 
-                    (
-                        team.shortName &&
-                        team.shortName
-                            .toLowerCase()
-                            .includes(search)
-                    )
+                (
+                    team.shortName &&
+                    team.shortName
+                        .toLowerCase()
+                        .includes(search)
+                )
 
-                    ||
+                ||
 
-                    (
-                        team.tla &&
-                        team.tla
-                            .toLowerCase()
-                            .includes(search)
-                    )
+                (
+                    team.tla &&
+                    team.tla
+                        .toLowerCase()
+                        .includes(search)
+                )
+
             );
 
-
         res.json({
-            teams: teams
+            teams
         });
 
     }
@@ -132,7 +139,6 @@ app.get("/api/teams", async (req, res) => {
             "TEAM SEARCH ERROR:",
             error
         );
-
 
         res.status(500).json({
             error: "Could not contact football API"
@@ -152,7 +158,6 @@ app.get("/api/matches", async (req, res) => {
     const teamId =
         req.query.teamId;
 
-
     if (!teamId) {
 
         return res.status(400).json({
@@ -161,7 +166,6 @@ app.get("/api/matches", async (req, res) => {
 
     }
 
-
     try {
 
         const response =
@@ -169,14 +173,13 @@ app.get("/api/matches", async (req, res) => {
                 `https://api.football-data.org/v4/teams/${encodeURIComponent(teamId)}/matches?status=SCHEDULED&limit=10`
             );
 
-
         if (!response.ok) {
 
             const errorText =
                 await response.text();
 
             console.error(
-                "Matches API error:",
+                "MATCHES API ERROR:",
                 response.status,
                 errorText
             );
@@ -187,10 +190,8 @@ app.get("/api/matches", async (req, res) => {
 
         }
 
-
         const data =
             await response.json();
-
 
         res.json(data);
 
@@ -202,7 +203,6 @@ app.get("/api/matches", async (req, res) => {
             "MATCHES ERROR:",
             error
         );
-
 
         res.status(500).json({
             error: "Could not contact football API"
@@ -226,14 +226,13 @@ app.get("/api/live", async (req, res) => {
                 "https://api.football-data.org/v4/matches?status=LIVE"
             );
 
-
         if (!response.ok) {
 
             const errorText =
                 await response.text();
 
             console.error(
-                "Live API error:",
+                "LIVE API ERROR:",
                 response.status,
                 errorText
             );
@@ -244,10 +243,8 @@ app.get("/api/live", async (req, res) => {
 
         }
 
-
         const data =
             await response.json();
-
 
         res.json(data);
 
@@ -256,10 +253,9 @@ app.get("/api/live", async (req, res) => {
     catch (error) {
 
         console.error(
-            "LIVE API ERROR:",
+            "LIVE ERROR:",
             error
         );
-
 
         res.status(500).json({
             error: "Could not contact football API"
@@ -283,14 +279,13 @@ app.get("/api/results", async (req, res) => {
                 "https://api.football-data.org/v4/matches?status=FINISHED&limit=10"
             );
 
-
         if (!response.ok) {
 
             const errorText =
                 await response.text();
 
             console.error(
-                "Results API error:",
+                "RESULTS API ERROR:",
                 response.status,
                 errorText
             );
@@ -301,10 +296,8 @@ app.get("/api/results", async (req, res) => {
 
         }
 
-
         const data =
             await response.json();
-
 
         res.json(data);
 
@@ -313,10 +306,9 @@ app.get("/api/results", async (req, res) => {
     catch (error) {
 
         console.error(
-            "RESULTS API ERROR:",
+            "RESULTS ERROR:",
             error
         );
-
 
         res.status(500).json({
             error: "Could not contact football API"
@@ -328,14 +320,13 @@ app.get("/api/results", async (req, res) => {
 
 
 // ==================================================
-// ⭐ MATCH CENTRE
+// MATCH CENTRE
 // ==================================================
 
 app.get("/api/match/:id", async (req, res) => {
 
     const matchId =
         req.params.id;
-
 
     if (!matchId) {
 
@@ -345,20 +336,12 @@ app.get("/api/match/:id", async (req, res) => {
 
     }
 
-
     try {
-
-        console.log(
-            "Loading match:",
-            matchId
-        );
-
 
         const response =
             await footballAPI(
                 `https://api.football-data.org/v4/matches/${encodeURIComponent(matchId)}`
             );
-
 
         if (!response.ok) {
 
@@ -366,11 +349,10 @@ app.get("/api/match/:id", async (req, res) => {
                 await response.text();
 
             console.error(
-                "Match API error:",
+                "MATCH API ERROR:",
                 response.status,
                 errorText
             );
-
 
             return res.status(response.status).json({
                 error: "Could not get match details"
@@ -378,10 +360,8 @@ app.get("/api/match/:id", async (req, res) => {
 
         }
 
-
         const data =
             await response.json();
-
 
         res.json(data);
 
@@ -393,7 +373,6 @@ app.get("/api/match/:id", async (req, res) => {
             "MATCH DETAILS ERROR:",
             error
         );
-
 
         res.status(500).json({
             error: "Could not contact football API"
@@ -411,9 +390,7 @@ app.get("/api/match/:id", async (req, res) => {
 app.get("/api/standings", async (req, res) => {
 
     const competition =
-        req.query.competition ||
-        "PL";
-
+        req.query.competition || "PL";
 
     try {
 
@@ -422,18 +399,16 @@ app.get("/api/standings", async (req, res) => {
                 `https://api.football-data.org/v4/competitions/${encodeURIComponent(competition)}/standings`
             );
 
-
         if (!response.ok) {
 
             const errorText =
                 await response.text();
 
             console.error(
-                "Standings API error:",
+                "STANDINGS API ERROR:",
                 response.status,
                 errorText
             );
-
 
             return res.status(response.status).json({
                 error: "Could not get standings"
@@ -441,10 +416,8 @@ app.get("/api/standings", async (req, res) => {
 
         }
 
-
         const data =
             await response.json();
-
 
         res.json(data);
 
@@ -453,10 +426,9 @@ app.get("/api/standings", async (req, res) => {
     catch (error) {
 
         console.error(
-            "STANDINGS API ERROR:",
+            "STANDINGS ERROR:",
             error
         );
-
 
         res.status(500).json({
             error: "Could not contact football API"
@@ -474,15 +446,12 @@ app.get("/api/standings", async (req, res) => {
 app.get("/api/news", async (req, res) => {
 
     const search =
-        req.query.search?.trim() ||
-        "football";
-
+        req.query.search?.trim() || "football";
 
     try {
 
         const apiKey =
             process.env.GNEWS_API_KEY;
-
 
         if (!apiKey) {
 
@@ -491,7 +460,6 @@ app.get("/api/news", async (req, res) => {
             });
 
         }
-
 
         const newsURL =
             "https://gnews.io/api/v4/search" +
@@ -502,10 +470,8 @@ app.get("/api/news", async (req, res) => {
             "&apikey=" +
             encodeURIComponent(apiKey);
 
-
         const response =
             await fetch(newsURL);
-
 
         if (!response.ok) {
 
@@ -513,11 +479,10 @@ app.get("/api/news", async (req, res) => {
                 await response.text();
 
             console.error(
-                "News API error:",
+                "NEWS API ERROR:",
                 response.status,
                 errorText
             );
-
 
             return res.status(response.status).json({
                 error: "Could not load football news"
@@ -525,10 +490,8 @@ app.get("/api/news", async (req, res) => {
 
         }
 
-
         const data =
             await response.json();
-
 
         res.json(data);
 
@@ -537,10 +500,9 @@ app.get("/api/news", async (req, res) => {
     catch (error) {
 
         console.error(
-            "NEWS API ERROR:",
+            "NEWS ERROR:",
             error
         );
-
 
         res.status(500).json({
             error: "Could not contact news server"
@@ -552,25 +514,101 @@ app.get("/api/news", async (req, res) => {
 
 
 // ==================================================
-// SERVER
+// GOALRUSH AI
 // ==================================================
 
-const PORT =
-    process.env.PORT ||
-    3000;
+app.post("/api/ai", async (req, res) => {
 
+    const question =
+        req.body?.question?.trim();
 
-app.listen(PORT, () => {
+    if (!question) {
 
-    console.log(
-        `GoalRush server is running on port ${PORT}`
-    );
+        return res.status(400).json({
+            error: "Please enter a question"
+        });
+
+    }
+
+    if (!openai) {
+
+        return res.status(500).json({
+            error: "OPENAI_API_KEY is missing"
+        });
+
+    }
+
+    try {
+
+        const response =
+            await openai.responses.create({
+
+                model: "gpt-5.6",
+
+                instructions:
+                    "You are GoalRush AI, a helpful football assistant. " +
+                    "Answer football questions clearly and briefly. " +
+                    "Do not invent current scores, fixtures, results, " +
+                    "injuries, transfers, or other current information.",
+
+                input: question
+
+            });
+
+        res.json({
+            answer:
+                response.output_text ||
+                "I could not generate an answer."
+        });
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "GOALRUSH AI ERROR:",
+            error
+        );
+
+        res.status(500).json({
+            error: "Could not contact GoalRush AI"
+        });
+
+    }
 
 });
 
 
 // ==================================================
-// VERCEL EXPORT
+// API 404 HANDLER
 // ==================================================
+
+app.use("/api", (req, res) => {
+
+    res.status(404).json({
+        error: "GoalRush API endpoint not found"
+    });
+
+});
+
+
+// ==================================================
+// VERCEL / LOCAL SERVER
+// ==================================================
+
+const PORT =
+    process.env.PORT || 3000;
+
+if (require.main === module) {
+
+    app.listen(PORT, () => {
+
+        console.log(
+            `GoalRush server is running on port ${PORT}`
+        );
+
+    });
+
+}
 
 module.exports = app;
