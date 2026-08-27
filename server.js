@@ -79,13 +79,9 @@ app.get("/api/teams", async (req, res) => {
 
         if (!response.ok) {
 
-            const errorText =
-                await response.text();
-
             console.error(
                 "TEAM API ERROR:",
-                response.status,
-                errorText
+                response.status
             );
 
             return res.status(response.status).json({
@@ -175,15 +171,6 @@ app.get("/api/matches", async (req, res) => {
 
         if (!response.ok) {
 
-            const errorText =
-                await response.text();
-
-            console.error(
-                "MATCHES API ERROR:",
-                response.status,
-                errorText
-            );
-
             return res.status(response.status).json({
                 error: "Could not get matches"
             });
@@ -228,15 +215,6 @@ app.get("/api/live", async (req, res) => {
 
         if (!response.ok) {
 
-            const errorText =
-                await response.text();
-
-            console.error(
-                "LIVE API ERROR:",
-                response.status,
-                errorText
-            );
-
             return res.status(response.status).json({
                 error: "Could not get live matches"
             });
@@ -280,15 +258,6 @@ app.get("/api/results", async (req, res) => {
             );
 
         if (!response.ok) {
-
-            const errorText =
-                await response.text();
-
-            console.error(
-                "RESULTS API ERROR:",
-                response.status,
-                errorText
-            );
 
             return res.status(response.status).json({
                 error: "Could not get recent results"
@@ -345,15 +314,6 @@ app.get("/api/match/:id", async (req, res) => {
 
         if (!response.ok) {
 
-            const errorText =
-                await response.text();
-
-            console.error(
-                "MATCH API ERROR:",
-                response.status,
-                errorText
-            );
-
             return res.status(response.status).json({
                 error: "Could not get match details"
             });
@@ -401,15 +361,6 @@ app.get("/api/standings", async (req, res) => {
 
         if (!response.ok) {
 
-            const errorText =
-                await response.text();
-
-            console.error(
-                "STANDINGS API ERROR:",
-                response.status,
-                errorText
-            );
-
             return res.status(response.status).json({
                 error: "Could not get standings"
             });
@@ -456,7 +407,7 @@ app.get("/api/news", async (req, res) => {
         if (!apiKey) {
 
             return res.status(500).json({
-                error: "GNews API key is missing"
+                error: "GNEWS_API_KEY is missing"
             });
 
         }
@@ -474,15 +425,6 @@ app.get("/api/news", async (req, res) => {
             await fetch(newsURL);
 
         if (!response.ok) {
-
-            const errorText =
-                await response.text();
-
-            console.error(
-                "NEWS API ERROR:",
-                response.status,
-                errorText
-            );
 
             return res.status(response.status).json({
                 error: "Could not load football news"
@@ -514,7 +456,7 @@ app.get("/api/news", async (req, res) => {
 
 
 // ==================================================
-// GOALRUSH AI
+// GOALRUSH AI 🤖
 // ==================================================
 
 app.post("/api/ai", async (req, res) => {
@@ -546,19 +488,21 @@ app.post("/api/ai", async (req, res) => {
                 model: "gpt-5.6",
 
                 instructions:
-                    "You are GoalRush AI, a helpful football assistant. " +
+                    "You are GoalRush AI, a football assistant. " +
                     "Answer football questions clearly and briefly. " +
-                    "Do not invent current scores, fixtures, results, " +
-                    "injuries, transfers, or other current information.",
+                    "Be helpful and friendly. " +
+                    "Do not invent current football information.",
 
                 input: question
 
             });
 
         res.json({
+
             answer:
                 response.output_text ||
-                "I could not generate an answer."
+                "Sorry, I couldn't answer that."
+
         });
 
     }
@@ -580,13 +524,16 @@ app.post("/api/ai", async (req, res) => {
 
 
 // ==================================================
-// API 404 HANDLER
+// UNKNOWN API ROUTE
 // ==================================================
 
 app.use("/api", (req, res) => {
 
     res.status(404).json({
-        error: "GoalRush API endpoint not found"
+
+        error:
+            "GoalRush API endpoint not found"
+
     });
 
 });
@@ -610,5 +557,10 @@ if (require.main === module) {
     });
 
 }
+
+
+// ==================================================
+// VERCEL EXPORT
+// ==================================================
 
 module.exports = app;
