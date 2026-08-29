@@ -36,6 +36,7 @@
 
         header h1 {
             margin: 0;
+            font-size: 28px;
         }
 
         header a {
@@ -81,12 +82,16 @@
             margin-bottom: 15px;
         }
 
+        .status-container {
+            text-align: center;
+        }
+
         .status {
             display: inline-block;
             padding: 7px 14px;
             border-radius: 20px;
 
-            background: #0b3d2e;
+            background: #856404;
             color: white;
 
             font-weight: bold;
@@ -155,6 +160,72 @@
             padding: 12px 0;
 
             border-bottom: 1px solid #eee;
+        }
+
+        /* =========================
+           WATCH LIVE
+        ========================== */
+
+        .watch-card {
+            background: linear-gradient(
+                135deg,
+                #0b3d2e,
+                #126b4f
+            );
+
+            color: white;
+
+            border-radius: 15px;
+
+            padding: 30px 20px;
+
+            margin-top: 25px;
+
+            text-align: center;
+
+            box-shadow:
+                0 5px 18px rgba(0,0,0,0.18);
+        }
+
+        .watch-card h2 {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .watch-card p {
+            margin: 8px 0 20px;
+            opacity: 0.95;
+        }
+
+        .watch-button {
+            display: inline-block;
+
+            background: #c62828;
+
+            color: white;
+
+            padding: 14px 25px;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            font-size: 17px;
+
+            transition: 0.2s;
+        }
+
+        .watch-button:hover {
+            transform: translateY(-2px);
+            background: #a91f1f;
+        }
+
+        .external {
+            font-size: 13px;
+            margin-top: 15px;
+            opacity: 0.8;
         }
 
         /* =========================
@@ -338,6 +409,15 @@
                 gap: 8px;
             }
 
+            .watch-card {
+                padding: 25px 15px;
+            }
+
+            .watch-button {
+                width: 100%;
+                max-width: 300px;
+            }
+
         }
 
     </style>
@@ -379,6 +459,43 @@
 
 
     <!-- =========================
+         WATCH LIVE
+    ========================== -->
+
+    <div
+        id="watchSection"
+        class="watch-card"
+        style="display:none;"
+    >
+
+        <h2>
+            📺 Watch Live
+        </h2>
+
+        <p id="watchDescription">
+            Watch this match on the official
+            streaming provider.
+        </p>
+
+        <a
+            id="watchButton"
+            class="watch-button"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            🔴 WATCH LIVE ↗
+        </a>
+
+        <div class="external">
+            Opens the official streaming provider
+            in a new page.
+        </div>
+
+    </div>
+
+
+    <!-- =========================
          MATCH EVENTS
     ========================== -->
 
@@ -407,7 +524,7 @@
 
 
 // ==================================================
-// GOALRUSH VERCEL API
+// GOALRUSH API
 // ==================================================
 
 const API_BASE =
@@ -415,7 +532,23 @@ const API_BASE =
 
 
 // ==================================================
-// GET MATCH ID FROM URL
+// OFFICIAL STREAM LINK
+// ==================================================
+//
+// IMPORTANT:
+// Put an authorized broadcaster's URL here.
+//
+// Example:
+// "https://official-provider.example/live"
+//
+// Do NOT put a pirated stream here.
+//
+
+const LIVE_STREAM_URL = "";
+
+
+// ==================================================
+// GET MATCH ID
 // ==================================================
 
 const params =
@@ -437,12 +570,25 @@ const matchContainer =
         "matchContainer"
     );
 
+const watchSection =
+    document.getElementById(
+        "watchSection"
+    );
+
+const watchButton =
+    document.getElementById(
+        "watchButton"
+    );
+
+const watchDescription =
+    document.getElementById(
+        "watchDescription"
+    );
 
 const eventsSection =
     document.getElementById(
         "eventsSection"
     );
-
 
 const timeline =
     document.getElementById(
@@ -463,8 +609,8 @@ if (!matchId) {
         </h2>
 
         <p>
-            Please return to the scores
-            page and select a match.
+            Please return to the Scores page
+            and select a match.
         </p>
 
         <a
@@ -518,13 +664,6 @@ async function loadMatch() {
             );
 
 
-        /*
-         * Read the response as TEXT first.
-         * This prevents the annoying
-         * "Unexpected token <" error
-         * when the server sends HTML.
-         */
-
         const responseText =
             await response.text();
 
@@ -541,16 +680,15 @@ async function loadMatch() {
 
         }
 
-        catch (jsonError) {
+        catch {
 
             console.error(
                 "Server returned:",
                 responseText
             );
 
-
             throw new Error(
-                "The GoalRush server did not return JSON."
+                "GoalRush server returned invalid data."
             );
 
         }
@@ -566,14 +704,11 @@ async function loadMatch() {
         }
 
 
-        displayMatch(
-            match
-        );
+        displayMatch(match);
 
+        displayEvents(match);
 
-        displayEvents(
-            match
-        );
+        setupWatchButton(match);
 
     }
 
@@ -597,11 +732,6 @@ async function loadMatch() {
                 )}
             </p>
 
-            <p>
-                Please try again or return
-                to the Scores page.
-            </p>
-
             <a
                 href="scores.html"
                 class="back-button"
@@ -620,9 +750,7 @@ async function loadMatch() {
 // DISPLAY MATCH
 // ==================================================
 
-function displayMatch(
-    match
-) {
+function displayMatch(match) {
 
     const home =
         match.homeTeam?.name ||
@@ -689,9 +817,13 @@ function displayMatch(
         </div>
 
 
-        <div class="status ${status.className}">
+        <div class="status-container">
 
-            ${status.text}
+            <div class="status ${status.className}">
+
+                ${status.text}
+
+            </div>
 
         </div>
 
@@ -710,9 +842,6 @@ function displayMatch(
                     <img
                         src="${escapeAttribute(homeLogo)}"
                         alt="${escapeAttribute(home)}"
-                        onerror="
-                            this.style.display='none'
-                        "
                     >
                     `
                     :
@@ -763,9 +892,6 @@ function displayMatch(
                     <img
                         src="${escapeAttribute(awayLogo)}"
                         alt="${escapeAttribute(away)}"
-                        onerror="
-                            this.style.display='none'
-                        "
                     >
                     `
                     :
@@ -864,12 +990,10 @@ function displayMatch(
 
 
 // ==================================================
-// MATCH STATUS
+// STATUS
 // ==================================================
 
-function getStatus(
-    status
-) {
+function getStatus(status) {
 
     if (
         status === "IN_PLAY"
@@ -940,12 +1064,67 @@ function getStatus(
 
 
 // ==================================================
+// WATCH BUTTON
+// ==================================================
+
+function setupWatchButton(match) {
+
+    /*
+     * We only show the button when an
+     * authorized stream URL has been added.
+     */
+
+    if (
+        LIVE_STREAM_URL &&
+        LIVE_STREAM_URL.startsWith("https://")
+    ) {
+
+        watchSection.style.display =
+            "block";
+
+        watchButton.href =
+            LIVE_STREAM_URL;
+
+        watchDescription.textContent =
+            "Watch this match on the official streaming provider.";
+
+    }
+
+    else {
+
+        watchSection.style.display =
+            "block";
+
+        watchButton.removeAttribute(
+            "href"
+        );
+
+        watchButton.style.opacity =
+            "0.6";
+
+        watchButton.textContent =
+            "📺 STREAM LINK NOT AVAILABLE";
+
+        watchDescription.textContent =
+            "An official live stream link will appear here when one is available.";
+
+        watchButton.onclick =
+            function(event) {
+
+                event.preventDefault();
+
+            };
+
+    }
+
+}
+
+
+// ==================================================
 // MATCH EVENTS
 // ==================================================
 
-function displayEvents(
-    match
-) {
+function displayEvents(match) {
 
     eventsSection.style.display =
         "block";
@@ -1112,19 +1291,15 @@ function displayEvents(
 // ESCAPE HTML
 // ==================================================
 
-function escapeHTML(
-    text
-) {
+function escapeHTML(text) {
 
     const div =
         document.createElement(
             "div"
         );
 
-
     div.textContent =
         text ?? "";
-
 
     return div.innerHTML;
 
@@ -1135,9 +1310,7 @@ function escapeHTML(
 // ESCAPE ATTRIBUTE
 // ==================================================
 
-function escapeAttribute(
-    text
-) {
+function escapeAttribute(text) {
 
     return escapeHTML(
         text
@@ -1156,9 +1329,7 @@ function escapeAttribute(
 setInterval(
     function() {
 
-        if (
-            matchId
-        ) {
+        if (matchId) {
 
             loadMatch();
 
