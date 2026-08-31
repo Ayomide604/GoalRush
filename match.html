@@ -1,564 +1,656 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<meta name="description"
+      content="GoalRush Match Centre — live scores, match details, lineups, events and official streaming destinations.">
 
 <title>GoalRush | Match Centre</title>
 
 <style>
-*{
-    box-sizing:border-box;
+
+* {
+    box-sizing: border-box;
 }
 
-body{
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f3f6f4;
-    color:#17201c;
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f3f5f4;
+    color: #222;
 }
 
-header{
-    background:linear-gradient(135deg,#063b2b,#08734f);
-    color:white;
-    padding:18px 15px;
-    text-align:center;
-    box-shadow:0 3px 15px rgba(0,0,0,.15);
+header {
+    background: linear-gradient(135deg, #063b2b, #08734f);
+    color: white;
+    padding: 20px 15px;
+    text-align: center;
 }
 
-header h1{
-    margin:0;
-    font-size:29px;
+header h1 {
+    margin: 0;
+    font-size: 30px;
 }
 
-header p{
-    margin:6px 0 10px;
-    opacity:.85;
+header a {
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 9px;
+    font-weight: bold;
 }
 
-.back{
-    display:inline-block;
-    color:white;
-    text-decoration:none;
-    font-weight:bold;
-    padding:8px 14px;
-    border:1px solid rgba(255,255,255,.4);
-    border-radius:20px;
+.container {
+    max-width: 950px;
+    margin: auto;
+    padding: 20px 12px 60px;
 }
 
-.container{
-    max-width:1000px;
-    margin:auto;
-    padding:18px 12px 50px;
+.message {
+    background: white;
+    border-radius: 20px;
+    padding: 35px 20px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,.1);
 }
 
-/* LOADING */
-
-.message{
-    background:white;
-    border-radius:20px;
-    padding:40px 20px;
-    text-align:center;
-    box-shadow:0 5px 20px rgba(0,0,0,.08);
+.loader {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #ddd;
+    border-top-color: #063b2b;
+    border-radius: 50%;
+    margin: auto auto 15px;
+    animation: spin .8s linear infinite;
 }
 
-.loader{
-    width:42px;
-    height:42px;
-    border:4px solid #ddd;
-    border-top-color:#08734f;
-    border-radius:50%;
-    margin:0 auto 15px;
-    animation:spin .8s linear infinite;
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
 }
 
-@keyframes spin{
-    to{transform:rotate(360deg);}
+/* MATCH CARD */
+
+.match-card {
+    background: white;
+    border-radius: 22px;
+    padding: 28px 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,.12);
+    text-align: center;
 }
 
-/* MATCH */
-
-.match-card{
-    background:white;
-    border-radius:22px;
-    padding:25px 15px;
-    box-shadow:0 5px 22px rgba(0,0,0,.1);
-    text-align:center;
+.competition {
+    color: #063b2b;
+    font-size: 19px;
+    font-weight: bold;
+    margin-bottom: 15px;
 }
 
-.competition{
-    font-size:17px;
-    font-weight:bold;
-    color:#08734f;
-    margin-bottom:12px;
+.status {
+    display: inline-block;
+    padding: 9px 20px;
+    border-radius: 30px;
+    color: white;
+    font-weight: bold;
 }
 
-.status{
-    display:inline-block;
-    padding:8px 18px;
-    border-radius:30px;
-    color:white;
-    font-size:14px;
-    font-weight:bold;
+.live {
+    background: #d62828;
+    animation: pulse 1.5s infinite;
 }
 
-.live{
-    background:#d62828;
+.finished {
+    background: #555;
 }
 
-.finished{
-    background:#555;
+.upcoming {
+    background: #927000;
 }
 
-.upcoming{
-    background:#927000;
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(214,40,40,.5);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(214,40,40,0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(214,40,40,0);
+    }
 }
 
-.cancelled{
-    background:#777;
+.teams {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 35px;
+    margin: 32px 0;
 }
 
-.teams{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:35px;
-    margin:28px 0;
+.team {
+    width: 220px;
 }
 
-.team{
-    width:230px;
+.team img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
 }
 
-.team img{
-    width:90px;
-    height:90px;
-    object-fit:contain;
+.team h2 {
+    font-size: 19px;
+    margin: 10px 0 0;
 }
 
-.team h2{
-    font-size:19px;
-    margin:10px 0 0;
+.score {
+    font-size: 44px;
+    font-weight: bold;
+    color: #063b2b;
+    white-space: nowrap;
 }
 
-.score-box{
-    min-width:110px;
+.info {
+    border-top: 1px solid #ddd;
+    margin-top: 20px;
 }
 
-.score{
-    font-size:43px;
-    font-weight:900;
-    color:#063b2b;
-}
-
-.vs{
-    font-size:13px;
-    color:#777;
-    margin-top:3px;
-}
-
-.match-info{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:10px;
-    margin-top:20px;
-}
-
-.info-box{
-    background:#f5f7f6;
-    border-radius:13px;
-    padding:13px;
-    font-size:14px;
-}
-
-.info-box strong{
-    display:block;
-    margin-bottom:4px;
-    color:#063b2b;
+.info-row {
+    padding: 14px;
+    border-bottom: 1px solid #eee;
 }
 
 /* WATCH */
 
-.watch-card{
-    margin-top:20px;
-    padding:25px 18px;
-    border-radius:20px;
-    text-align:center;
-    color:white;
-    background:linear-gradient(135deg,#063b2b,#08734f);
-    box-shadow:0 5px 20px rgba(0,0,0,.12);
+.watch-card {
+    margin-top: 22px;
+    padding: 30px 18px;
+    border-radius: 22px;
+    text-align: center;
+    color: white;
+    background: linear-gradient(135deg,#063b2b,#08734f);
+    box-shadow: 0 5px 20px rgba(0,0,0,.15);
 }
 
-.watch-card h2{
-    margin:0 0 8px;
+.watch-card h2 {
+    margin-top: 0;
+    font-size: 28px;
 }
 
-.watch-card p{
-    opacity:.9;
-    line-height:1.5;
+.watch-button {
+    display: inline-block;
+    padding: 15px 24px;
+    background: #d62828;
+    color: white;
+    border-radius: 11px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: .2s;
 }
 
-.watch-button{
-    display:inline-block;
-    padding:14px 22px;
-    background:#d62828;
-    color:white;
-    border-radius:11px;
-    text-decoration:none;
-    font-weight:bold;
-    margin-top:8px;
+.watch-button:hover {
+    transform: translateY(-2px);
+    opacity: .92;
 }
 
-.watch-button.disabled{
-    background:#555;
-    cursor:not-allowed;
+.watch-button.disabled {
+    background: #777;
+    cursor: not-allowed;
 }
 
-.watch-note{
-    margin-top:12px;
-    font-size:12px;
-    opacity:.75;
+.watch-note {
+    margin-top: 14px;
+    font-size: 13px;
+    opacity: .85;
+    line-height: 1.5;
 }
 
-/* SECTION */
+/* ACTIONS */
 
-.section{
-    margin-top:22px;
-    background:white;
-    border-radius:20px;
-    padding:22px 15px;
-    box-shadow:0 4px 16px rgba(0,0,0,.08);
+.actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
-.section h2{
-    text-align:center;
-    color:#063b2b;
-    margin-top:0;
+.action-button {
+    border: none;
+    padding: 12px 18px;
+    border-radius: 10px;
+    background: white;
+    color: #063b2b;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(0,0,0,.1);
 }
 
-/* EVENTS */
-
-.event{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    padding:13px 5px;
-    border-bottom:1px solid #eee;
-}
-
-.event:last-child{
-    border-bottom:none;
-}
-
-.event-time{
-    width:45px;
-    font-weight:bold;
-    color:#08734f;
-}
-
-.event-icon{
-    width:30px;
-    font-size:19px;
-}
-
-.event-text{
-    flex:1;
-}
-
-/* STATS */
-
-.stats{
-    max-width:700px;
-    margin:auto;
-}
-
-.stat{
-    margin:15px 0;
-}
-
-.stat-head{
-    display:flex;
-    justify-content:space-between;
-    font-weight:bold;
-    font-size:14px;
-}
-
-.stat-bar{
-    height:9px;
-    background:#e7ebe9;
-    border-radius:20px;
-    overflow:hidden;
-    margin-top:7px;
-}
-
-.stat-fill{
-    height:100%;
-    background:#08734f;
-    border-radius:20px;
+.action-button:hover {
+    transform: translateY(-1px);
 }
 
 /* LINEUPS */
 
-.lineup-title{
-    text-align:center;
-    font-weight:bold;
-    margin:15px 0;
+.lineups-section {
+    margin-top: 25px;
 }
 
-.pitch{
-    position:relative;
-    width:100%;
-    max-width:700px;
-    height:700px;
-    margin:auto;
-    background:repeating-linear-gradient(
-        to bottom,
-        #176b45 0,
-        #176b45 87px,
-        #1d754d 87px,
-        #1d754d 174px
-    );
-    border:4px solid white;
-    border-radius:14px;
-    overflow:hidden;
-    box-shadow:0 5px 20px rgba(0,0,0,.2);
+.lineups-section h2 {
+    text-align: center;
+    color: #063b2b;
 }
 
-.pitch-line{
-    position:absolute;
-    background:rgba(255,255,255,.85);
+.lineup-team-title {
+    text-align: center;
+    font-weight: bold;
+    margin: 20px 0 10px;
 }
 
-.half-line{
-    left:0;
-    right:0;
-    top:50%;
-    height:2px;
+/* PITCH */
+
+.pitch {
+    position: relative;
+    width: 100%;
+    max-width: 700px;
+    height: 720px;
+    margin: auto;
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            #176b45 0px,
+            #176b45 90px,
+            #1b744c 90px,
+            #1b744c 180px
+        );
+
+    border: 4px solid white;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,.2);
 }
 
-.center-circle{
-    position:absolute;
-    width:145px;
-    height:145px;
-    border:2px solid white;
-    border-radius:50%;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%);
+.pitch::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 2px;
+    background: rgba(255,255,255,.85);
 }
 
-.center-dot{
-    position:absolute;
-    width:7px;
-    height:7px;
-    border-radius:50%;
-    background:white;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%);
+.pitch::after {
+    content: "";
+    position: absolute;
+    width: 145px;
+    height: 145px;
+    border: 2px solid rgba(255,255,255,.85);
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
 }
 
-.box-top,
-.box-bottom{
-    position:absolute;
-    width:42%;
-    height:17%;
-    left:29%;
-    border:2px solid white;
+.center-dot {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    background: white;
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
 }
 
-.box-top{
-    top:0;
-    border-top:0;
+.penalty-top {
+    position: absolute;
+    width: 42%;
+    height: 17%;
+    top: 0;
+    left: 29%;
+    border: 2px solid white;
+    border-top: none;
 }
 
-.box-bottom{
-    bottom:0;
-    border-bottom:0;
+.penalty-bottom {
+    position: absolute;
+    width: 42%;
+    height: 17%;
+    bottom: 0;
+    left: 29%;
+    border: 2px solid white;
+    border-bottom: none;
 }
 
-.player{
-    position:absolute;
-    transform:translate(-50%,-50%);
-    width:80px;
-    text-align:center;
-    color:white;
-    font-size:11px;
-    font-weight:bold;
-    z-index:5;
+/* PLAYERS */
+
+.player {
+    position: absolute;
+    transform: translate(-50%,-50%);
+    width: 76px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    z-index: 5;
 }
 
-.player-circle{
-    width:42px;
-    height:42px;
-    margin:auto;
-    border-radius:50%;
-    background:white;
-    color:#063b2b;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border:3px solid #063b2b;
-    box-shadow:0 2px 7px rgba(0,0,0,.4);
+.player-circle {
+    width: 43px;
+    height: 43px;
+    margin: auto;
+    border-radius: 50%;
+    background: white;
+    color: #063b2b;
+    border: 3px solid #063b2b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    font-weight: bold;
+    box-shadow: 0 2px 6px rgba(0,0,0,.35);
 }
 
-.away-player .player-circle{
-    border-color:#d62828;
-    color:#d62828;
+.player-name {
+    margin-top: 4px;
+    text-shadow: 0 1px 3px #000;
+    line-height: 1.1;
 }
 
-.player-name{
-    margin-top:4px;
-    text-shadow:0 1px 3px #000;
+.away-player .player-circle {
+    background: #f4f4f4;
+    border-color: #d62828;
+    color: #d62828;
+}
+
+.no-lineups {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    color: #777;
+    box-shadow: 0 3px 12px rgba(0,0,0,.08);
 }
 
 /* BENCH */
 
-.bench{
-    margin-top:15px;
-    padding:18px;
-    background:#f6f8f7;
-    border-radius:15px;
+.bench {
+    background: white;
+    border-radius: 16px;
+    margin-top: 18px;
+    padding: 18px;
+    box-shadow: 0 3px 12px rgba(0,0,0,.08);
 }
 
-.bench h3{
-    color:#063b2b;
-    margin-top:0;
+.bench h3 {
+    color: #063b2b;
+    margin-top: 0;
 }
 
-.bench-player{
-    display:inline-block;
-    background:white;
-    padding:8px 10px;
-    border-radius:8px;
-    margin:4px;
-    font-size:13px;
+.bench-player {
+    display: inline-block;
+    background: #f1f3f2;
+    padding: 8px 10px;
+    border-radius: 8px;
+    margin: 4px;
+    font-size: 13px;
 }
 
-/* EMPTY */
+/* EVENTS */
 
-.empty{
-    text-align:center;
-    color:#777;
-    padding:20px;
+.events-section {
+    margin-top: 25px;
+    background: white;
+    border-radius: 20px;
+    padding: 22px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.1);
+}
+
+.events-section h2 {
+    text-align: center;
+    color: #063b2b;
+}
+
+.event {
+    display: flex;
+    gap: 12px;
+    padding: 13px 5px;
+    border-bottom: 1px solid #eee;
+}
+
+.event-time {
+    width: 45px;
+    font-weight: bold;
+    color: #063b2b;
+}
+
+.event-icon {
+    width: 30px;
+}
+
+.event-text {
+    flex: 1;
+}
+
+/* STATS */
+
+.stats-section {
+    margin-top: 25px;
+    background: white;
+    border-radius: 20px;
+    padding: 22px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.1);
+}
+
+.stats-section h2 {
+    text-align: center;
+    color: #063b2b;
+}
+
+.stat-row {
+    margin: 16px 0;
+}
+
+.stat-title {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+.stat-values {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+}
+
+.stat-bar {
+    height: 9px;
+    background: #e4e7e5;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 6px;
+}
+
+.stat-home {
+    height: 100%;
+    background: #063b2b;
 }
 
 /* MOBILE */
 
-@media(max-width:650px){
+@media(max-width:600px) {
 
-    header h1{
-        font-size:25px;
+    header h1 {
+        font-size: 25px;
     }
 
-    .teams{
-        gap:5px;
+    .teams {
+        gap: 5px;
     }
 
-    .team{
-        width:35%;
+    .team {
+        width: 38%;
     }
 
-    .team img{
-        width:65px;
-        height:65px;
+    .team img {
+        width: 65px;
+        height: 65px;
     }
 
-    .team h2{
-        font-size:14px;
+    .team h2 {
+        font-size: 14px;
     }
 
-    .score{
-        font-size:30px;
+    .score {
+        font-size: 30px;
     }
 
-    .score-box{
-        min-width:70px;
+    .pitch {
+        height: 620px;
     }
 
-    .match-info{
-        grid-template-columns:1fr;
+    .player {
+        width: 65px;
+        font-size: 10px;
     }
 
-    .pitch{
-        height:610px;
+    .player-circle {
+        width: 38px;
+        height: 38px;
+        font-size: 13px;
     }
 
-    .player{
-        width:65px;
-        font-size:9px;
+    .watch-card h2 {
+        font-size: 23px;
     }
 
-    .player-circle{
-        width:36px;
-        height:36px;
-        font-size:12px;
+    .watch-button {
+        width: 100%;
+        max-width: 330px;
     }
 
 }
+
 </style>
+
 </head>
 
 <body>
 
 <header>
+
     <h1>⚽ GoalRush</h1>
-    <p>Match Centre</p>
-    <a class="back" href="scores.html">← Back to Scores</a>
+
+    <a href="scores.html">
+        ← Back to Scores
+    </a>
+
 </header>
 
 <main class="container">
 
+    <!-- MATCH -->
+
     <div id="matchContainer" class="message">
+
         <div class="loader"></div>
-        Loading match...
+
+        ⚽ Loading match...
+
     </div>
 
+
+    <!-- ACTIONS -->
+
+    <div
+        id="actions"
+        class="actions"
+        style="display:none;"
+    >
+
+        <button
+            class="action-button"
+            onclick="shareMatch()"
+        >
+            🔗 Share Match
+        </button>
+
+        <button
+            class="action-button"
+            onclick="loadMatch()"
+        >
+            🔄 Refresh
+        </button>
+
+    </div>
+
+
     <!-- WATCH -->
-    <section id="watchSection" class="watch-card" style="display:none;">
+
+    <section
+        id="watchSection"
+        class="watch-card"
+        style="display:none;"
+    >
 
         <h2>📺 Watch Match</h2>
 
         <p id="watchDescription">
-            Looking for an official broadcaster.
+            Checking for an authorized streaming destination...
         </p>
 
         <a
             id="watchButton"
-            class="watch-button"
+            class="watch-button disabled"
             href="#"
-            target="_blank"
-            rel="noopener noreferrer"
         >
-            🔎 FIND OFFICIAL STREAM
+            📺 FIND OFFICIAL STREAM
         </a>
 
         <div class="watch-note">
-            GoalRush links only to authorized broadcast destinations.
+
+            GoalRush links only to official or
+            authorized broadcast destinations.
+            Streaming availability can depend
+            on your country.
+
         </div>
 
     </section>
 
-    <!-- EVENTS -->
-    <section id="eventsSection" class="section" style="display:none;">
-
-        <h2>⏱️ Match Timeline</h2>
-
-        <div id="timeline"></div>
-
-    </section>
 
     <!-- STATS -->
-    <section id="statsSection" class="section" style="display:none;">
+
+    <section
+        id="statsSection"
+        class="stats-section"
+        style="display:none;"
+    >
 
         <h2>📊 Match Statistics</h2>
 
-        <div id="stats" class="stats"></div>
+        <div id="statsContainer"></div>
 
     </section>
 
+
     <!-- LINEUPS -->
-    <section id="lineupsSection" class="section" style="display:none;">
+
+    <section
+        id="lineupsSection"
+        class="lineups-section"
+        style="display:none;"
+    >
 
         <h2>👥 Starting Lineups</h2>
 
@@ -568,7 +660,23 @@ header p{
 
     </section>
 
+
+    <!-- EVENTS -->
+
+    <section
+        id="eventsSection"
+        class="events-section"
+        style="display:none;"
+    >
+
+        <h2>⏱️ Match Timeline</h2>
+
+        <div id="timeline"></div>
+
+    </section>
+
 </main>
+
 
 <script>
 
@@ -581,11 +689,39 @@ const API_BASE =
 
 
 /* ==================================================
+   OFFICIAL STREAMS
+==================================================
+
+   IMPORTANT:
+
+   Add ONLY official/authorized URLs.
+
+   The key must be the football-data.org
+   match ID.
+
+   Example:
+
+   const OFFICIAL_STREAMS = {
+       "560558": "https://official-site.com/watch"
+   };
+
+================================================== */
+
+const OFFICIAL_STREAMS = {
+
+    // Add confirmed authorized streams here.
+
+};
+
+
+/* ==================================================
    MATCH ID
 ================================================== */
 
 const params =
-    new URLSearchParams(window.location.search);
+    new URLSearchParams(
+        window.location.search
+    );
 
 const matchId =
     params.get("id");
@@ -596,52 +732,87 @@ const matchId =
 ================================================== */
 
 const matchContainer =
-    document.getElementById("matchContainer");
+    document.getElementById(
+        "matchContainer"
+    );
 
 const watchSection =
-    document.getElementById("watchSection");
+    document.getElementById(
+        "watchSection"
+    );
 
 const watchButton =
-    document.getElementById("watchButton");
+    document.getElementById(
+        "watchButton"
+    );
 
 const watchDescription =
-    document.getElementById("watchDescription");
+    document.getElementById(
+        "watchDescription"
+    );
 
-const eventsSection =
-    document.getElementById("eventsSection");
-
-const timeline =
-    document.getElementById("timeline");
+const actions =
+    document.getElementById(
+        "actions"
+    );
 
 const statsSection =
-    document.getElementById("statsSection");
+    document.getElementById(
+        "statsSection"
+    );
 
-const stats =
-    document.getElementById("stats");
+const statsContainer =
+    document.getElementById(
+        "statsContainer"
+    );
 
 const lineupsSection =
-    document.getElementById("lineupsSection");
+    document.getElementById(
+        "lineupsSection"
+    );
 
 const pitchContainer =
-    document.getElementById("pitchContainer");
+    document.getElementById(
+        "pitchContainer"
+    );
 
 const benchContainer =
-    document.getElementById("benchContainer");
+    document.getElementById(
+        "benchContainer"
+    );
+
+const eventsSection =
+    document.getElementById(
+        "eventsSection"
+    );
+
+const timeline =
+    document.getElementById(
+        "timeline"
+    );
 
 
 /* ==================================================
    START
 ================================================== */
 
-if(!matchId){
+if (!matchId) {
 
     matchContainer.innerHTML = `
+
         <h2>❌ No match selected</h2>
-        <p>Select a match from the Scores page.</p>
-        <a href="scores.html">← Back to Scores</a>
+
+        <p>
+            Please select a match from Scores.
+        </p>
+
+        <a href="scores.html">
+            ← Back to Scores
+        </a>
+
     `;
 
-}else{
+} else {
 
     loadMatch();
 
@@ -652,15 +823,18 @@ if(!matchId){
    LOAD MATCH
 ================================================== */
 
-async function loadMatch(){
+async function loadMatch() {
 
-    try{
+    try {
 
         const response =
             await fetch(
                 API_BASE +
                 "/api/match/" +
-                encodeURIComponent(matchId)
+                encodeURIComponent(matchId),
+                {
+                    cache: "no-store"
+                }
             );
 
         const text =
@@ -668,20 +842,20 @@ async function loadMatch(){
 
         let match;
 
-        try{
+        try {
 
             match =
                 JSON.parse(text);
 
-        }catch{
+        } catch {
 
             throw new Error(
-                "The GoalRush server returned invalid JSON."
+                "GoalRush server returned invalid JSON."
             );
 
         }
 
-        if(!response.ok){
+        if (!response.ok) {
 
             throw new Error(
                 match.error ||
@@ -691,12 +865,21 @@ async function loadMatch(){
         }
 
         displayMatch(match);
+
         setupWatchButton(match);
-        displayEvents(match);
+
         displayStats(match);
+
         displayLineups(match);
 
-    }catch(error){
+        displayEvents(match);
+
+        actions.style.display =
+            "flex";
+
+    }
+
+    catch(error) {
 
         console.error(
             "MATCH ERROR:",
@@ -704,6 +887,7 @@ async function loadMatch(){
         );
 
         matchContainer.innerHTML = `
+
             <h2 style="color:#c62828;">
                 ❌ Could not load match
             </h2>
@@ -712,25 +896,10 @@ async function loadMatch(){
                 ${escapeHTML(error.message)}
             </p>
 
-            <button
-                onclick="loadMatch()"
-                style="
-                    border:0;
-                    background:#063b2b;
-                    color:white;
-                    padding:12px 18px;
-                    border-radius:10px;
-                    font-weight:bold;
-                "
-            >
-                🔄 Try Again
-            </button>
-
-            <br><br>
-
             <a href="scores.html">
                 ← Back to Scores
             </a>
+
         `;
 
     }
@@ -739,10 +908,10 @@ async function loadMatch(){
 
 
 /* ==================================================
-   MATCH DISPLAY
+   DISPLAY MATCH
 ================================================== */
 
-function displayMatch(match){
+function displayMatch(match) {
 
     const home =
         match.homeTeam?.name ||
@@ -760,31 +929,27 @@ function displayMatch(match){
 
     const homeScore =
         match.score?.fullTime?.home ??
+        match.score?.current?.home ??
         "-";
 
     const awayScore =
         match.score?.fullTime?.away ??
+        match.score?.current?.away ??
         "-";
 
     const competition =
         match.competition?.name ||
         "Football";
 
-    const status =
-        getStatus(match.status);
-
     const date =
         match.utcDate
-        ? new Date(match.utcDate)
-            .toLocaleString([],{
-                dateStyle:"medium",
-                timeStyle:"short"
-            })
-        : "Not available";
+        ? new Date(
+            match.utcDate
+        ).toLocaleString()
+        : "Unknown";
 
-    const venue =
-        match.venue ||
-        "Not available";
+    const status =
+        getStatus(match.status);
 
     matchContainer.className =
         "match-card";
@@ -792,23 +957,31 @@ function displayMatch(match){
     matchContainer.innerHTML = `
 
         <div class="competition">
+
             🏆 ${escapeHTML(competition)}
+
         </div>
 
         <span class="status ${status.className}">
+
             ${status.text}
+
         </span>
 
         <div class="teams">
 
             <div class="team">
 
-                ${homeLogo ? `
-                    <img
-                        src="${escapeAttribute(homeLogo)}"
-                        alt="${escapeAttribute(home)}"
-                    >
-                ` : ""}
+                ${
+                    homeLogo
+                    ? `
+                        <img
+                            src="${escapeAttribute(homeLogo)}"
+                            alt="${escapeAttribute(home)}"
+                        >
+                    `
+                    : ""
+                }
 
                 <h2>
                     ${escapeHTML(home)}
@@ -816,28 +989,26 @@ function displayMatch(match){
 
             </div>
 
-            <div class="score-box">
+            <div class="score">
 
-                <div class="score">
-                    ${escapeHTML(String(homeScore))}
-                    -
-                    ${escapeHTML(String(awayScore))}
-                </div>
-
-                <div class="vs">
-                    ${status.short}
-                </div>
+                ${escapeHTML(String(homeScore))}
+                -
+                ${escapeHTML(String(awayScore))}
 
             </div>
 
             <div class="team">
 
-                ${awayLogo ? `
-                    <img
-                        src="${escapeAttribute(awayLogo)}"
-                        alt="${escapeAttribute(away)}"
-                    >
-                ` : ""}
+                ${
+                    awayLogo
+                    ? `
+                        <img
+                            src="${escapeAttribute(awayLogo)}"
+                            alt="${escapeAttribute(away)}"
+                        >
+                    `
+                    : ""
+                }
 
                 <h2>
                     ${escapeHTML(away)}
@@ -847,38 +1018,50 @@ function displayMatch(match){
 
         </div>
 
-        <div class="match-info">
+        <div class="info">
 
-            <div class="info-box">
-                📅
-                <strong>Date & Time</strong>
+            <div class="info-row">
+
+                📅 <strong>Date:</strong>
+
                 ${escapeHTML(date)}
+
             </div>
 
-            <div class="info-box">
-                🏟️
-                <strong>Venue</strong>
-                ${escapeHTML(venue)}
+            <div class="info-row">
+
+                🏟️ <strong>Venue:</strong>
+
+                ${escapeHTML(
+                    match.venue ||
+                    "Not available"
+                )}
+
             </div>
 
-            <div class="info-box">
-                🏆
-                <strong>Competition</strong>
+            <div class="info-row">
+
+                🏆 <strong>Competition:</strong>
+
                 ${escapeHTML(competition)}
+
             </div>
 
-            <div class="info-box">
-                🔢
-                <strong>Matchday</strong>
+            <div class="info-row">
+
+                📊 <strong>Matchday:</strong>
+
                 ${escapeHTML(
                     String(
-                        match.matchday ??
+                        match.matchday ||
                         "Not available"
                     )
                 )}
+
             </div>
 
         </div>
+
     `;
 
 }
@@ -888,305 +1071,386 @@ function displayMatch(match){
    STATUS
 ================================================== */
 
-function getStatus(status){
+function getStatus(status) {
 
-    if(status === "IN_PLAY"){
+    if (
+        status === "IN_PLAY"
+    ) {
 
         return {
-            text:"🔴 LIVE",
-            short:"LIVE",
-            className:"live"
+            text: "🔴 LIVE",
+            className: "live"
         };
 
     }
 
-    if(status === "PAUSED"){
+    if (
+        status === "PAUSED"
+    ) {
 
         return {
-            text:"⏸️ HALF TIME",
-            short:"HALF TIME",
-            className:"live"
+            text: "⏸️ HALF TIME",
+            className: "live"
         };
 
     }
 
-    if(status === "FINISHED"){
+    if (
+        status === "FINISHED"
+    ) {
 
         return {
-            text:"✅ FINISHED",
-            short:"FULL TIME",
-            className:"finished"
-        };
-
-    }
-
-    if(
-        status === "CANCELLED" ||
-        status === "POSTPONED"
-    ){
-
-        return {
-            text:"⚠️ " + status,
-            short:status,
-            className:"cancelled"
+            text: "✅ FINISHED",
+            className: "finished"
         };
 
     }
 
     return {
-        text:"🕐 UPCOMING",
-        short:"UPCOMING",
-        className:"upcoming"
+        text: "🕐 UPCOMING",
+        className: "upcoming"
     };
 
 }
 
 
 /* ==================================================
-   OFFICIAL STREAM
+   OFFICIAL STREAM BUTTON
 ================================================== */
 
-/*
-   IMPORTANT:
-   Leave this empty until you have
-   an authorized broadcaster URL.
-
-   Example:
-
-   const OFFICIAL_STREAM_URL =
-       "https://example.com/official-match";
-
-*/
-
-const OFFICIAL_STREAM_URL = "";
-
-
-function setupWatchButton(match){
+function setupWatchButton(match) {
 
     watchSection.style.display =
         "block";
 
-    if(
-        OFFICIAL_STREAM_URL &&
-        OFFICIAL_STREAM_URL.startsWith("https://")
-    ){
+    const currentMatchId =
+        String(match.id);
+
+    const officialStream =
+        OFFICIAL_STREAMS[
+            currentMatchId
+        ];
+
+    /*
+     * If an authorized URL exists,
+     * activate the button.
+     */
+
+    if (
+        officialStream &&
+        officialStream.startsWith("https://")
+    ) {
 
         watchButton.href =
-            OFFICIAL_STREAM_URL;
+            officialStream;
+
+        watchButton.target =
+            "_blank";
+
+        watchButton.rel =
+            "noopener noreferrer";
 
         watchButton.classList.remove(
             "disabled"
         );
 
         watchButton.textContent =
-            "📺 WATCH OFFICIAL STREAM ↗";
+            "📺 FIND OFFICIAL STREAM ↗";
 
         watchDescription.textContent =
-            "Watch through the authorized broadcaster.";
-
-    }else{
-
-        watchButton.removeAttribute(
-            "href"
-        );
-
-        watchButton.classList.add(
-            "disabled"
-        );
-
-        watchButton.textContent =
-            "📺 OFFICIAL STREAM UNAVAILABLE";
-
-        watchDescription.textContent =
-            "An authorized broadcaster link has not been added for this match yet.";
-
-    }
-
-}
-
-
-/* ==================================================
-   EVENTS
-================================================== */
-
-function displayEvents(match){
-
-    const events =
-        match.events || [];
-
-    if(!events.length){
+            "Open the authorized official broadcaster for this match.";
 
         return;
 
     }
 
-    eventsSection.style.display =
-        "block";
 
-    timeline.innerHTML = "";
+    /*
+     * No authorized stream is configured.
+     */
 
-    events.forEach(event => {
+    watchButton.removeAttribute(
+        "href"
+    );
 
-        let icon = "📌";
-        let text = "Match event";
+    watchButton.removeAttribute(
+        "target"
+    );
 
-        const type =
-            String(
-                event.type ||
-                ""
-            ).toUpperCase();
+    watchButton.removeAttribute(
+        "rel"
+    );
 
-        if(type.includes("GOAL")){
+    watchButton.classList.add(
+        "disabled"
+    );
 
-            icon = "⚽";
+    watchButton.textContent =
+        "📺 OFFICIAL STREAM UNAVAILABLE";
 
-            text =
-                event.player?.name ||
-                event.scorer?.name ||
-                "Goal";
+    watchDescription.textContent =
+        "An authorized streaming destination has not been added for this match.";
 
-        }else if(
-            type.includes("YELLOW")
-        ){
+}
 
-            icon = "🟨";
 
-            text =
-                event.player?.name ||
-                "Yellow card";
+/* ==================================================
+   STATISTICS
+================================================== */
 
-        }else if(
-            type.includes("RED")
-        ){
+function displayStats(match) {
 
-            icon = "🟥";
+    const statistics =
+        match.statistics;
 
-            text =
-                event.player?.name ||
-                "Red card";
+    if (!statistics) {
+        return;
+    }
 
-        }else if(
-            type.includes("SUB")
-        ){
+    let homeStats = {};
+    let awayStats = {};
 
-            icon = "🔄";
+    /*
+     * Different football APIs can return
+     * statistics in different formats.
+     */
 
-            text =
-                event.player?.name ||
-                "Substitution";
+    if (
+        Array.isArray(statistics)
+    ) {
+
+        statistics.forEach(
+            teamStats => {
+
+                const teamId =
+                    teamStats.team?.id;
+
+                if (
+                    teamId ===
+                    match.homeTeam?.id
+                ) {
+
+                    homeStats =
+                        teamStats.statistics ||
+                        {};
+
+                }
+
+                if (
+                    teamId ===
+                    match.awayTeam?.id
+                ) {
+
+                    awayStats =
+                        teamStats.statistics ||
+                        {};
+
+                }
+
+            }
+        );
+
+    }
+
+    else {
+
+        homeStats =
+            statistics.home ||
+            {};
+
+        awayStats =
+            statistics.away ||
+            {};
+
+    }
+
+
+    const statNames = [
+        "Possession",
+        "Shots",
+        "Shots on Target",
+        "Corners",
+        "Fouls",
+        "Yellow Cards"
+    ];
+
+
+    let html = "";
+
+
+    statNames.forEach(
+        name => {
+
+            const home =
+                getStatValue(
+                    homeStats,
+                    name
+                );
+
+            const away =
+                getStatValue(
+                    awayStats,
+                    name
+                );
+
+            if (
+                home === null &&
+                away === null
+            ) {
+
+                return;
+
+            }
+
+
+            const homeNumber =
+                extractNumber(home);
+
+            const awayNumber =
+                extractNumber(away);
+
+            const total =
+                homeNumber +
+                awayNumber;
+
+            const percentage =
+                total > 0
+                ? (
+                    homeNumber /
+                    total
+                ) * 100
+                : 50;
+
+
+            html += `
+
+                <div class="stat-row">
+
+                    <div class="stat-title">
+
+                        ${escapeHTML(name)}
+
+                    </div>
+
+                    <div class="stat-values">
+
+                        <span>
+                            ${escapeHTML(
+                                String(
+                                    home ??
+                                    "-"
+                                )
+                            )}
+                        </span>
+
+                        <span>
+                            ${escapeHTML(
+                                String(
+                                    away ??
+                                    "-"
+                                )
+                            )}
+                        </span>
+
+                    </div>
+
+                    <div class="stat-bar">
+
+                        <div
+                            class="stat-home"
+                            style="width:${percentage}%"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            `;
 
         }
-
-        const minute =
-            event.minute ??
-            event.time?.elapsed ??
-            "";
-
-        timeline.innerHTML += `
-
-            <div class="event">
-
-                <div class="event-time">
-                    ${escapeHTML(String(minute))}
-                    ${minute ? "'" : ""}
-                </div>
-
-                <div class="event-icon">
-                    ${icon}
-                </div>
-
-                <div class="event-text">
-                    ${escapeHTML(text)}
-                </div>
-
-            </div>
-
-        `;
-
-    });
-
-}
+    );
 
 
-/* ==================================================
-   STATS
-================================================== */
-
-function displayStats(match){
-
-    const statsData =
-        match.statistics || [];
-
-    if(!Array.isArray(statsData) ||
-       !statsData.length){
-
+    if (!html) {
         return;
-
     }
+
 
     statsSection.style.display =
         "block";
 
-    stats.innerHTML = "";
+    statsContainer.innerHTML =
+        html;
 
-    statsData.forEach(item => {
+}
 
-        const home =
-            Number(
-                item.home ??
-                item.homeTeam ??
-                0
+
+/* ==================================================
+   STAT VALUE
+================================================== */
+
+function getStatValue(
+    stats,
+    name
+) {
+
+    if (!stats) {
+        return null;
+    }
+
+
+    if (
+        stats[name] !== undefined
+    ) {
+
+        return stats[name];
+
+    }
+
+
+    const key =
+        Object.keys(stats)
+            .find(
+                k =>
+                    k.toLowerCase() ===
+                    name.toLowerCase()
             );
 
-        const away =
-            Number(
-                item.away ??
-                item.awayTeam ??
-                0
-            );
 
-        const total =
-            home + away;
+    return key
+        ? stats[key]
+        : null;
 
-        const percentage =
-            total > 0
-            ? (home / total) * 100
-            : 50;
+}
 
-        stats.innerHTML += `
 
-            <div class="stat">
+/* ==================================================
+   NUMBER
+================================================== */
 
-                <div class="stat-head">
+function extractNumber(value) {
 
-                    <span>
-                        ${escapeHTML(
-                            item.type ||
-                            item.name ||
-                            "Statistic"
-                        )}
-                    </span>
+    if (
+        value === null ||
+        value === undefined
+    ) {
 
-                    <span>
-                        ${home} - ${away}
-                    </span>
+        return 0;
 
-                </div>
+    }
 
-                <div class="stat-bar">
+    const number =
+        parseFloat(
+            String(value)
+                .replace(
+                    "%",
+                    ""
+                )
+        );
 
-                    <div
-                        class="stat-fill"
-                        style="width:${percentage}%"
-                    ></div>
-
-                </div>
-
-            </div>
-
-        `;
-
-    });
+    return Number.isFinite(number)
+        ? number
+        : 0;
 
 }
 
@@ -1195,86 +1459,89 @@ function displayStats(match){
    LINEUPS
 ================================================== */
 
-function displayLineups(match){
+function displayLineups(match) {
 
-    const home =
+    const homeTeam =
         match.homeTeam || {};
 
-    const away =
+    const awayTeam =
         match.awayTeam || {};
 
-    const homePlayers =
-        home.lineup || [];
+    const homeLineup =
+        homeTeam.lineup || [];
 
-    const awayPlayers =
-        away.lineup || [];
+    const awayLineup =
+        awayTeam.lineup || [];
 
     const homeBench =
-        home.bench || [];
+        homeTeam.bench || [];
 
     const awayBench =
-        away.bench || [];
+        awayTeam.bench || [];
 
-    /*
-       football-data.org may not return
-       lineup information from this endpoint.
-    */
 
-    if(
-        !homePlayers.length &&
-        !awayPlayers.length
-    ){
+    lineupsSection.style.display =
+        "block";
 
-        lineupsSection.style.display =
-            "block";
+
+    if (
+        homeLineup.length === 0 &&
+        awayLineup.length === 0
+    ) {
 
         pitchContainer.innerHTML = `
 
-            <div class="empty">
+            <div class="no-lineups">
 
-                👥 Starting lineups are not
+                👥 Lineup information is not
                 available for this match yet.
 
             </div>
+
         `;
+
+        benchContainer.innerHTML =
+            "";
 
         return;
 
     }
 
-    lineupsSection.style.display =
-        "block";
+
+    const homeFormation =
+        homeTeam.formation ||
+        "Formation unavailable";
+
+    const awayFormation =
+        awayTeam.formation ||
+        "Formation unavailable";
+
 
     pitchContainer.innerHTML = `
 
-        <div class="lineup-title">
+        <div class="lineup-team-title">
 
             ${escapeHTML(
-                home.name || "Home Team"
+                homeTeam.name ||
+                "Home"
             )}
 
             <br>
 
             <small>
-                ${escapeHTML(
-                    home.formation ||
-                    "Formation unavailable"
-                )}
+                ${escapeHTML(homeFormation)}
             </small>
 
         </div>
 
+
         <div class="pitch">
-
-            <div class="pitch-line half-line"></div>
-
-            <div class="center-circle"></div>
 
             <div class="center-dot"></div>
 
-            <div class="box-top"></div>
+            <div class="penalty-top"></div>
 
-            <div class="box-bottom"></div>
+            <div class="penalty-bottom"></div>
 
             <div id="homePlayers"></div>
 
@@ -1282,41 +1549,54 @@ function displayLineups(match){
 
         </div>
 
-        <div class="lineup-title">
+
+        <div class="lineup-team-title">
 
             ${escapeHTML(
-                away.name || "Away Team"
+                awayTeam.name ||
+                "Away"
             )}
 
             <br>
 
             <small>
-                ${escapeHTML(
-                    away.formation ||
-                    "Formation unavailable"
-                )}
+                ${escapeHTML(awayFormation)}
             </small>
 
         </div>
 
     `;
 
+
+    const homePlayers =
+        document.getElementById(
+            "homePlayers"
+        );
+
+    const awayPlayers =
+        document.getElementById(
+            "awayPlayers"
+        );
+
+
     renderPlayers(
+        homeLineup,
         homePlayers,
-        document.getElementById("homePlayers"),
         true
     );
 
+
     renderPlayers(
+        awayLineup,
         awayPlayers,
-        document.getElementById("awayPlayers"),
         false
     );
 
+
     renderBench(
-        home,
+        homeTeam,
         homeBench,
-        away,
+        awayTeam,
         awayBench
     );
 
@@ -1324,78 +1604,125 @@ function displayLineups(match){
 
 
 /* ==================================================
-   PLAYER RENDERING
+   RENDER PLAYERS
 ================================================== */
 
 function renderPlayers(
     players,
     container,
     isHome
-){
+) {
 
-    if(!players.length){
+    if (
+        !players.length ||
+        !container
+    ) {
+
         return;
+
     }
 
+
     const groups = {
-        goalkeeper:[],
-        defender:[],
-        midfielder:[],
-        attacker:[]
+
+        goalkeeper: [],
+        defender: [],
+        midfielder: [],
+        attacker: []
+
     };
 
-    players.forEach(player => {
 
-        const position =
-            String(
-                player.position ||
-                ""
-            ).toLowerCase();
+    players.forEach(
+        player => {
 
-        if(position.includes("goalkeeper")){
+            const position =
+                String(
+                    player.position ||
+                    ""
+                ).toLowerCase();
 
-            groups.goalkeeper.push(player);
 
-        }else if(position.includes("def")){
+            if (
+                position.includes("goal")
+            ) {
 
-            groups.defender.push(player);
+                groups.goalkeeper.push(
+                    player
+                );
 
-        }else if(position.includes("mid")){
+            }
 
-            groups.midfielder.push(player);
+            else if (
+                position.includes("def")
+            ) {
 
-        }else{
+                groups.defender.push(
+                    player
+                );
 
-            groups.attacker.push(player);
+            }
+
+            else if (
+                position.includes("mid")
+            ) {
+
+                groups.midfielder.push(
+                    player
+                );
+
+            }
+
+            else {
+
+                groups.attacker.push(
+                    player
+                );
+
+            }
 
         }
+    );
 
-    });
 
     const rows = [
+
         groups.goalkeeper,
         groups.defender,
         groups.midfielder,
         groups.attacker
+
     ];
+
 
     const yPositions =
         isHome
         ? [91,72,53,32]
         : [9,28,47,68];
 
+
     rows.forEach(
         (row,rowIndex) => {
 
-            if(!row.length){
+            if (!row.length) {
                 return;
             }
+
 
             const y =
                 yPositions[rowIndex];
 
+
             row.forEach(
                 (player,index) => {
+
+                    const spacing =
+                        70 /
+                        Math.max(
+                            row.length - 1,
+                            1
+                        );
+
 
                     const x =
                         row.length === 1
@@ -1403,16 +1730,17 @@ function renderPlayers(
                         : 15 +
                           (
                               index *
-                              (70 /
-                              (row.length - 1))
+                              spacing
                           );
 
-                    const element =
+
+                    const div =
                         document.createElement(
                             "div"
                         );
 
-                    element.className =
+
+                    div.className =
                         "player " +
                         (
                             isHome
@@ -1420,11 +1748,13 @@ function renderPlayers(
                             : "away-player"
                         );
 
-                    element.style.left =
+
+                    div.style.left =
                         x + "%";
 
-                    element.style.top =
+                    div.style.top =
                         y + "%";
+
 
                     const number =
                         player.shirtNumber ??
@@ -1434,7 +1764,8 @@ function renderPlayers(
                         player.name ||
                         "Player";
 
-                    element.innerHTML = `
+
+                    div.innerHTML = `
 
                         <div class="player-circle">
 
@@ -1454,16 +1785,16 @@ function renderPlayers(
 
                     `;
 
-                    element.title =
-                        name +
-                        " • " +
-                        (
+
+                    div.title =
+                        `${name} • ${
                             player.position ||
-                            "Position unavailable"
-                        );
+                            "Position unknown"
+                        }`;
+
 
                     container.appendChild(
-                        element
+                        div
                     );
 
                 }
@@ -1480,104 +1811,335 @@ function renderPlayers(
 ================================================== */
 
 function renderBench(
-    home,
+    homeTeam,
     homeBench,
-    away,
+    awayTeam,
     awayBench
-){
+) {
 
-    if(
-        !homeBench.length &&
-        !awayBench.length
-    ){
+    if (
+        homeBench.length === 0 &&
+        awayBench.length === 0
+    ) {
+
+        benchContainer.innerHTML =
+            "";
 
         return;
 
     }
+
 
     benchContainer.innerHTML = `
 
         <div class="bench">
 
             <h3>
+
                 🪑 ${escapeHTML(
-                    home.shortName ||
-                    home.name ||
+                    homeTeam.shortName ||
+                    homeTeam.name ||
                     "Home"
-                )} Bench
+                )}
+
+                Bench
+
             </h3>
 
-            ${createBench(homeBench)}
+            ${createBenchPlayers(
+                homeBench
+            )}
 
         </div>
+
 
         <div class="bench">
 
             <h3>
+
                 🪑 ${escapeHTML(
-                    away.shortName ||
-                    away.name ||
+                    awayTeam.shortName ||
+                    awayTeam.name ||
                     "Away"
-                )} Bench
+                )}
+
+                Bench
+
             </h3>
 
-            ${createBench(awayBench)}
+            ${createBenchPlayers(
+                awayBench
+            )}
 
         </div>
+
     `;
 
 }
 
 
-function createBench(players){
+function createBenchPlayers(players) {
 
-    if(!players.length){
+    if (!players.length) {
 
         return `
+
             <span class="bench-player">
-                No information
+
+                No bench information
+
             </span>
+
         `;
 
     }
 
-    return players.map(player => `
 
-        <span class="bench-player">
+    return players.map(
+        player => `
 
-            #${escapeHTML(
-                String(
-                    player.shirtNumber ??
-                    "?"
-                )
-            )}
+            <span class="bench-player">
 
-            ${escapeHTML(
-                player.name ||
-                "Player"
-            )}
+                #${escapeHTML(
+                    String(
+                        player.shirtNumber ??
+                        "?"
+                    )
+                )}
 
-        </span>
+                ${escapeHTML(
+                    player.name ||
+                    "Player"
+                )}
 
-    `).join("");
+            </span>
+
+        `
+    ).join("");
 
 }
 
 
 /* ==================================================
-   PLAYER NAME
+   EVENTS
 ================================================== */
 
-function shortName(name){
+function displayEvents(match) {
+
+    const events =
+        match.events || [];
+
+
+    if (!events.length) {
+
+        eventsSection.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    eventsSection.style.display =
+        "block";
+
+    timeline.innerHTML =
+        "";
+
+
+    events.forEach(
+        event => {
+
+            let icon =
+                "⚽";
+
+            let text =
+                "Match event";
+
+
+            if (
+                event.type ===
+                "GOAL"
+            ) {
+
+                icon = "⚽";
+
+                text =
+                    event.player?.name ||
+                    "Goal";
+
+            }
+
+            else if (
+                event.type ===
+                "YELLOW_CARD"
+            ) {
+
+                icon = "🟨";
+
+                text =
+                    event.player?.name ||
+                    "Yellow card";
+
+            }
+
+            else if (
+                event.type ===
+                "RED_CARD"
+            ) {
+
+                icon = "🟥";
+
+                text =
+                    event.player?.name ||
+                    "Red card";
+
+            }
+
+            else if (
+                event.type ===
+                "SUBSTITUTION"
+            ) {
+
+                icon = "🔄";
+
+                text =
+                    event.player?.name ||
+                    "Substitution";
+
+            }
+
+
+            const minute =
+                event.minute ??
+                event.time?.elapsed ??
+                "";
+
+
+            timeline.innerHTML += `
+
+                <div class="event">
+
+                    <div class="event-time">
+
+                        ${escapeHTML(
+                            String(minute)
+                        )}
+
+                        ${minute ? "'" : ""}
+
+                    </div>
+
+                    <div class="event-icon">
+
+                        ${icon}
+
+                    </div>
+
+                    <div class="event-text">
+
+                        ${escapeHTML(text)}
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+}
+
+
+/* ==================================================
+   SHARE MATCH
+================================================== */
+
+async function shareMatch() {
+
+    const title =
+        document.title;
+
+    const url =
+        window.location.href;
+
+
+    if (
+        navigator.share
+    ) {
+
+        try {
+
+            await navigator.share({
+
+                title: title,
+
+                text:
+                    "Check this match on GoalRush ⚽",
+
+                url: url
+
+            });
+
+        }
+
+        catch(error) {
+
+            console.log(
+                "Share cancelled."
+            );
+
+        }
+
+        return;
+
+    }
+
+
+    try {
+
+        await navigator.clipboard.writeText(
+            url
+        );
+
+        alert(
+            "🔗 Match link copied!"
+        );
+
+    }
+
+    catch(error) {
+
+        alert(
+            "Copy this page URL to share the match."
+        );
+
+    }
+
+}
+
+
+/* ==================================================
+   SHORT PLAYER NAME
+================================================== */
+
+function shortName(name) {
 
     const parts =
-        String(name)
-        .trim()
-        .split(/\s+/);
+        name
+            .trim()
+            .split(/\s+/);
 
-    if(parts.length <= 2){
+
+    if (
+        parts.length <= 2
+    ) {
+
         return name;
+
     }
+
 
     return (
         parts[0] +
@@ -1592,10 +2154,12 @@ function shortName(name){
    SECURITY
 ================================================== */
 
-function escapeHTML(value){
+function escapeHTML(value) {
 
     const div =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
     div.textContent =
         value ?? "";
@@ -1605,23 +2169,33 @@ function escapeHTML(value){
 }
 
 
-function escapeAttribute(value){
+function escapeAttribute(value) {
 
-    return escapeHTML(value)
-        .replace(/"/g,"&quot;");
+    return escapeHTML(
+        value
+    ).replace(
+        /"/g,
+        "&quot;"
+    );
 
 }
 
 
 /* ==================================================
    AUTO REFRESH
+==================================================
+
+   Refresh every 60 seconds.
+
 ================================================== */
 
 setInterval(
-    () => {
+    function() {
 
-        if(matchId){
+        if (matchId) {
+
             loadMatch();
+
         }
 
     },
@@ -1631,4 +2205,5 @@ setInterval(
 </script>
 
 </body>
+
 </html>
