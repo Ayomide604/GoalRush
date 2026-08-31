@@ -1,1 +1,1615 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>GoalRush | Match Centre</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f3f5f4;
+    color: #222;
+}
+
+header {
+    background: #063b2b;
+    color: white;
+    padding: 18px 15px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 8px;
+    font-weight: bold;
+}
+
+.container {
+    max-width: 950px;
+    margin: auto;
+    padding: 20px 12px 50px;
+}
+
+.message {
+    background: white;
+    border-radius: 18px;
+    padding: 35px 20px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,.1);
+}
+
+.loader {
+    width: 38px;
+    height: 38px;
+    border: 4px solid #ddd;
+    border-top-color: #063b2b;
+    border-radius: 50%;
+    margin: auto auto 15px;
+    animation: spin .8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* MATCH CARD */
+
+.match-card {
+    background: white;
+    border-radius: 20px;
+    padding: 25px 15px;
+    box-shadow: 0 4px 18px rgba(0,0,0,.12);
+    text-align: center;
+}
+
+.competition {
+    color: #063b2b;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.status {
+    display: inline-block;
+    padding: 9px 20px;
+    border-radius: 30px;
+    color: white;
+    font-weight: bold;
+}
+
+.live {
+    background: #d62828;
+}
+
+.finished {
+    background: #555;
+}
+
+.upcoming {
+    background: #927000;
+}
+
+.teams {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 35px;
+    margin: 30px 0;
+}
+
+.team {
+    width: 220px;
+}
+
+.team img {
+    width: 85px;
+    height: 85px;
+    object-fit: contain;
+}
+
+.team h2 {
+    font-size: 19px;
+    margin: 10px 0 0;
+}
+
+.score {
+    font-size: 42px;
+    font-weight: bold;
+    color: #063b2b;
+}
+
+.info {
+    border-top: 1px solid #ddd;
+    margin-top: 20px;
+}
+
+.info-row {
+    padding: 13px;
+    border-bottom: 1px solid #eee;
+}
+
+/* WATCH */
+
+.watch-card {
+    margin-top: 20px;
+    padding: 28px 18px;
+    border-radius: 20px;
+    text-align: center;
+    color: white;
+    background: linear-gradient(135deg,#063b2b,#08734f);
+    box-shadow: 0 4px 18px rgba(0,0,0,.15);
+}
+
+.watch-card h2 {
+    margin-top: 0;
+    font-size: 27px;
+}
+
+.watch-button {
+    display: inline-block;
+    padding: 14px 22px;
+    background: #d62828;
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.watch-note {
+    margin-top: 14px;
+    font-size: 13px;
+    opacity: .85;
+}
+
+/* LINEUPS */
+
+.lineups-section {
+    margin-top: 22px;
+}
+
+.lineups-section h2 {
+    text-align: center;
+    color: #063b2b;
+}
+
+.lineup-team-title {
+    text-align: center;
+    font-weight: bold;
+    margin: 18px 0 10px;
+}
+
+/* PITCH */
+
+.pitch {
+    position: relative;
+    width: 100%;
+    max-width: 700px;
+    height: 720px;
+    margin: auto;
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            #176b45 0px,
+            #176b45 90px,
+            #1b744c 90px,
+            #1b744c 180px
+        );
+
+    border: 4px solid white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,.2);
+}
+
+/* pitch markings */
+
+.pitch::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 2px;
+    background: rgba(255,255,255,.85);
+}
+
+.pitch::after {
+    content: "";
+    position: absolute;
+    width: 145px;
+    height: 145px;
+    border: 2px solid rgba(255,255,255,.85);
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.center-dot {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    background: white;
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+
+/* penalty boxes */
+
+.penalty-top {
+    position: absolute;
+    width: 42%;
+    height: 17%;
+    top: 0;
+    left: 29%;
+    border: 2px solid white;
+    border-top: none;
+}
+
+.penalty-bottom {
+    position: absolute;
+    width: 42%;
+    height: 17%;
+    bottom: 0;
+    left: 29%;
+    border: 2px solid white;
+    border-bottom: none;
+}
+
+/* players */
+
+.player {
+    position: absolute;
+    transform: translate(-50%,-50%);
+    width: 76px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    z-index: 5;
+}
+
+.player-circle {
+    width: 43px;
+    height: 43px;
+    margin: auto;
+    border-radius: 50%;
+    background: white;
+    color: #063b2b;
+    border: 3px solid #063b2b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    font-weight: bold;
+    box-shadow: 0 2px 6px rgba(0,0,0,.35);
+}
+
+.player-name {
+    margin-top: 4px;
+    text-shadow: 0 1px 3px #000;
+    line-height: 1.1;
+}
+
+.home-player .player-circle {
+    background: #ffffff;
+}
+
+.away-player .player-circle {
+    background: #f4f4f4;
+    border-color: #d62828;
+    color: #d62828;
+}
+
+.no-lineups {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    color: #777;
+    box-shadow: 0 3px 12px rgba(0,0,0,.08);
+}
+
+/* BENCH */
+
+.bench {
+    background: white;
+    border-radius: 16px;
+    margin-top: 18px;
+    padding: 18px;
+    box-shadow: 0 3px 12px rgba(0,0,0,.08);
+}
+
+.bench h3 {
+    color: #063b2b;
+    margin-top: 0;
+}
+
+.bench-player {
+    display: inline-block;
+    background: #f1f3f2;
+    padding: 8px 10px;
+    border-radius: 8px;
+    margin: 4px;
+    font-size: 13px;
+}
+
+/* EVENTS */
+
+.events-section {
+    margin-top: 22px;
+    background: white;
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.1);
+}
+
+.events-section h2 {
+    text-align: center;
+    color: #063b2b;
+}
+
+.event {
+    display: flex;
+    gap: 12px;
+    padding: 12px 5px;
+    border-bottom: 1px solid #eee;
+}
+
+.event-time {
+    width: 45px;
+    font-weight: bold;
+    color: #063b2b;
+}
+
+.event-icon {
+    width: 30px;
+}
+
+.event-text {
+    flex: 1;
+}
+
+/* MOBILE */
+
+@media(max-width:600px) {
+
+    .teams {
+        gap: 5px;
+    }
+
+    .team {
+        width: 38%;
+    }
+
+    .team img {
+        width: 65px;
+        height: 65px;
+    }
+
+    .team h2 {
+        font-size: 15px;
+    }
+
+    .score {
+        font-size: 30px;
+    }
+
+    .pitch {
+        height: 620px;
+    }
+
+    .player {
+        width: 65px;
+        font-size: 10px;
+    }
+
+    .player-circle {
+        width: 38px;
+        height: 38px;
+        font-size: 13px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>⚽ GoalRush</h1>
+
+    <a href="scores.html">
+        ← Back to Scores
+    </a>
+
+</header>
+
+<main class="container">
+
+    <div
+        id="matchContainer"
+        class="message"
+    >
+
+        <div class="loader"></div>
+
+        ⚽ Loading match...
+
+    </div>
+
+
+    <!-- WATCH -->
+
+    <section
+        id="watchSection"
+        class="watch-card"
+        style="display:none;"
+    >
+
+        <h2>📺 Watch Live</h2>
+
+        <p id="watchDescription">
+            Official broadcast information.
+        </p>
+
+        <a
+            id="watchButton"
+            class="watch-button"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            📺 OFFICIAL STREAM
+        </a>
+
+        <div class="watch-note">
+            GoalRush only displays authorized
+            broadcast destinations.
+        </div>
+
+    </section>
+
+
+    <!-- LINEUPS -->
+
+    <section
+        id="lineupsSection"
+        class="lineups-section"
+        style="display:none;"
+    >
+
+        <h2>👥 Starting Lineups</h2>
+
+        <div id="pitchContainer"></div>
+
+        <div id="benchContainer"></div>
+
+    </section>
+
+
+    <!-- EVENTS -->
+
+    <section
+        id="eventsSection"
+        class="events-section"
+        style="display:none;"
+    >
+
+        <h2>⏱️ Match Timeline</h2>
+
+        <div id="timeline"></div>
+
+    </section>
+
+</main>
+
+
+<script>
+
+/* ==================================================
+   GOALRUSH API
+================================================== */
+
+const API_BASE =
+    "https://goal-rush-mauve.vercel.app";
+
+
+/* ==================================================
+   AUTHORIZED STREAM
+================================================== */
+
+const LIVE_STREAM_URL = "";
+
+
+/* ==================================================
+   MATCH ID
+================================================== */
+
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+const matchId =
+    params.get("id");
+
+
+/* ==================================================
+   ELEMENTS
+================================================== */
+
+const matchContainer =
+    document.getElementById(
+        "matchContainer"
+    );
+
+const watchSection =
+    document.getElementById(
+        "watchSection"
+    );
+
+const watchButton =
+    document.getElementById(
+        "watchButton"
+    );
+
+const watchDescription =
+    document.getElementById(
+        "watchDescription"
+    );
+
+const lineupsSection =
+    document.getElementById(
+        "lineupsSection"
+    );
+
+const pitchContainer =
+    document.getElementById(
+        "pitchContainer"
+    );
+
+const benchContainer =
+    document.getElementById(
+        "benchContainer"
+    );
+
+const eventsSection =
+    document.getElementById(
+        "eventsSection"
+    );
+
+const timeline =
+    document.getElementById(
+        "timeline"
+    );
+
+
+/* ==================================================
+   START
+================================================== */
+
+if (!matchId) {
+
+    matchContainer.innerHTML = `
+        <h2>❌ No match selected</h2>
+
+        <p>
+            Please select a match from Scores.
+        </p>
+
+        <a href="scores.html">
+            ← Back to Scores
+        </a>
+    `;
+
+} else {
+
+    loadMatch();
+
+}
+
+
+/* ==================================================
+   LOAD MATCH
+================================================== */
+
+async function loadMatch() {
+
+    try {
+
+        const response =
+            await fetch(
+                API_BASE +
+                "/api/match/" +
+                encodeURIComponent(matchId)
+            );
+
+        const text =
+            await response.text();
+
+        let match;
+
+        try {
+
+            match =
+                JSON.parse(text);
+
+        } catch {
+
+            throw new Error(
+                "GoalRush server returned invalid JSON."
+            );
+
+        }
+
+        if (!response.ok) {
+
+            throw new Error(
+                match.error ||
+                "Could not load match."
+            );
+
+        }
+
+        displayMatch(match);
+
+        setupWatchButton(match);
+
+        displayLineups(match);
+
+        displayEvents(match);
+
+    }
+
+    catch(error) {
+
+        console.error(
+            "MATCH ERROR:",
+            error
+        );
+
+        matchContainer.innerHTML = `
+
+            <h2 style="color:#c62828;">
+                ❌ Could not load match
+            </h2>
+
+            <p>
+                ${escapeHTML(error.message)}
+            </p>
+
+            <a href="scores.html">
+                ← Back to Scores
+            </a>
+
+        `;
+
+    }
+
+}
+
+
+/* ==================================================
+   DISPLAY MATCH
+================================================== */
+
+function displayMatch(match) {
+
+    const home =
+        match.homeTeam?.name ||
+        "Home Team";
+
+    const away =
+        match.awayTeam?.name ||
+        "Away Team";
+
+    const homeLogo =
+        match.homeTeam?.crest || "";
+
+    const awayLogo =
+        match.awayTeam?.crest || "";
+
+    const homeScore =
+        match.score?.fullTime?.home ??
+        "-";
+
+    const awayScore =
+        match.score?.fullTime?.away ??
+        "-";
+
+    const competition =
+        match.competition?.name ||
+        "Football";
+
+    const date =
+        match.utcDate
+        ? new Date(
+            match.utcDate
+        ).toLocaleString()
+        : "Unknown";
+
+    const status =
+        getStatus(match.status);
+
+    matchContainer.className =
+        "match-card";
+
+    matchContainer.innerHTML = `
+
+        <div class="competition">
+            🏆 ${escapeHTML(competition)}
+        </div>
+
+        <span class="status ${status.className}">
+            ${status.text}
+        </span>
+
+        <div class="teams">
+
+            <div class="team">
+
+                ${
+                    homeLogo
+                    ? `
+                        <img
+                            src="${escapeAttribute(homeLogo)}"
+                            alt="${escapeAttribute(home)}"
+                        >
+                    `
+                    : ""
+                }
+
+                <h2>
+                    ${escapeHTML(home)}
+                </h2>
+
+            </div>
+
+            <div class="score">
+
+                ${homeScore}
+                -
+                ${awayScore}
+
+            </div>
+
+            <div class="team">
+
+                ${
+                    awayLogo
+                    ? `
+                        <img
+                            src="${escapeAttribute(awayLogo)}"
+                            alt="${escapeAttribute(away)}"
+                        >
+                    `
+                    : ""
+                }
+
+                <h2>
+                    ${escapeHTML(away)}
+                </h2>
+
+            </div>
+
+        </div>
+
+        <div class="info">
+
+            <div class="info-row">
+                📅 <strong>Date:</strong>
+                ${escapeHTML(date)}
+            </div>
+
+            <div class="info-row">
+                🏟️ <strong>Venue:</strong>
+                ${escapeHTML(
+                    match.venue ||
+                    "Not available"
+                )}
+            </div>
+
+            <div class="info-row">
+                🏆 <strong>Competition:</strong>
+                ${escapeHTML(competition)}
+            </div>
+
+            <div class="info-row">
+                📊 <strong>Matchday:</strong>
+                ${escapeHTML(
+                    String(
+                        match.matchday ||
+                        "Not available"
+                    )
+                )}
+            </div>
+
+        </div>
+    `;
+
+}
+
+
+/* ==================================================
+   STATUS
+================================================== */
+
+function getStatus(status) {
+
+    if (
+        status === "IN_PLAY"
+    ) {
+
+        return {
+            text: "🔴 LIVE",
+            className: "live"
+        };
+
+    }
+
+    if (
+        status === "PAUSED"
+    ) {
+
+        return {
+            text: "⏸️ HALF TIME",
+            className: "live"
+        };
+
+    }
+
+    if (
+        status === "FINISHED"
+    ) {
+
+        return {
+            text: "✅ FINISHED",
+            className: "finished"
+        };
+
+    }
+
+    return {
+        text: "🕐 UPCOMING",
+        className: "upcoming"
+    };
+
+}
+
+
+/* ==================================================
+   WATCH BUTTON
+================================================== */
+
+function setupWatchButton(match) {
+
+    watchSection.style.display =
+        "block";
+
+    if (
+        LIVE_STREAM_URL &&
+        LIVE_STREAM_URL.startsWith("https://")
+    ) {
+
+        watchButton.href =
+            LIVE_STREAM_URL;
+
+        watchButton.textContent =
+            "🔴 WATCH LIVE ↗";
+
+        watchDescription.textContent =
+            "Watch through the authorized official broadcaster.";
+
+        return;
+
+    }
+
+    watchButton.href = "#";
+
+    watchButton.textContent =
+        "📺 OFFICIAL STREAM UNAVAILABLE";
+
+    watchDescription.textContent =
+        "An authorized live-stream destination has not been added for this match yet.";
+
+}
+
+
+/* ==================================================
+   LINEUPS
+================================================== */
+
+function displayLineups(match) {
+
+    const homeTeam =
+        match.homeTeam || {};
+
+    const awayTeam =
+        match.awayTeam || {};
+
+    const homeLineup =
+        homeTeam.lineup || [];
+
+    const awayLineup =
+        awayTeam.lineup || [];
+
+    const homeBench =
+        homeTeam.bench || [];
+
+    const awayBench =
+        awayTeam.bench || [];
+
+
+    if (
+        homeLineup.length === 0 &&
+        awayLineup.length === 0
+    ) {
+
+        lineupsSection.style.display =
+            "block";
+
+        pitchContainer.innerHTML = `
+
+            <div class="no-lineups">
+
+                👥 Lineup information is not
+                available for this match yet.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    lineupsSection.style.display =
+        "block";
+
+
+    const homeFormation =
+        homeTeam.formation ||
+        "Formation unavailable";
+
+    const awayFormation =
+        awayTeam.formation ||
+        "Formation unavailable";
+
+
+    pitchContainer.innerHTML = `
+
+        <div class="lineup-team-title">
+
+            ${escapeHTML(homeTeam.name || "Home")}
+
+            <br>
+
+            <small>
+                ${escapeHTML(homeFormation)}
+            </small>
+
+        </div>
+
+
+        <div class="pitch">
+
+            <div class="center-dot"></div>
+
+            <div class="penalty-top"></div>
+
+            <div class="penalty-bottom"></div>
+
+            <div id="homePlayers"></div>
+
+            <div id="awayPlayers"></div>
+
+        </div>
+
+
+        <div class="lineup-team-title">
+
+            ${escapeHTML(awayTeam.name || "Away")}
+
+            <br>
+
+            <small>
+                ${escapeHTML(awayFormation)}
+            </small>
+
+        </div>
+
+    `;
+
+
+    const homePlayers =
+        document.getElementById(
+            "homePlayers"
+        );
+
+    const awayPlayers =
+        document.getElementById(
+            "awayPlayers"
+        );
+
+
+    /*
+     * Put home team in the
+     * bottom half of the pitch.
+     */
+
+    renderPlayers(
+        homeLineup,
+        homePlayers,
+        true
+    );
+
+
+    /*
+     * Put away team in the
+     * top half.
+     */
+
+    renderPlayers(
+        awayLineup,
+        awayPlayers,
+        false
+    );
+
+
+    renderBench(
+        homeTeam,
+        homeBench,
+        awayTeam,
+        awayBench
+    );
+
+}
+
+
+/* ==================================================
+   RENDER PLAYERS
+================================================== */
+
+function renderPlayers(
+    players,
+    container,
+    isHome
+) {
+
+    if (!players.length) {
+        return;
+    }
+
+
+    /*
+     * We distribute players by their
+     * football position instead of
+     * manually placing every player.
+     */
+
+    const groups = {
+
+        goalkeeper: [],
+        defender: [],
+        midfielder: [],
+        attacker: []
+
+    };
+
+
+    players.forEach(
+        function(player) {
+
+            const position =
+                String(
+                    player.position ||
+                    ""
+                ).toLowerCase();
+
+
+            if (
+                position.includes("goal")
+            ) {
+
+                groups.goalkeeper.push(
+                    player
+                );
+
+            }
+
+            else if (
+                position.includes("def")
+            ) {
+
+                groups.defender.push(
+                    player
+                );
+
+            }
+
+            else if (
+                position.includes("mid")
+            ) {
+
+                groups.midfielder.push(
+                    player
+                );
+
+            }
+
+            else {
+
+                groups.attacker.push(
+                    player
+                );
+
+            }
+
+        }
+    );
+
+
+    const rows = [
+
+        groups.goalkeeper,
+
+        groups.defender,
+
+        groups.midfielder,
+
+        groups.attacker
+
+    ];
+
+
+    /*
+     * Top team:
+     * goalkeeper near top.
+     *
+     * Bottom team:
+     * goalkeeper near bottom.
+     */
+
+    const yPositions =
+        isHome
+        ? [91, 72, 53, 32]
+        : [9, 28, 47, 68];
+
+
+    rows.forEach(
+        function(row, rowIndex) {
+
+            if (!row.length) {
+                return;
+            }
+
+
+            const y =
+                yPositions[rowIndex];
+
+
+            row.forEach(
+                function(player, index) {
+
+                    const spacing =
+                        70 /
+                        Math.max(
+                            row.length - 1,
+                            1
+                        );
+
+
+                    const x =
+                        row.length === 1
+                        ? 50
+                        : 15 +
+                          (
+                              index *
+                              spacing
+                          );
+
+
+                    const div =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    div.className =
+                        "player " +
+                        (
+                            isHome
+                            ? "home-player"
+                            : "away-player"
+                        );
+
+
+                    div.style.left =
+                        x + "%";
+
+
+                    div.style.top =
+                        y + "%";
+
+
+                    const number =
+                        player.shirtNumber ??
+                        "?";
+
+
+                    const name =
+                        player.name ||
+                        "Player";
+
+
+                    div.innerHTML = `
+
+                        <div class="player-circle">
+
+                            ${escapeHTML(
+                                String(number)
+                            )}
+
+                        </div>
+
+                        <div class="player-name">
+
+                            ${escapeHTML(
+                                shortName(name)
+                            )}
+
+                        </div>
+
+                    `;
+
+
+                    div.title =
+                        `${name} • ${player.position || "Position unknown"}`;
+
+
+                    container.appendChild(
+                        div
+                    );
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+/* ==================================================
+   BENCH
+================================================== */
+
+function renderBench(
+    homeTeam,
+    homeBench,
+    awayTeam,
+    awayBench
+) {
+
+    if (
+        homeBench.length === 0 &&
+        awayBench.length === 0
+    ) {
+
+        return;
+
+    }
+
+
+    benchContainer.innerHTML = `
+
+        <div class="bench">
+
+            <h3>
+                🪑 ${escapeHTML(
+                    homeTeam.shortName ||
+                    homeTeam.name ||
+                    "Home"
+                )} Bench
+            </h3>
+
+            ${createBenchPlayers(homeBench)}
+
+        </div>
+
+
+        <div class="bench">
+
+            <h3>
+                🪑 ${escapeHTML(
+                    awayTeam.shortName ||
+                    awayTeam.name ||
+                    "Away"
+                )} Bench
+            </h3>
+
+            ${createBenchPlayers(awayBench)}
+
+        </div>
+
+    `;
+
+}
+
+
+function createBenchPlayers(players) {
+
+    if (!players.length) {
+
+        return `
+            <span class="bench-player">
+                No bench information
+            </span>
+        `;
+
+    }
+
+
+    return players.map(
+        function(player) {
+
+            return `
+
+                <span class="bench-player">
+
+                    #${escapeHTML(
+                        String(
+                            player.shirtNumber ??
+                            "?"
+                        )
+                    )}
+
+                    ${escapeHTML(
+                        player.name ||
+                        "Player"
+                    )}
+
+                </span>
+
+            `;
+
+        }
+    ).join("");
+
+}
+
+
+/* ==================================================
+   EVENTS
+================================================== */
+
+function displayEvents(match) {
+
+    const events =
+        match.events || [];
+
+
+    if (!events.length) {
+
+        return;
+
+    }
+
+
+    eventsSection.style.display =
+        "block";
+
+
+    timeline.innerHTML =
+        "";
+
+
+    events.forEach(
+        function(event) {
+
+            let icon =
+                "⚽";
+
+            let text =
+                "Match event";
+
+
+            if (
+                event.type ===
+                "GOAL"
+            ) {
+
+                icon = "⚽";
+
+                text =
+                    event.player?.name ||
+                    "Goal";
+
+            }
+
+            else if (
+                event.type ===
+                "YELLOW_CARD"
+            ) {
+
+                icon = "🟨";
+
+                text =
+                    event.player?.name ||
+                    "Yellow card";
+
+            }
+
+            else if (
+                event.type ===
+                "RED_CARD"
+            ) {
+
+                icon = "🟥";
+
+                text =
+                    event.player?.name ||
+                    "Red card";
+
+            }
+
+            else if (
+                event.type ===
+                "SUBSTITUTION"
+            ) {
+
+                icon = "🔄";
+
+                text =
+                    event.player?.name ||
+                    "Substitution";
+
+            }
+
+
+            const minute =
+                event.minute ??
+                event.time?.elapsed ??
+                "";
+
+
+            timeline.innerHTML += `
+
+                <div class="event">
+
+                    <div class="event-time">
+
+                        ${escapeHTML(
+                            String(minute)
+                        )}
+                        ${minute ? "'" : ""}
+
+                    </div>
+
+                    <div class="event-icon">
+
+                        ${icon}
+
+                    </div>
+
+                    <div class="event-text">
+
+                        ${escapeHTML(text)}
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+}
+
+
+/* ==================================================
+   SHORT PLAYER NAME
+================================================== */
+
+function shortName(name) {
+
+    const parts =
+        name.trim().split(/\s+/);
+
+
+    if (parts.length <= 2) {
+        return name;
+    }
+
+
+    return (
+        parts[0] +
+        " " +
+        parts[parts.length - 1]
+    );
+
+}
+
+
+/* ==================================================
+   SECURITY
+================================================== */
+
+function escapeHTML(value) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+    div.textContent =
+        value ?? "";
+
+    return div.innerHTML;
+
+}
+
+
+function escapeAttribute(value) {
+
+    return escapeHTML(
+        value
+    ).replace(
+        /"/g,
+        "&quot;"
+    );
+
+}
+
+
+/* ==================================================
+   REFRESH
+================================================== */
+
+setInterval(
+    function() {
+
+        if (matchId) {
+            loadMatch();
+        }
+
+    },
+    60000
+);
+
+</script>
+
 </body>
+
+</html>
+
