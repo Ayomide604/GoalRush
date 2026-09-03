@@ -1,918 +1,1326 @@
-<!DOCTYPE html><html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description"
-    content="GoalRush — live football scores, latest football news, Premier League standings, fixtures and football quizzes. Football Starts Here.">
 
-<meta name="keywords"
-    content="football, soccer, live scores, football news, Premier League, football quiz, GoalRush">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-<meta name="theme-color" content="#071f17">
+    <title>GoalRush | Live Football Scores, News & Tables</title>
 
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-T98ZQQXXD9"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-        dataLayer.push(arguments);
-    }
-    gtag("js", new Date());
-    gtag("config", "G-T98ZQQXXD9");
-</script>
+    <meta name="description"
+          content="GoalRush brings you live football scores, fixtures, results, football news, league tables and match updates in one place.">
 
-<!-- Google AdSense -->
-<script async
-    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3339442482027489"
-    crossorigin="anonymous"></script>
+    <meta name="keywords"
+          content="football scores, live football scores, football news, football fixtures, Premier League table, GoalRush">
 
-<title>GoalRush | Football Starts Here</title>
+    <meta name="theme-color" content="#16a34a">
 
-<style>
+    <meta property="og:title"
+          content="GoalRush | Live Football Scores, News & Tables">
 
-    :root {
-        --green-dark: #071f17;
-        --green: #0b3d2e;
-        --green-light: #126b4f;
-        --green-bright: #20c878;
-        --white: #ffffff;
-        --bg: #f4f7f5;
-        --text: #17201c;
-        --muted: #68736e;
-        --red: #e53935;
-        --border: #e3e9e5;
-        --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    }
+    <meta property="og:description"
+          content="Live football scores, fixtures, news, tables and match updates.">
 
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
+    <meta property="og:type" content="website">
 
-    html {
-        scroll-behavior: smooth;
-    }
+    <link rel="canonical"
+          href="https://ayomide604.github.io/GoalRush/">
 
-    body {
-        font-family: Arial, Helvetica, sans-serif;
-        background: var(--bg);
-        color: var(--text);
-        line-height: 1.5;
-    }
+    <!-- Google Analytics -->
+    <script async
+        src="https://www.googletagmanager.com/gtag/js?id=G-T98ZQQXXD9">
+    </script>
 
-    a {
-        text-decoration: none;
-    }
+    <script>
+        window.dataLayer = window.dataLayer || [];
 
-    button,
-    a {
-        -webkit-tap-highlight-color: transparent;
-    }
-
-    /* =========================
-       NAVIGATION
-    ========================= */
-
-    nav {
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-        background: rgba(7, 31, 23, 0.97);
-        backdrop-filter: blur(12px);
-        border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .nav-inner {
-        max-width: 1200px;
-        margin: auto;
-        padding: 13px 20px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 20px;
-    }
-
-    .logo {
-        color: white;
-        font-size: 25px;
-        font-weight: 900;
-        letter-spacing: -0.5px;
-        white-space: nowrap;
-    }
-
-    .logo span {
-        color: var(--green-bright);
-    }
-
-    .nav-links {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-
-    .nav-links a {
-        color: #dce9e3;
-        padding: 9px 12px;
-        border-radius: 8px;
-        font-size: 14px;
-        font-weight: 700;
-        transition: 0.2s;
-    }
-
-    .nav-links a:hover,
-    .nav-links a.active {
-        background: rgba(32, 200, 120, 0.12);
-        color: var(--green-bright);
-    }
-
-    /* =========================
-       HERO
-    ========================= */
-
-    .hero {
-        position: relative;
-        overflow: hidden;
-        background:
-            radial-gradient(circle at 85% 20%, rgba(32,200,120,0.16), transparent 30%),
-            radial-gradient(circle at 10% 80%, rgba(32,200,120,0.10), transparent 28%),
-            linear-gradient(135deg, #071f17, #0b3d2e 60%, #09291f);
-        color: white;
-        padding: 82px 20px 75px;
-    }
-
-    .hero::before {
-        content: "⚽";
-        position: absolute;
-        right: 5%;
-        top: 20px;
-        font-size: 180px;
-        opacity: 0.035;
-        transform: rotate(-15deg);
-    }
-
-    .hero-content {
-        position: relative;
-        z-index: 1;
-        max-width: 900px;
-        margin: auto;
-        text-align: center;
-    }
-
-    .hero-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        background: rgba(255,255,255,0.09);
-        border: 1px solid rgba(255,255,255,0.14);
-        color: #dff9eb;
-        padding: 8px 14px;
-        border-radius: 30px;
-        font-size: 13px;
-        font-weight: 700;
-        margin-bottom: 20px;
-    }
-
-    .pulse {
-        width: 8px;
-        height: 8px;
-        background: #28e27f;
-        border-radius: 50%;
-        box-shadow: 0 0 0 5px rgba(40,226,127,0.12);
-    }
-
-    .hero h1 {
-        font-size: clamp(42px, 7vw, 72px);
-        line-height: 1;
-        margin-bottom: 20px;
-        letter-spacing: -2px;
-    }
-
-    .hero h1 span {
-        color: var(--green-bright);
-    }
-
-    .hero p {
-        max-width: 680px;
-        margin: auto;
-        color: #d2e3dc;
-        font-size: clamp(16px, 2vw, 20px);
-        line-height: 1.7;
-    }
-
-    .hero-buttons {
-        display: flex;
-        justify-content: center;
-        gap: 12px;
-        flex-wrap: wrap;
-        margin-top: 30px;
-    }
-
-    .hero-button {
-        padding: 14px 22px;
-        border-radius: 10px;
-        font-weight: 800;
-        font-size: 15px;
-        transition: 0.2s;
-    }
-
-    .primary-button {
-        background: white;
-        color: var(--green);
-    }
-
-    .secondary-button {
-        border: 1px solid rgba(255,255,255,0.35);
-        color: white;
-        background: rgba(255,255,255,0.06);
-    }
-
-    .hero-button:hover {
-        transform: translateY(-3px);
-    }
-
-    .hero-stats {
-        max-width: 720px;
-        margin: 42px auto 0;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        background: rgba(255,255,255,0.06);
-        border: 1px solid rgba(255,255,255,0.09);
-        border-radius: 14px;
-        overflow: hidden;
-    }
-
-    .hero-stat {
-        padding: 18px 10px;
-        border-right: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .hero-stat:last-child {
-        border-right: none;
-    }
-
-    .hero-stat strong {
-        display: block;
-        font-size: 20px;
-    }
-
-    .hero-stat span {
-        color: #aac4b8;
-        font-size: 12px;
-    }
-
-    /* =========================
-       QUICK ACCESS
-    ========================= */
-
-    .quick-section {
-        max-width: 1150px;
-        margin: -30px auto 0;
-        padding: 0 20px;
-        position: relative;
-        z-index: 10;
-    }
-
-    .quick-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 14px;
-    }
-
-    .quick-card {
-        background: white;
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 20px;
-        box-shadow: var(--shadow);
-        transition: 0.2s;
-    }
-
-    .quick-card:hover {
-        transform: translateY(-5px);
-        border-color: #cbdcd4;
-    }
-
-    .quick-icon {
-        font-size: 27px;
-        margin-bottom: 8px;
-    }
-
-    .quick-card h3 {
-        color: var(--green);
-        font-size: 16px;
-        margin-bottom: 4px;
-    }
-
-    .quick-card p {
-        color: var(--muted);
-        font-size: 12px;
-    }
-
-    /* =========================
-       GENERAL
-    ========================= */
-
-    .container {
-        max-width: 1150px;
-        margin: auto;
-        padding: 55px 20px 0;
-    }
-
-    .section-heading {
-        display: flex;
-        justify-content: space-between;
-        align-items: end;
-        gap: 15px;
-        margin-bottom: 20px;
-    }
-
-    .section-heading h2 {
-        color: var(--green);
-        font-size: 27px;
-        line-height: 1.2;
-    }
-
-    .section-heading p {
-        color: var(--muted);
-        font-size: 13px;
-        margin-top: 4px;
-    }
-
-    .view-all {
-        color: var(--green);
-        font-weight: 800;
-        font-size: 13px;
-        white-space: nowrap;
-    }
-
-    .view-all:hover {
-        color: var(--green-light);
-    }
-
-    .message {
-        background: white;
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 28px;
-        text-align: center;
-        color: var(--muted);
-        grid-column: 1 / -1;
-    }
-
-    .error {
-        color: var(--red);
-    }
-
-    /* =========================
-       LIVE MATCHES
-    ========================= */
-
-    .live-section {
-        padding-top: 48px;
-    }
-
-    .live-label {
-        color: var(--red);
-        font-weight: 900;
-        font-size: 12px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-
-    .match-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 15px;
-    }
-
-    .match-card {
-        background: white;
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 19px 15px;
-        text-align: center;
-        box-shadow: 0 5px 18px rgba(0,0,0,0.05);
-        transition: 0.2s;
-    }
-
-    .match-card:hover {
-        transform: translateY(-4px);
-        box-shadow: var(--shadow);
-    }
-
-    .match-status {
-        font-size: 11px;
-        color: var(--red);
-        font-weight: 900;
-        margin-bottom: 15px;
-    }
-
-    .teams {
-        display: grid;
-        grid-template-columns: 1fr 55px 1fr;
-        align-items: center;
-        gap: 6px;
-    }
-
-    .team {
-        min-width: 0;
-        font-size: 12px;
-        font-weight: 800;
-    }
-
-    .team-logo {
-        width: 42px;
-        height: 42px;
-        object-fit: contain;
-        margin-bottom: 7px;
-    }
-
-    .team-name {
-        display: block;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .score {
-        font-size: 22px;
-        font-weight: 900;
-        color: var(--green);
-    }
-
-    .live-badge {
-        display: inline-block;
-        margin-top: 9px;
-        padding: 4px 8px;
-        border-radius: 20px;
-        background: #fff0f0;
-        color: var(--red);
-        font-size: 10px;
-        font-weight: 900;
-    }
-
-    /* =========================
-       NEWS
-    ========================= */
-
-    .news-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 18px;
-    }
-
-    .news-card {
-        background: white;
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        overflow: hidden;
-        box-shadow: 0 5px 18px rgba(0,0,0,0.05);
-        transition: 0.2s;
-    }
-
-    .news-card:hover {
-        transform: translateY(-4px);
-        box-shadow: var(--shadow);
-    }
-
-    .news-image {
-        width: 100%;
-        height: 185px;
-        object-fit: cover;
-        display: block;
-        background: #e9eeeb;
-    }
-
-    .news-content {
-        padding: 18px;
-    }
-
-    .news-tag {
-        color: var(--green-light);
-        font-size: 10px;
-        font-weight: 900;
-        text-transform: uppercase;
-        letter-spacing: .7px;
-    }
-
-    .news-content h3 {
-        margin: 7px 0 9px;
-        font-size: 17px;
-        line-height: 1.35;
-    }
-
-    .news-content p {
-        color: var(--muted);
-        font-size: 13px;
-        line-height: 1.55;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-
-    .read-button {
-        display: inline-block;
-        margin-top: 15px;
-        background: var(--green);
-        color: white;
-        padding: 9px 13px;
-        border-radius: 8px;
-        font-size: 12px;
-        font-weight: 800;
-    }
-
-    .read-button:hover {
-        background: var(--green-light);
-    }
-
-    /* =========================
-       TABLE
-    ========================= */
-
-    .standings-wrapper {
-        background: white;
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        overflow-x: auto;
-        box-shadow: 0 5px 18px rgba(0,0,0,0.05);
-    }
-
-    .standings-table {
-        width: 100%;
-        border-collapse: collapse;
-        min-width: 620px;
-    }
-
-    .standings-table th {
-        background: var(--green);
-        color: white;
-        padding: 13px 9px;
-        font-size: 12px;
-    }
-
-    .standings-table td {
-        padding: 11px 9px;
-        text-align: center;
-        border-bottom: 1px solid #edf1ef;
-        font-size: 13px;
-    }
-
-    .standings-table tr:last-child td {
-        border-bottom: none;
-    }
-
-    .standings-table tbody tr:hover {
-        background: #f7faf8;
-    }
-
-    .standing-team {
-        text-align: left !important;
-        font-weight: 800;
-    }
-
-    .standing-logo {
-        width: 25px;
-        height: 25px;
-        object-fit: contain;
-        vertical-align: middle;
-        margin-right: 6px;
-    }
-
-    .points {
-        color: var(--green);
-        font-weight: 900;
-    }
-
-    /* =========================
-       EXPLORE
-    ========================= */
-
-    .explore-section {
-        max-width: 1150px;
-        margin: 55px auto;
-        padding: 0 20px;
-    }
-
-    .explore-box {
-        background: linear-gradient(135deg, var(--green-dark), var(--green));
-        border-radius: 18px;
-        padding: 38px;
-        color: white;
-        overflow: hidden;
-        position: relative;
-    }
-
-    .explore-box::after {
-        content: "⚽";
-        position: absolute;
-        right: 30px;
-        bottom: -35px;
-        font-size: 150px;
-        opacity: .05;
-    }
-
-    .explore-box h2 {
-        font-size: 27px;
-        margin-bottom: 8px;
-    }
-
-    .explore-box > p {
-        color: #c8ddd5;
-        max-width: 650px;
-        margin-bottom: 25px;
-    }
-
-    .explore-grid {
-        position: relative;
-        z-index: 2;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 13px;
-    }
-
-    .explore-card {
-        background: rgba(255,255,255,0.08);
-        border: 1px solid rgba(255,255,255,0.1);
-        padding: 19px;
-        border-radius: 12px;
-        color: white;
-        transition: .2s;
-    }
-
-    .explore-card:hover {
-        background: rgba(255,255,255,0.14);
-        transform: translateY(-3px);
-    }
-
-    .explore-card .icon {
-        font-size: 27px;
-        margin-bottom: 8px;
-    }
-
-    .explore-card h3 {
-        font-size: 15px;
-        margin-bottom: 4px;
-    }
-
-    .explore-card p {
-        color: #bdd2c9;
-        font-size: 12px;
-    }
-
-    /* =========================
-       FOOTER
-    ========================= */
-
-    footer {
-        background: var(--green-dark);
-        color: white;
-        margin-top: 60px;
-        padding: 38px 20px;
-        text-align: center;
-    }
-
-    .footer-logo {
-        font-size: 24px;
-        font-weight: 900;
-        margin-bottom: 6px;
-    }
-
-    .footer-logo span {
-        color: var(--green-bright);
-    }
-
-    footer p {
-        color: #9db5aa;
-        font-size: 13px;
-        margin: 5px;
-    }
-
-    .footer-links {
-        margin: 20px 0;
-        display: flex;
-        justify-content: center;
-        gap: 18px;
-        flex-wrap: wrap;
-    }
-
-    .footer-links a {
-        color: #d0ded8;
-        font-size: 12px;
-    }
-
-    /* =========================
-       LOADING
-    ========================= */
-
-    .loading {
-        position: relative;
-        overflow: hidden;
-    }
-
-    .loading::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        transform: translateX(-100%);
-        background: linear-gradient(
-            90deg,
-            transparent,
-            rgba(255,255,255,.7),
-            transparent
-        );
-        animation: shimmer 1.4s infinite;
-    }
-
-    @keyframes shimmer {
-        100% {
-            transform: translateX(100%);
-        }
-    }
-
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media (max-width: 900px) {
-
-        .match-grid {
-            grid-template-columns: repeat(2, 1fr);
+        function gtag() {
+            dataLayer.push(arguments);
         }
 
-        .quick-grid {
-            grid-template-columns: repeat(2, 1fr);
+        gtag("js", new Date());
+
+        gtag("config", "G-T98ZQQXXD9");
+    </script>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
         }
 
-        .news-grid {
-            grid-template-columns: repeat(2, 1fr);
+        html {
+            scroll-behavior: smooth;
         }
-    }
 
-    @media (max-width: 650px) {
+        body {
+            margin: 0;
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
 
-        .nav-inner {
-            flex-direction: column;
-            gap: 8px;
-            padding: 10px 12px;
+            background: #f5f7fb;
+            color: #111827;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font: inherit;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            background: rgba(255, 255, 255, 0.96);
+
+            backdrop-filter: blur(12px);
+
+            border-bottom:
+                1px solid #e5e7eb;
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: auto;
+
+            min-height: 68px;
+
+            padding:
+                12px 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 900;
+            letter-spacing: -0.8px;
+            white-space: nowrap;
+        }
+
+        .logo span {
+            color: #16a34a;
         }
 
         .nav-links {
-            width: 100%;
-            justify-content: center;
-            gap: 2px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
         }
 
         .nav-links a {
-            padding: 8px 8px;
-            font-size: 12px;
+            padding:
+                9px 12px;
+
+            border-radius: 9px;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            color: #4b5563;
+
+            transition:
+                background 0.2s,
+                color 0.2s,
+                transform 0.2s;
         }
 
+        .nav-links a:hover {
+            background: #f0fdf4;
+            color: #16a34a;
+        }
+
+        .nav-links a.active {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
         .hero {
-            padding: 65px 18px 65px;
+            position: relative;
+            overflow: hidden;
+
+            color: white;
+
+            padding:
+                105px 20px 95px;
+
+            text-align: center;
+
+            background:
+                radial-gradient(
+                    circle at 20% 20%,
+                    rgba(74, 222, 128, 0.18),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at 80% 80%,
+                    rgba(22, 163, 74, 0.20),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    135deg,
+                    #022c22,
+                    #064e3b 45%,
+                    #111827
+                );
+        }
+
+        .hero::before {
+            content: "";
+
+            position: absolute;
+
+            width: 350px;
+            height: 350px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(74, 222, 128, 0.07);
+
+            top: -170px;
+            right: -100px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            padding:
+                7px 13px;
+
+            margin-bottom: 22px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.18);
+
+            border-radius: 999px;
+
+            background:
+                rgba(255, 255, 255, 0.08);
+
+            color: #bbf7d0;
+
+            font-size: 12px;
+            font-weight: 800;
+
+            letter-spacing: 0.7px;
+        }
+
+        .hero-dot {
+            width: 8px;
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: #4ade80;
+
+            box-shadow:
+                0 0 0 5px
+                rgba(74, 222, 128, 0.12);
         }
 
         .hero h1 {
-            letter-spacing: -1.5px;
+            margin: 0 0 18px;
+
+            font-size:
+                clamp(42px, 8vw, 78px);
+
+            line-height: 0.98;
+
+            font-weight: 950;
+
+            letter-spacing: -3px;
         }
 
-        .hero-stats {
+        .hero h1 span {
+            color: #4ade80;
+        }
+
+        .hero p {
+            max-width: 730px;
+
+            margin:
+                0 auto;
+
+            color: #d1fae5;
+
+            font-size: 18px;
+
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
             margin-top: 32px;
+
+            display: flex;
+            justify-content: center;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
         }
 
-        .hero-stat {
-            padding: 14px 5px;
+        .hero-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+
+            min-height: 48px;
+
+            padding:
+                13px 21px;
+
+            border-radius: 11px;
+
+            font-weight: 800;
+
+            background: #16a34a;
+            color: white;
+
+            box-shadow:
+                0 8px 25px
+                rgba(22, 163, 74, 0.25);
+
+            transition:
+                transform 0.2s,
+                background 0.2s,
+                box-shadow 0.2s;
         }
 
-        .hero-stat strong {
-            font-size: 16px;
+        .hero-button:hover {
+            background: #15803d;
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 12px 30px
+                rgba(22, 163, 74, 0.35);
         }
 
-        .quick-section {
-            margin-top: -20px;
+        .hero-button.secondary {
+            background: white;
+            color: #111827;
+
+            box-shadow:
+                0 8px 25px
+                rgba(0, 0, 0, 0.15);
         }
 
-        .quick-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+        .hero-button.secondary:hover {
+            background: #f9fafb;
         }
 
-        .quick-card {
-            padding: 15px;
+        /* =========================
+           QUICK STATS
+        ========================= */
+
+        .quick-stats {
+            max-width: 850px;
+
+            margin:
+                -34px auto 0;
+
+            padding:
+                0 20px;
+
+            position: relative;
+
+            z-index: 10;
         }
+
+        .stats-box {
+            background: white;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 18px;
+
+            padding:
+                18px;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            box-shadow:
+                0 15px 45px
+                rgba(0, 0, 0, 0.10);
+        }
+
+        .stat {
+            text-align: center;
+
+            padding:
+                7px 15px;
+
+            border-right:
+                1px solid #e5e7eb;
+        }
+
+        .stat:last-child {
+            border-right: none;
+        }
+
+        .stat strong {
+            display: block;
+
+            font-size: 20px;
+
+            color: #111827;
+        }
+
+        .stat span {
+            display: block;
+
+            margin-top: 4px;
+
+            font-size: 12px;
+
+            color: #6b7280;
+        }
+
+        /* =========================
+           GENERAL
+        ========================= */
 
         .container {
-            padding-top: 42px;
+            max-width: 1200px;
+
+            margin: auto;
+
+            padding:
+                58px 20px;
+        }
+
+        .live-section {
+            padding-top: 50px;
         }
 
         .section-heading {
-            align-items: flex-start;
+            display: flex;
+
+            align-items: flex-end;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-bottom: 25px;
         }
 
         .section-heading h2 {
-            font-size: 23px;
+            margin:
+                5px 0 7px;
+
+            font-size: 30px;
+
+            letter-spacing:
+                -0.7px;
         }
 
-        .match-grid,
-        .news-grid {
-            grid-template-columns: 1fr;
+        .section-heading p {
+            margin: 0;
+
+            color: #6b7280;
+
+            font-size: 15px;
         }
 
-        .match-card {
-            padding: 20px;
+        .live-label {
+            color: #dc2626;
+
+            font-size: 12px;
+
+            font-weight: 900;
+
+            letter-spacing: 1px;
         }
 
-        .news-image {
-            height: 210px;
+        .live-pulse {
+            display: inline-block;
+
+            width: 7px;
+            height: 7px;
+
+            margin-right: 5px;
+
+            border-radius: 50%;
+
+            background: #dc2626;
+
+            animation:
+                pulse 1.5s infinite;
         }
 
-        .explore-box {
-            padding: 27px 20px;
-        }
+        @keyframes pulse {
 
-        .explore-grid {
-            grid-template-columns: 1fr;
+            0% {
+                box-shadow:
+                    0 0 0 0
+                    rgba(220, 38, 38, 0.4);
+            }
+
+            70% {
+                box-shadow:
+                    0 0 0 7px
+                    rgba(220, 38, 38, 0);
+            }
+
+            100% {
+                box-shadow:
+                    0 0 0 0
+                    rgba(220, 38, 38, 0);
+            }
+
         }
 
         .view-all {
-            font-size: 12px;
+            color: #16a34a;
+
+            font-weight: 800;
+
+            font-size: 14px;
+
+            white-space: nowrap;
         }
-    }
 
-</style>
+        .view-all:hover {
+            text-decoration: underline;
+        }
 
-</head><body><!-- =========================
-     NAVIGATION
+        /* =========================
+           MATCH GRID
+        ========================= */
+
+        .match-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+        }
+
+        .match-card {
+            display: block;
+
+            background: white;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 16px;
+
+            padding: 18px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0, 0, 0, 0.045);
+
+            transition:
+                transform 0.2s,
+                box-shadow 0.2s,
+                border-color 0.2s;
+        }
+
+        .match-card:hover {
+            transform:
+                translateY(-5px);
+
+            border-color:
+                #bbf7d0;
+
+            box-shadow:
+                0 14px 35px
+                rgba(0, 0, 0, 0.10);
+        }
+
+        .match-top {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 8px;
+
+            margin-bottom: 18px;
+        }
+
+        .competition {
+            min-width: 0;
+
+            overflow: hidden;
+
+            white-space: nowrap;
+
+            text-overflow: ellipsis;
+
+            color: #6b7280;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+        }
+
+        .live-badge {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 4px;
+
+            padding:
+                5px 8px;
+
+            border-radius: 999px;
+
+            background: #fee2e2;
+
+            color: #dc2626;
+
+            font-size: 10px;
+
+            font-weight: 900;
+
+            white-space: nowrap;
+        }
+
+        .teams {
+            display: grid;
+
+            grid-template-columns:
+                1fr 65px 1fr;
+
+            align-items: center;
+
+            gap: 8px;
+        }
+
+        .team {
+            min-width: 0;
+
+            text-align: center;
+        }
+
+        .team img {
+            width: 46px;
+            height: 46px;
+
+            object-fit: contain;
+
+            margin-bottom: 8px;
+        }
+
+        .team-name {
+            display: -webkit-box;
+
+            -webkit-line-clamp: 2;
+
+            -webkit-box-orient: vertical;
+
+            overflow: hidden;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            line-height: 1.3;
+        }
+
+        .score-box {
+            text-align: center;
+        }
+
+        .score {
+            font-size: 25px;
+
+            font-weight: 950;
+
+            letter-spacing:
+                -0.5px;
+        }
+
+        .score-separator {
+            color: #9ca3af;
+
+            margin:
+                0 2px;
+        }
+
+        .match-status {
+            margin-top: 17px;
+
+            padding-top: 12px;
+
+            border-top:
+                1px solid #f0f0f0;
+
+            text-align: center;
+
+            color: #dc2626;
+
+            font-size: 10px;
+
+            font-weight: 900;
+
+            letter-spacing:
+                0.3px;
+        }
+
+        /* =========================
+           MESSAGES
+        ========================= */
+
+        .message {
+            grid-column: 1 / -1;
+
+            background: white;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 15px;
+
+            padding: 34px 20px;
+
+            text-align: center;
+
+            color: #6b7280;
+
+            font-size: 14px;
+        }
+
+        .error-message {
+            color: #b91c1c;
+
+            background: #fef2f2;
+
+            border-color: #fecaca;
+        }
+
+        /* =========================
+           NEWS
+        ========================= */
+
+        .news-section {
+            background: white;
+
+            border-top:
+                1px solid #eef0f3;
+
+            border-bottom:
+                1px solid #eef0f3;
+        }
+
+        .news-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 20px;
+        }
+
+        .news-card {
+            overflow: hidden;
+
+            background: #f9fafb;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 16px;
+
+            transition:
+                transform 0.2s,
+                box-shadow 0.2s;
+        }
+
+        .news-card:hover {
+            transform:
+                translateY(-4px);
+
+            box-shadow:
+                0 12px 30px
+                rgba(0, 0, 0, 0.08);
+        }
+
+        .news-image {
+            width: 100%;
+
+            height: 195px;
+
+            display: block;
+
+            object-fit: cover;
+
+            background: #e5e7eb;
+        }
+
+        .news-content {
+            padding: 18px;
+        }
+
+        .news-content h3 {
+            margin:
+                0 0 10px;
+
+            font-size: 17px;
+
+            line-height: 1.4;
+        }
+
+        .news-content p {
+            margin: 0;
+
+            color: #6b7280;
+
+            font-size: 14px;
+
+            line-height: 1.55;
+        }
+
+        .news-link {
+            display: inline-block;
+
+            margin-top: 15px;
+
+            color: #16a34a;
+
+            font-size: 14px;
+
+            font-weight: 800;
+        }
+
+        .news-link:hover {
+            text-decoration: underline;
+        }
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-wrapper {
+            overflow-x: auto;
+
+            background: white;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 16px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0, 0, 0, 0.035);
+        }
+
+        table {
+            width: 100%;
+
+            min-width: 650px;
+
+            border-collapse:
+                collapse;
+        }
+
+        th,
+        td {
+            padding:
+                14px 15px;
+
+            border-bottom:
+                1px solid #f0f0f0;
+
+            text-align: center;
+        }
+
+        th {
+            background: #f9fafb;
+
+            color: #6b7280;
+
+            font-size: 11px;
+
+            font-weight: 900;
+
+            text-transform: uppercase;
+
+            letter-spacing:
+                0.5px;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        tbody tr {
+            transition:
+                background 0.15s;
+        }
+
+        tbody tr:hover {
+            background: #f9fafb;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        td:first-child,
+        th:first-child {
+            text-align: left;
+        }
+
+        .team-position {
+            display: inline-block;
+
+            min-width: 25px;
+
+            color: #6b7280;
+
+            font-weight: 900;
+        }
+
+        /* =========================
+           EXPLORE
+        ========================= */
+
+        .explore-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+        }
+
+        .explore-card {
+            background: white;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 16px;
+
+            padding: 27px 20px;
+
+            text-align: center;
+
+            transition:
+                transform 0.2s,
+                border-color 0.2s,
+                box-shadow 0.2s;
+        }
+
+        .explore-card:hover {
+            transform:
+                translateY(-4px);
+
+            border-color:
+                #86efac;
+
+            box-shadow:
+                0 10px 25px
+                rgba(0, 0, 0, 0.06);
+        }
+
+        .explore-icon {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            width: 58px;
+            height: 58px;
+
+            margin:
+                0 auto 14px;
+
+            border-radius: 15px;
+
+            background: #f0fdf4;
+
+            font-size: 29px;
+        }
+
+        .explore-card h3 {
+            margin:
+                0 0 8px;
+
+            font-size: 17px;
+        }
+
+        .explore-card p {
+            margin: 0;
+
+            color: #6b7280;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            margin-top: 25px;
+
+            background: #111827;
+
+            color: #d1d5db;
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+
+            margin: auto;
+
+            padding:
+                38px 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            flex-wrap: wrap;
+        }
+
+        .footer-logo {
+            color: white;
+
+            font-size: 22px;
+
+            font-weight: 900;
+        }
+
+        .footer-logo span {
+            color: #4ade80;
+        }
+
+        .footer-text {
+            font-size: 13px;
+
+            color: #9ca3af;
+        }
+
+        /* =========================
+           TABLET
+        ========================= */
+
+        @media (max-width: 1000px) {
+
+            .match-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .explore-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .news-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 650px) {
+
+            .navbar {
+                min-height: auto;
+
+                padding:
+                    11px 13px;
+
+                flex-direction: column;
+
+                gap: 8px;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            .nav-links {
+                width: 100%;
+
+                justify-content: center;
+
+                gap: 3px;
+            }
+
+            .nav-links a {
+                padding:
+                    8px 9px;
+
+                font-size: 12px;
+            }
+
+            .hero {
+                padding:
+                    72px 18px 75px;
+            }
+
+            .hero h1 {
+                font-size:
+                    clamp(42px, 13vw, 60px);
+
+                letter-spacing:
+                    -2px;
+            }
+
+            .hero p {
+                font-size: 15px;
+
+                line-height: 1.65;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+
+                align-items: stretch;
+
+                max-width: 330px;
+
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-button {
+                width: 100%;
+            }
+
+            .quick-stats {
+                margin-top: -25px;
+
+                padding:
+                    0 12px;
+            }
+
+            .stats-box {
+                padding: 12px 5px;
+
+                border-radius: 15px;
+            }
+
+            .stat {
+                padding:
+                    5px 7px;
+            }
+
+            .stat strong {
+                font-size: 16px;
+            }
+
+            .stat span {
+                font-size: 10px;
+            }
+
+            .container {
+                padding:
+                    43px 14px;
+            }
+
+            .section-heading {
+                align-items:
+                    flex-start;
+
+                flex-direction:
+                    column;
+
+                margin-bottom:
+                    20px;
+            }
+
+            .section-heading h2 {
+                font-size: 25px;
+            }
+
+            .match-grid,
+            .news-grid,
+            .explore-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .match-card {
+                padding: 17px;
+            }
+
+            .news-image {
+                height: 205px;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+        }
+
+        /* =========================
+           ACCESSIBILITY
+        ========================= */
+
+        :focus-visible {
+            outline:
+                3px solid #4ade80;
+
+            outline-offset:
+                3px;
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
 ========================= -->
 
-<nav>
-    <div class="nav-inner">
+<header>
 
-        <a href="index.html" class="logo">
+    <nav
+        class="navbar"
+        aria-label="Main navigation"
+    >
+
+        <a
+            href="index.html"
+            class="logo"
+            aria-label="GoalRush home"
+        >
             ⚽ Goal<span>Rush</span>
         </a>
 
         <div class="nav-links">
-            <a href="index.html" class="active">🏠 Home</a>
-            <a href="news.html">📰 News</a>
-            <a href="scores.html">⚽ Scores</a>
-            <a href="quiz.html">🧠 Quiz</a>
+
+            <a
+                href="index.html"
+                class="active"
+                aria-current="page"
+            >
+                Home
+            </a>
+
+            <a href="news.html">
+                News
+            </a>
+
+            <a href="scores.html">
+                Scores
+            </a>
+
+            <a href="quiz.html">
+                Quiz
+            </a>
+
         </div>
 
-    </div>
-</nav>
+    </nav>
+
+</header>
 
 
 <!-- =========================
      HERO
 ========================= -->
 
+<main>
+
 <section class="hero">
 
     <div class="hero-content">
 
         <div class="hero-badge">
-            <span class="pulse"></span>
-            FOOTBALL STARTS HERE
+
+            <span class="hero-dot"></span>
+
+            YOUR FOOTBALL HUB
+
         </div>
 
         <h1>
-            Everything Football.<br>
-            <span>One Place.</span>
+            FOOTBALL
+            <span>STARTS HERE</span>
         </h1>
 
         <p>
-            Follow live scores, discover the latest football news,
-            check league tables and test your football knowledge —
-            all on GoalRush.
+            Live scores, fixtures, football news,
+            league tables and match updates —
+            everything football in one place.
         </p>
 
         <div class="hero-buttons">
 
-            <a href="scores.html" class="hero-button primary-button">
-                ⚽ Check Live Scores →
+            <a
+                href="scores.html"
+                class="hero-button"
+            >
+                ⚽ Live Scores
             </a>
 
-            <a href="news.html" class="hero-button secondary-button">
-                📰 Latest Football News
+            <a
+                href="news.html"
+                class="hero-button secondary"
+            >
+                📰 Latest News
             </a>
-
-        </div>
-
-        <div class="hero-stats">
-
-            <div class="hero-stat">
-                <strong>🔴 LIVE</strong>
-                <span>Match Updates</span>
-            </div>
-
-            <div class="hero-stat">
-                <strong>📰 NEWS</strong>
-                <span>Football Stories</span>
-            </div>
-
-            <div class="hero-stat">
-                <strong>🏆 TABLES</strong>
-                <span>League Standings</span>
-            </div>
 
         </div>
 
@@ -922,36 +1330,45 @@
 
 
 <!-- =========================
-     QUICK ACCESS
+     QUICK STATS
 ========================= -->
 
-<section class="quick-section">
+<section
+    class="quick-stats"
+    aria-label="GoalRush features"
+>
 
-    <div class="quick-grid">
+    <div class="stats-box">
 
-        <a href="scores.html" class="quick-card">
-            <div class="quick-icon">🔴</div>
-            <h3>Live Scores</h3>
-            <p>Follow matches as they happen.</p>
-        </a>
+        <div class="stat">
 
-        <a href="news.html" class="quick-card">
-            <div class="quick-icon">📰</div>
-            <h3>Football News</h3>
-            <p>Catch the latest stories.</p>
-        </a>
+            <strong>LIVE</strong>
 
-        <a href="scores.html" class="quick-card">
-            <div class="quick-icon">🏆</div>
-            <h3>League Tables</h3>
-            <p>See who's leading the league.</p>
-        </a>
+            <span>
+                Match Scores
+            </span>
 
-        <a href="quiz.html" class="quick-card">
-            <div class="quick-icon">🧠</div>
-            <h3>Football Quiz</h3>
-            <p>Challenge your football knowledge.</p>
-        </a>
+        </div>
+
+        <div class="stat">
+
+            <strong>24/7</strong>
+
+            <span>
+                Football Updates
+            </span>
+
+        </div>
+
+        <div class="stat">
+
+            <strong>FREE</strong>
+
+            <span>
+                Football Hub
+            </span>
+
+        </div>
 
     </div>
 
@@ -962,25 +1379,50 @@
      LIVE MATCHES
 ========================= -->
 
-<section class="container live-section">
+<section
+    class="container live-section"
+    aria-labelledby="live-title"
+>
 
     <div class="section-heading">
 
         <div>
-            <div class="live-label">● LIVE NOW</div>
-            <h2>Live Matches</h2>
-            <p>See what's happening right now.</p>
+
+            <div class="live-label">
+
+                <span class="live-pulse"></span>
+
+                LIVE NOW
+
+            </div>
+
+            <h2 id="live-title">
+                Live Matches
+            </h2>
+
+            <p>
+                See what's happening right now.
+            </p>
+
         </div>
 
-        <a href="scores.html" class="view-all">
+        <a
+            href="scores.html"
+            class="view-all"
+        >
             View All Scores →
         </a>
 
     </div>
 
-    <div id="liveContainer" class="match-grid">
 
-        <div class="message loading">
+    <div
+        id="liveContainer"
+        class="match-grid"
+        aria-live="polite"
+    >
+
+        <div class="message">
             ⚽ Checking for live matches...
         </div>
 
@@ -993,25 +1435,48 @@
      NEWS
 ========================= -->
 
-<section class="container">
+<section
+    class="news-section"
+    aria-labelledby="news-title"
+>
 
-    <div class="section-heading">
+    <div class="container">
 
-        <div>
-            <h2>📰 Latest Football News</h2>
-            <p>Stay updated with the biggest football stories.</p>
+        <div class="section-heading">
+
+            <div>
+
+                <h2 id="news-title">
+                    Latest Football News
+                </h2>
+
+                <p>
+                    Stay updated with what's happening
+                    in the football world.
+                </p>
+
+            </div>
+
+            <a
+                href="news.html"
+                class="view-all"
+            >
+                View All News →
+            </a>
+
         </div>
 
-        <a href="news.html" class="view-all">
-            More News →
-        </a>
 
-    </div>
+        <div
+            id="newsContainer"
+            class="news-grid"
+            aria-live="polite"
+        >
 
-    <div id="newsContainer" class="news-grid">
+            <div class="message">
+                📰 Loading latest football news...
+            </div>
 
-        <div class="message loading">
-            📰 Loading latest football news...
         </div>
 
     </div>
@@ -1020,29 +1485,92 @@
 
 
 <!-- =========================
-     PREMIER LEAGUE
+     PREMIER LEAGUE TABLE
 ========================= -->
 
-<section class="container">
+<section
+    class="container"
+    aria-labelledby="table-title"
+>
 
     <div class="section-heading">
 
         <div>
-            <h2>🏆 Premier League Table</h2>
-            <p>Current league standings.</p>
+
+            <h2 id="table-title">
+                Premier League Table
+            </h2>
+
+            <p>
+                Latest league standings.
+            </p>
+
         </div>
 
-        <a href="scores.html" class="view-all">
+        <a
+            href="scores.html"
+            class="view-all"
+        >
             Full Table →
         </a>
 
     </div>
 
-    <div id="standingsContainer">
 
-        <div class="message loading">
-            🏆 Loading Premier League standings...
-        </div>
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Team
+                    </th>
+
+                    <th>
+                        MP
+                    </th>
+
+                    <th>
+                        W
+                    </th>
+
+                    <th>
+                        D
+                    </th>
+
+                    <th>
+                        L
+                    </th>
+
+                    <th>
+                        GD
+                    </th>
+
+                    <th>
+                        Pts
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="standingsBody">
+
+                <tr>
+
+                    <td colspan="7">
+                        Loading standings...
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
 
     </div>
 
@@ -1050,45 +1578,124 @@
 
 
 <!-- =========================
-     EXPLORE GOALRUSH
+     EXPLORE
 ========================= -->
 
-<section class="explore-section">
+<section
+    class="container"
+    aria-labelledby="explore-title"
+>
 
-    <div class="explore-box">
+    <div class="section-heading">
 
-        <h2>🚀 Explore GoalRush</h2>
+        <div>
 
-        <p>
-            Don't just check the score. Stay connected with the
-            game through news, quizzes, results and more.
-        </p>
+            <h2 id="explore-title">
+                Explore GoalRush
+            </h2>
 
-        <div class="explore-grid">
-
-            <a href="news.html" class="explore-card">
-                <div class="icon">📰</div>
-                <h3>Football News</h3>
-                <p>Discover the latest football stories.</p>
-            </a>
-
-            <a href="scores.html" class="explore-card">
-                <div class="icon">⚽</div>
-                <h3>Scores & Results</h3>
-                <p>Follow fixtures, results and live games.</p>
-            </a>
-
-            <a href="quiz.html" class="explore-card">
-                <div class="icon">🧠</div>
-                <h3>GoalRush Quiz</h3>
-                <p>Put your football knowledge to the test.</p>
-            </a>
+            <p>
+                Everything you need to stay connected
+                to football.
+            </p>
 
         </div>
 
     </div>
 
+
+    <div class="explore-grid">
+
+
+        <a
+            href="scores.html"
+            class="explore-card"
+        >
+
+            <div class="explore-icon">
+                ⚽
+            </div>
+
+            <h3>
+                Live Scores
+            </h3>
+
+            <p>
+                Follow matches and results
+                as they happen.
+            </p>
+
+        </a>
+
+
+        <a
+            href="news.html"
+            class="explore-card"
+        >
+
+            <div class="explore-icon">
+                📰
+            </div>
+
+            <h3>
+                Football News
+            </h3>
+
+            <p>
+                Discover the latest football
+                stories and updates.
+            </p>
+
+        </a>
+
+
+        <a
+            href="quiz.html"
+            class="explore-card"
+        >
+
+            <div class="explore-icon">
+                🧠
+            </div>
+
+            <h3>
+                Football Quiz
+            </h3>
+
+            <p>
+                Test your football knowledge
+                and challenge yourself.
+            </p>
+
+        </a>
+
+
+        <a
+            href="scores.html"
+            class="explore-card"
+        >
+
+            <div class="explore-icon">
+                🏆
+            </div>
+
+            <h3>
+                League Tables
+            </h3>
+
+            <p>
+                Check the latest league
+                standings and positions.
+            </p>
+
+        </a>
+
+
+    </div>
+
 </section>
+
+</main>
 
 
 <!-- =========================
@@ -1097,20 +1704,18 @@
 
 <footer>
 
-    <div class="footer-logo">
-        ⚽ Goal<span>Rush</span>
+    <div class="footer-inner">
+
+        <div class="footer-logo">
+            ⚽ Goal<span>Rush</span>
+        </div>
+
+        <div class="footer-text">
+            © 2026 GoalRush.
+            Football starts here.
+        </div>
+
     </div>
-
-    <p>Football Starts Here.</p>
-
-    <div class="footer-links">
-        <a href="index.html">Home</a>
-        <a href="news.html">News</a>
-        <a href="scores.html">Scores</a>
-        <a href="quiz.html">Quiz</a>
-    </div>
-
-    <p>© 2026 GoalRush. All rights reserved.</p>
 
 </footer>
 
@@ -1121,526 +1726,829 @@
 
 <script>
 
-    const API_BASE = "https://goal-rush-mauve.vercel.app";
 
-    const fallbackImage =
-        "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=1000&q=80";
+/*
+ * =====================================================
+ * GOALRUSH API
+ * =====================================================
+ *
+ * IMPORTANT:
+ * This is the working deployed GoalRush API.
+ */
+
+const API_BASE =
+    "https://goal-rush-mauve.vercel.app";
 
 
-    // =========================
-    // SAFE HTML
-    // =========================
+/* =====================================================
+   GENERAL FETCH FUNCTION
+===================================================== */
 
-    function escapeHTML(text) {
+async function fetchJSON(url) {
 
-        const div = document.createElement("div");
+    const response =
+        await fetch(
+            url,
+            {
+                headers: {
+                    "Accept":
+                        "application/json"
+                },
 
-        div.textContent = text ?? "";
+                cache:
+                    "no-store"
+            }
+        );
 
-        return div.innerHTML;
+
+    let data = null;
+
+
+    try {
+
+        data =
+            await response.json();
+
+    } catch {
+
+        data = null;
+
     }
 
 
-    // =========================
-    // FETCH HELPER
-    // =========================
+    if (!response.ok) {
 
-    async function fetchJSON(url) {
+        throw new Error(
+            data?.error ||
+            data?.message ||
+            `HTTP ${response.status}`
+        );
 
-        const response = await fetch(url);
+    }
 
-        let data = {};
 
-        try {
-            data = await response.json();
-        } catch {
-            throw new Error("Server returned an invalid response.");
-        }
+    return data;
 
-        if (!response.ok) {
-            throw new Error(
-                data.error || `Server error: ${response.status}`
+}
+
+
+/* =====================================================
+   LIVE MATCHES
+===================================================== */
+
+async function loadLiveMatches() {
+
+    const container =
+        document.getElementById(
+            "liveContainer"
+        );
+
+
+    try {
+
+        container.innerHTML = `
+            <div class="message">
+                ⚽ Checking for live matches...
+            </div>
+        `;
+
+
+        const data =
+            await fetchJSON(
+                `${API_BASE}/api/live`
             );
-        }
-
-        return data;
-    }
 
 
-    // =========================
-    // LIVE MATCHES
-    // =========================
-
-    async function loadLiveMatches() {
-
-        const container =
-            document.getElementById("liveContainer");
-
-        try {
-
-            const data =
-                await fetchJSON(
-                    `${API_BASE}/api/live`
+        const matches =
+            Array.isArray(data)
+                ? data
+                : (
+                    Array.isArray(data?.matches)
+                        ? data.matches
+                        : []
                 );
 
-            if (
-                !data.matches ||
-                data.matches.length === 0
-            ) {
 
-                container.innerHTML = `
-                    <div class="message">
-                        ⚪ No matches are currently live.
-                        <br><br>
-                        <a href="scores.html" class="read-button">
-                            Check Today's Fixtures →
-                        </a>
-                    </div>
-                `;
-
-                return;
-            }
-
-            container.innerHTML = "";
-
-            data.matches
-                .slice(0, 4)
-                .forEach(function(match) {
-
-                    const home =
-                        match.homeTeam?.name ||
-                        "Home Team";
-
-                    const away =
-                        match.awayTeam?.name ||
-                        "Away Team";
-
-                    const homeLogo =
-                        match.homeTeam?.crest || "";
-
-                    const awayLogo =
-                        match.awayTeam?.crest || "";
-
-                    const homeScore =
-                        match.score?.fullTime?.home ??
-                        match.score?.halfTime?.home ??
-                        0;
-
-                    const awayScore =
-                        match.score?.fullTime?.away ??
-                        match.score?.halfTime?.away ??
-                        0;
-
-                    const card =
-                        document.createElement("div");
-
-                    card.className = "match-card";
-
-                    card.innerHTML = `
-
-                        <div class="match-status">
-                            🔴 LIVE
-                        </div>
-
-                        <div class="teams">
-
-                            <div class="team">
-
-                                ${
-                                    homeLogo
-                                    ? `
-                                        <img
-                                            class="team-logo"
-                                            src="${escapeHTML(homeLogo)}"
-                                            alt="${escapeHTML(home)}"
-                                            onerror="this.style.display='none'"
-                                        >
-                                    `
-                                    : ""
-                                }
-
-                                <span class="team-name">
-                                    ${escapeHTML(home)}
-                                </span>
-
-                            </div>
-
-                            <div>
-
-                                <div class="score">
-                                    ${homeScore} - ${awayScore}
-                                </div>
-
-                            </div>
-
-                            <div class="team">
-
-                                ${
-                                    awayLogo
-                                    ? `
-                                        <img
-                                            class="team-logo"
-                                            src="${escapeHTML(awayLogo)}"
-                                            alt="${escapeHTML(away)}"
-                                            onerror="this.style.display='none'"
-                                        >
-                                    `
-                                    : ""
-                                }
-
-                                <span class="team-name">
-                                    ${escapeHTML(away)}
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                        <div class="live-badge">
-                            MATCH LIVE
-                        </div>
-                    `;
-
-                    container.appendChild(card);
-
-                });
-
-        } catch (error) {
-
-            console.error(
-                "Live matches error:",
-                error
-            );
+        if (!matches.length) {
 
             container.innerHTML = `
-                <div class="message error">
-                    ❌ Could not load live matches.
+                <div class="message">
+                    🕐 No matches are currently live.
                     <br><br>
-                    <small>
-                        Please try again shortly.
-                    </small>
+                    Check back during match time.
                 </div>
             `;
+
+            return;
+
         }
-    }
 
 
-    // =========================
-    // NEWS
-    // =========================
+        container.innerHTML =
+            matches
+                .slice(0, 8)
+                .map(
+                    match => {
 
-    async function loadNews() {
+                        const homeName =
+                            match.homeTeam?.name ||
+                            match.homeTeam?.shortName ||
+                            match.homeTeam?.tla ||
+                            "Home Team";
 
-        const container =
-            document.getElementById("newsContainer");
 
-        try {
+                        const awayName =
+                            match.awayTeam?.name ||
+                            match.awayTeam?.shortName ||
+                            match.awayTeam?.tla ||
+                            "Away Team";
 
-            const data =
-                await fetchJSON(
-                    `${API_BASE}/api/news?search=soccer`
-                );
 
-            if (
-                !data.articles ||
-                data.articles.length === 0
-            ) {
+                        const homeCrest =
+                            match.homeTeam?.crest ||
+                            "https://via.placeholder.com/50?text=⚽";
 
-                container.innerHTML = `
-                    <div class="message">
-                        No football news available right now.
-                        <br><br>
-                        <a href="news.html" class="read-button">
-                            Open News Page →
-                        </a>
-                    </div>
-                `;
 
-                return;
-            }
+                        const awayCrest =
+                            match.awayTeam?.crest ||
+                            "https://via.placeholder.com/50?text=⚽";
 
-            container.innerHTML = "";
 
-            data.articles
-                .slice(0, 6)
-                .forEach(function(article) {
+                        const homeScore =
+                            match.score?.fullTime?.home ??
+                            match.score?.halfTime?.home ??
+                            0;
 
-                    const card =
-                        document.createElement("article");
 
-                    card.className = "news-card";
+                        const awayScore =
+                            match.score?.fullTime?.away ??
+                            match.score?.halfTime?.away ??
+                            0;
 
-                    const image =
-                        article.image ||
-                        fallbackImage;
 
-                    const title =
-                        article.title ||
-                        "Football News";
+                        let minute =
+                            match.minute ??
+                            match.elapsed ??
+                            match.time?.elapsed ??
+                            match.score?.duration ??
+                            null;
 
-                    const description =
-                        article.description ||
-                        "Read the latest football story.";
 
-                    const url =
-                        article.url ||
-                        "news.html";
+                        let liveTime =
+                            "LIVE";
 
-                    card.innerHTML = `
 
-                        <img
-                            class="news-image"
-                            src="${escapeHTML(image)}"
-                            alt="${escapeHTML(title)}"
-                        >
+                        if (
+                            typeof minute ===
+                                "number" ||
+                            typeof minute ===
+                                "string"
+                        ) {
 
-                        <div class="news-content">
+                            const minuteText =
+                                String(minute);
 
-                            <div class="news-tag">
-                                FOOTBALL NEWS
-                            </div>
 
-                            <h3>
-                                ${escapeHTML(title)}
-                            </h3>
+                            if (
+                                minuteText.includes(":")
+                            ) {
 
-                            <p>
-                                ${escapeHTML(description)}
-                            </p>
+                                liveTime =
+                                    minuteText;
+
+                            } else {
+
+                                liveTime =
+                                    `${minuteText}'`;
+
+                            }
+
+                        }
+
+
+                        const status =
+                            String(
+                                match.status ||
+                                ""
+                            ).toUpperCase();
+
+
+                        if (
+                            status === "PAUSED" ||
+                            status === "HT"
+                        ) {
+
+                            liveTime = "HT";
+
+                        }
+
+
+                        const competition =
+                            match.competition?.name ||
+                            match.competition?.code ||
+                            "Football";
+
+
+                        const matchId =
+                            match.id;
+
+
+                        const href =
+                            matchId
+                                ? `match.html?id=${encodeURIComponent(matchId)}`
+                                : "scores.html";
+
+
+                        return `
 
                             <a
-                                href="${escapeHTML(url)}"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="read-button"
+                                href="${href}"
+                                class="match-card"
+                                aria-label="${escapeHTML(
+                                    homeName
+                                )} vs ${escapeHTML(
+                                    awayName
+                                )}"
                             >
-                                Read Article →
+
+                                <div class="match-top">
+
+                                    <div class="competition">
+                                        ${escapeHTML(
+                                            competition
+                                        )}
+                                    </div>
+
+                                    <div class="live-badge">
+                                        🔴
+                                        ${escapeHTML(
+                                            liveTime
+                                        )}
+                                    </div>
+
+                                </div>
+
+
+                                <div class="teams">
+
+                                    <div class="team">
+
+                                        <img
+                                            src="${escapeHTML(
+                                                homeCrest
+                                            )}"
+                                            alt="${escapeHTML(
+                                                homeName
+                                            )} logo"
+                                            loading="lazy"
+                                            onerror="
+                                                this.src='https://via.placeholder.com/50?text=⚽'
+                                            "
+                                        >
+
+                                        <div class="team-name">
+                                            ${escapeHTML(
+                                                homeName
+                                            )}
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="score-box">
+
+                                        <div class="score">
+
+                                            ${escapeHTML(
+                                                homeScore
+                                            )}
+
+                                            <span
+                                                class="score-separator"
+                                            >
+                                                -
+                                            </span>
+
+                                            ${escapeHTML(
+                                                awayScore
+                                            )}
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="team">
+
+                                        <img
+                                            src="${escapeHTML(
+                                                awayCrest
+                                            )}"
+                                            alt="${escapeHTML(
+                                                awayName
+                                            )} logo"
+                                            loading="lazy"
+                                            onerror="
+                                                this.src='https://via.placeholder.com/50?text=⚽'
+                                            "
+                                        >
+
+                                        <div class="team-name">
+                                            ${escapeHTML(
+                                                awayName
+                                            )}
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="match-status">
+
+                                    🔴 MATCH LIVE
+                                    •
+                                    ${escapeHTML(
+                                        liveTime
+                                    )}
+                                    •
+                                    VIEW MATCH →
+
+                                </div>
+
                             </a>
 
-                        </div>
-                    `;
+                        `;
 
-                    const imageElement =
-                        card.querySelector(".news-image");
+                    }
+                )
+                .join("");
 
-                    imageElement.onerror =
-                        function() {
-
-                            this.onerror = null;
-
-                            this.src =
-                                fallbackImage;
-                        };
-
-                    container.appendChild(card);
-
-                });
-
-        } catch (error) {
-
-            console.error(
-                "Football news error:",
-                error
-            );
-
-            container.innerHTML = `
-                <div class="message error">
-                    ❌ Could not load football news.
-                    <br><br>
-                    <small>
-                        Please try again shortly.
-                    </small>
-                </div>
-            `;
-        }
     }
 
+    catch (error) {
 
-    // =========================
-    // PREMIER LEAGUE TABLE
-    // =========================
+        console.error(
+            "LIVE MATCH ERROR:",
+            error
+        );
 
-    async function loadStandings() {
 
-        const container =
-            document.getElementById(
-                "standingsContainer"
+        container.innerHTML = `
+
+            <div class="message error-message">
+
+                ❌ Could not load live matches.
+
+                <br><br>
+
+                Please try again later.
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   NEWS
+===================================================== */
+
+async function loadNews() {
+
+    const container =
+        document.getElementById(
+            "newsContainer"
+        );
+
+
+    try {
+
+        const data =
+            await fetchJSON(
+                `${API_BASE}/api/news?search=soccer`
             );
 
-        try {
 
-            const data =
-                await fetchJSON(
-                    `${API_BASE}/api/standings?competition=PL`
+        const articles =
+            Array.isArray(data?.articles)
+                ? data.articles
+                : (
+                    Array.isArray(data?.results)
+                        ? data.results
+                        : []
                 );
 
-            const table =
-                data.standings?.find(
-                    function(standing) {
-                        return standing.type === "TOTAL";
-                    }
-                ) ||
-                data.standings?.[0];
 
-            if (
-                !table ||
-                !table.table
-            ) {
-
-                container.innerHTML = `
-                    <div class="message">
-                        No Premier League standings available right now.
-                    </div>
-                `;
-
-                return;
-            }
-
-            let html = `
-
-                <div class="standings-wrapper">
-
-                    <table class="standings-table">
-
-                        <thead>
-
-                            <tr>
-                                <th>#</th>
-                                <th>Team</th>
-                                <th>P</th>
-                                <th>W</th>
-                                <th>D</th>
-                                <th>L</th>
-                                <th>GD</th>
-                                <th>Pts</th>
-                            </tr>
-
-                        </thead>
-
-                        <tbody>
-            `;
-
-            table.table
-                .slice(0, 10)
-                .forEach(function(row) {
-
-                    const teamName =
-                        row.team?.shortName ||
-                        row.team?.name ||
-                        "Unknown";
-
-                    const crest =
-                        row.team?.crest || "";
-
-                    html += `
-
-                        <tr>
-
-                            <td>
-                                ${row.position ?? "-"}
-                            </td>
-
-                            <td class="standing-team">
-
-                                ${
-                                    crest
-                                    ? `
-                                        <img
-                                            class="standing-logo"
-                                            src="${escapeHTML(crest)}"
-                                            alt=""
-                                            onerror="this.style.display='none'"
-                                        >
-                                    `
-                                    : ""
-                                }
-
-                                ${escapeHTML(teamName)}
-
-                            </td>
-
-                            <td>
-                                ${row.playedGames ?? 0}
-                            </td>
-
-                            <td>
-                                ${row.won ?? 0}
-                            </td>
-
-                            <td>
-                                ${row.draw ?? 0}
-                            </td>
-
-                            <td>
-                                ${row.lost ?? 0}
-                            </td>
-
-                            <td>
-                                ${row.goalDifference ?? 0}
-                            </td>
-
-                            <td class="points">
-                                ${row.points ?? 0}
-                            </td>
-
-                        </tr>
-                    `;
-                });
-
-            html += `
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-            `;
-
-            container.innerHTML = html;
-
-        } catch (error) {
-
-            console.error(
-                "Standings error:",
-                error
-            );
+        if (!articles.length) {
 
             container.innerHTML = `
-                <div class="message error">
-                    ❌ Could not load Premier League standings.
-                    <br><br>
-                    <small>
-                        Please try again shortly.
-                    </small>
+
+                <div class="message">
+
+                    📰 No football news
+                    available right now.
+
                 </div>
+
             `;
+
+            return;
+
         }
+
+
+        container.innerHTML =
+            articles
+                .slice(0, 6)
+                .map(
+                    article => {
+
+                        const image =
+                            article.image ||
+                            article.urlToImage ||
+                            "https://via.placeholder.com/600x350?text=GoalRush";
+
+
+                        const title =
+                            article.title ||
+                            "Football News";
+
+
+                        const description =
+                            article.description ||
+                            "Read the latest football news on GoalRush.";
+
+
+                        const url =
+                            article.url ||
+                            "news.html";
+
+
+                        return `
+
+                            <article
+                                class="news-card"
+                            >
+
+                                <img
+                                    class="news-image"
+                                    src="${escapeHTML(
+                                        image
+                                    )}"
+                                    alt="${escapeHTML(
+                                        title
+                                    )}"
+                                    loading="lazy"
+                                    onerror="
+                                        this.src='https://via.placeholder.com/600x350?text=GoalRush'
+                                    "
+                                >
+
+
+                                <div class="news-content">
+
+                                    <h3>
+                                        ${escapeHTML(
+                                            title
+                                        )}
+                                    </h3>
+
+
+                                    <p>
+
+                                        ${escapeHTML(
+                                            description
+                                                .substring(
+                                                    0,
+                                                    130
+                                                )
+                                        )}
+
+                                        ${
+                                            description.length >
+                                            130
+                                                ? "..."
+                                                : ""
+                                        }
+
+                                    </p>
+
+
+                                    <a
+                                        class="news-link"
+                                        href="${escapeHTML(
+                                            url
+                                        )}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        Read More →
+                                    </a>
+
+                                </div>
+
+                            </article>
+
+                        `;
+
+                    }
+                )
+                .join("");
+
     }
 
+    catch (error) {
 
-    // =========================
-    // START
-    // =========================
-
-    loadLiveMatches();
-    loadNews();
-    loadStandings();
+        console.error(
+            "NEWS ERROR:",
+            error
+        );
 
 
-    // =========================
-    // REFRESH LIVE SCORES
-    // =========================
-    // Live scores refresh every 60 seconds.
-    // News and standings do not need to reload
-    // every minute.
+        container.innerHTML = `
 
-    setInterval(function() {
+            <div class="message error-message">
 
-        loadLiveMatches();
+                ❌ Could not load football news.
 
-    }, 60000);
+                <br><br>
+
+                Please try again later.
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   PREMIER LEAGUE STANDINGS
+===================================================== */
+
+async function loadStandings() {
+
+    const body =
+        document.getElementById(
+            "standingsBody"
+        );
+
+
+    try {
+
+        const data =
+            await fetchJSON(
+                `${API_BASE}/api/standings?competition=PL`
+            );
+
+
+        const standings =
+            data?.standings ||
+            data?.table ||
+            data;
+
+
+        let table = [];
+
+
+        if (
+            Array.isArray(standings)
+        ) {
+
+            table =
+                standings;
+
+        }
+
+        else if (
+            Array.isArray(
+                standings?.[0]?.table
+            )
+        ) {
+
+            table =
+                standings[0].table;
+
+        }
+
+
+        if (!table.length) {
+
+            body.innerHTML = `
+
+                <tr>
+
+                    <td colspan="7">
+
+                        No standings available.
+
+                    </td>
+
+                </tr>
+
+            `;
+
+            return;
+
+        }
+
+
+        body.innerHTML =
+            table
+                .slice(0, 10)
+                .map(
+                    (row, index) => {
+
+                        const team =
+                            row.team ||
+                            {};
+
+
+                        return `
+
+                            <tr>
+
+                                <td>
+
+                                    <span
+                                        class="team-position"
+                                    >
+                                        ${escapeHTML(
+                                            row.position ||
+                                            index + 1
+                                        )}.
+                                    </span>
+
+                                    ${escapeHTML(
+                                        team.name ||
+                                        row.name ||
+                                        "Team"
+                                    )}
+
+                                </td>
+
+
+                                <td>
+                                    ${escapeHTML(
+                                        row.playedGames ??
+                                        row.played ??
+                                        0
+                                    )}
+                                </td>
+
+
+                                <td>
+                                    ${escapeHTML(
+                                        row.won ??
+                                        0
+                                    )}
+                                </td>
+
+
+                                <td>
+                                    ${escapeHTML(
+                                        row.draw ??
+                                        0
+                                    )}
+                                </td>
+
+
+                                <td>
+                                    ${escapeHTML(
+                                        row.lost ??
+                                        0
+                                    )}
+                                </td>
+
+
+                                <td>
+                                    ${escapeHTML(
+                                        row.goalDifference ??
+                                        row.gd ??
+                                        0
+                                    )}
+                                </td>
+
+
+                                <td>
+
+                                    <strong>
+                                        ${escapeHTML(
+                                            row.points ??
+                                            row.pts ??
+                                            0
+                                        )}
+                                    </strong>
+
+                                </td>
+
+                            </tr>
+
+                        `;
+
+                    }
+                )
+                .join("");
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "STANDINGS ERROR:",
+            error
+        );
+
+
+        body.innerHTML = `
+
+            <tr>
+
+                <td colspan="7">
+
+                    ❌ Could not load standings.
+
+                </td>
+
+            </tr>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   SECURITY HELPER
+===================================================== */
+
+function escapeHTML(value) {
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+loadLiveMatches();
+
+loadNews();
+
+loadStandings();
+
+
+/* =====================================================
+   AUTO REFRESH
+===================================================== */
+
+setInterval(
+    loadLiveMatches,
+    60000
+);
+
+
+setInterval(
+    loadStandings,
+    300000
+);
 
 </script>
 
 </body>
+
 </html>
