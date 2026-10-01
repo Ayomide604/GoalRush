@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T98ZQQXXD9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T98ZQQXXD9');
+</script>
+
+    <title>GoalRush | Football Quiz</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            color: #222;
+        }
+
+        /* =========================
+           NAVIGATION
+        ========================== */
+
+        nav {
+            background: #0b3d2e;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 25px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 5px;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #4CAF50;
+        }
+
+        /* =========================
+           HERO
+        ========================== */
+
+        .hero {
+            background: #0b3d2e;
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .hero h1 {
+            font-size: 45px;
+            margin: 0 0 10px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin: 0;
+        }
+
+        /* =========================
+           QUIZ
+        ========================== */
+
+        .quiz-container {
+            max-width: 750px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .quiz-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
+
+        .quiz-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .question-number {
+            color: #0b3d2e;
+            font-weight: bold;
+        }
+
+        .score-display {
+            font-weight: bold;
+            color: #c62828;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 25px;
+        }
+
+        .progress {
+            height: 100%;
+            width: 0%;
+            background: #0b3d2e;
+            transition: width 0.3s ease;
+        }
+
+        #question {
+            font-size: 25px;
+            line-height: 1.4;
+            margin-bottom: 25px;
+        }
+
+        .answers {
+            display: grid;
+            gap: 12px;
+        }
+
+        .answer-button {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 9px;
+            text-align: left;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .answer-button:hover {
+            border-color: #0b3d2e;
+            background: #f0f8f4;
+        }
+
+        .answer-button.correct {
+            background: #d9f5df;
+            border-color: #2e7d32;
+        }
+
+        .answer-button.wrong {
+            background: #ffe0e0;
+            border-color: #c62828;
+        }
+
+        .answer-button:disabled {
+            cursor: default;
+        }
+
+        #nextButton {
+            display: none;
+            margin-top: 25px;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #0b3d2e;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #nextButton:hover {
+            background: #126b4f;
+        }
+
+        /* =========================
+           RESULT
+        ========================== */
+
+        .result {
+            display: none;
+            text-align: center;
+        }
+
+        .result-icon {
+            font-size: 60px;
+        }
+
+        .result h2 {
+            color: #0b3d2e;
+            font-size: 32px;
+        }
+
+        .final-score {
+            font-size: 45px;
+            font-weight: bold;
+            color: #c62828;
+            margin: 20px 0;
+        }
+
+        .result-message {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        #restartButton {
+            padding: 14px 25px;
+            border: none;
+            border-radius: 8px;
+            background: #0b3d2e;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #restartButton:hover {
+            background: #126b4f;
+        }
+
+        /* =========================
+           FOOTER
+        ========================== */
+
+        footer {
+            background: #0b3d2e;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+        }
+
+        footer p {
+            margin: 6px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================== */
+
+        @media (max-width: 700px) {
+
+            nav {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .quiz-container {
+                margin: 25px auto;
+                padding: 15px;
+            }
+
+            .quiz-card {
+                padding: 22px;
+            }
+
+            #question {
+                font-size: 21px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+<!-- =========================
+     NAVIGATION
+========================== -->
+
+<nav>
+
+    <a
+        href="index.html"
+        class="logo"
+    >
+        ⚽ GoalRush
+    </a>
+
+    <div class="nav-links">
+
+        <a href="index.html">
+            🏠 Home
+        </a>
+
+        <a href="news.html">
+            📰 News
+        </a>
+
+        <a href="scores.html">
+            ⚽ Scores
+        </a>
+
+        <a
+            href="quiz.html"
+            class="active"
+        >
+            🧠 Quiz
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- =========================
+     HERO
+========================== -->
+
+<section class="hero">
+
+    <h1>
+        🧠 GoalRush Quiz
+    </h1>
+
+    <p>
+        Test your football knowledge!
+    </p>
+
+</section>
+
+
+<!-- =========================
+     QUIZ
+========================== -->
+
+<main class="quiz-container">
+
+    <div class="quiz-card">
+
+        <!-- QUIZ SCREEN -->
+
+        <div id="quizScreen">
+
+            <div class="quiz-top">
+
+                <div
+                    id="questionNumber"
+                    class="question-number"
+                >
+                    Question 1
+                </div>
+
+                <div
+                    id="scoreDisplay"
+                    class="score-display"
+                >
+                    Score: 0
+                </div>
+
+            </div>
+
+
+            <div class="progress-bar">
+
+                <div
+                    id="progress"
+                    class="progress"
+                ></div>
+
+            </div>
+
+
+            <h2 id="question">
+                Loading question...
+            </h2>
+
+
+            <div
+                id="answers"
+                class="answers"
+            ></div>
+
+
+            <button
+                id="nextButton"
+                type="button"
+            >
+                Next Question →
+            </button>
+
+        </div>
+
+
+        <!-- RESULT SCREEN -->
+
+        <div
+            id="result"
+            class="result"
+        >
+
+            <div class="result-icon">
+                🏆
+            </div>
+
+            <h2>
+                Quiz Complete!
+            </h2>
+
+            <div
+                id="finalScore"
+                class="final-score"
+            >
+                0 / 10
+            </div>
+
+            <p
+                id="resultMessage"
+                class="result-message"
+            >
+                Great job!
+            </p>
+
+            <button
+                id="restartButton"
+                type="button"
+            >
+                🔄 Play Another Quiz
+            </button>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- =========================
+     FOOTER
+========================== -->
+
+<footer>
+
+    <p>
+        ⚽ <strong>GoalRush</strong>
+    </p>
+
+    <p>
+        Football Starts Here.
+    </p>
+
+    <p>
+        © 2026 GoalRush
+    </p>
+
+</footer>
+
+
+<script>
+
+/* ==================================================
+   QUESTION BANK
+================================================== */
+
+const questionBank = [
+
+    {
+        question: "Which country won the 2022 FIFA World Cup?",
+        answers: [
+            "Argentina",
+            "France",
+            "Brazil",
+            "Germany"
+        ],
+        correct: "Argentina"
+    },
+
+    {
+        question: "Which club is known as the Gunners?",
+        answers: [
+            "Arsenal",
+            "Chelsea",
+            "Liverpool",
+            "Tottenham"
+        ],
+        correct: "Arsenal"
+    },
+
+    {
+        question: "How many players does one football team normally have on the pitch?",
+        answers: [
+            "11",
+            "10",
+            "12",
+            "9"
+        ],
+        correct: "11"
+    },
+
+    {
+        question: "Which player is famously known as CR7?",
+        answers: [
+            "Cristiano Ronaldo",
+            "Karim Benzema",
+            "Kylian Mbappe",
+            "Robert Lewandowski"
+        ],
+        correct: "Cristiano Ronaldo"
+    },
+
+    {
+        question: "Which club plays at Anfield?",
+        answers: [
+            "Liverpool",
+            "Manchester United",
+            "Chelsea",
+            "Arsenal"
+        ],
+        correct: "Liverpool"
+    },
+
+    {
+        question: "Which club plays at Old Trafford?",
+        answers: [
+            "Manchester United",
+            "Manchester City",
+            "Liverpool",
+            "Everton"
+        ],
+        correct: "Manchester United"
+    },
+
+    {
+        question: "Which country has won the most FIFA World Cups?",
+        answers: [
+            "Brazil",
+            "Germany",
+            "Argentina",
+            "Italy"
+        ],
+        correct: "Brazil"
+    },
+
+    {
+        question: "Which position normally wears gloves and protects the goal?",
+        answers: [
+            "Goalkeeper",
+            "Defender",
+            "Midfielder",
+            "Striker"
+        ],
+        correct: "Goalkeeper"
+    },
+
+    {
+        question: "What color card means a player is sent off?",
+        answers: [
+            "Red",
+            "Yellow",
+            "Blue",
+            "Green"
+        ],
+        correct: "Red"
+    },
+
+    {
+        question: "What color card normally represents a booking?",
+        answers: [
+            "Yellow",
+            "Red",
+            "Blue",
+            "White"
+        ],
+        correct: "Yellow"
+    },
+
+    {
+        question: "Which club is based at Stamford Bridge?",
+        answers: [
+            "Chelsea",
+            "Arsenal",
+            "Fulham",
+            "West Ham"
+        ],
+        correct: "Chelsea"
+    },
+
+    {
+        question: "Which country is Lionel Messi from?",
+        answers: [
+            "Argentina",
+            "Spain",
+            "Brazil",
+            "Portugal"
+        ],
+        correct: "Argentina"
+    },
+
+    {
+        question: "Which country is Cristiano Ronaldo from?",
+        answers: [
+            "Portugal",
+            "Brazil",
+            "Spain",
+            "Argentina"
+        ],
+        correct: "Portugal"
+    },
+
+    {
+        question: "What is awarded when a player is fouled inside the penalty area?",
+        answers: [
+            "Penalty",
+            "Corner",
+            "Throw-in",
+            "Goal kick"
+        ],
+        correct: "Penalty"
+    },
+
+    {
+        question: "How long is a normal football match?",
+        answers: [
+            "90 minutes",
+            "80 minutes",
+            "100 minutes",
+            "60 minutes"
+        ],
+        correct: "90 minutes"
+    },
+
+    {
+        question: "How many halves are there in a normal football match?",
+        answers: [
+            "2",
+            "3",
+            "4",
+            "1"
+        ],
+        correct: "2"
+    },
+
+    {
+        question: "Which competition is played between European national teams?",
+        answers: [
+            "UEFA European Championship",
+            "Copa Libertadores",
+            "FA Cup",
+            "Premier League"
+        ],
+        correct: "UEFA European Championship"
+    },
+
+    {
+        question: "Which country won the 2018 FIFA World Cup?",
+        answers: [
+            "France",
+            "Croatia",
+            "Germany",
+            "Brazil"
+        ],
+        correct: "France"
+    },
+
+    {
+        question: "Which country won the 2014 FIFA World Cup?",
+        answers: [
+            "Germany",
+            "Argentina",
+            "Brazil",
+            "Spain"
+        ],
+        correct: "Germany"
+    },
+
+    {
+        question: "Which English club is nicknamed the Citizens?",
+        answers: [
+            "Manchester City",
+            "Manchester United",
+            "Chelsea",
+            "Liverpool"
+        ],
+        correct: "Manchester City"
+    },
+
+    {
+        question: "Which English club is nicknamed the Blues?",
+        answers: [
+            "Chelsea",
+            "Everton",
+            "Arsenal",
+            "Liverpool"
+        ],
+        correct: "Chelsea"
+    },
+
+    {
+        question: "Which club is nicknamed the Red Devils?",
+        answers: [
+            "Manchester United",
+            "Liverpool",
+            "Arsenal",
+            "Manchester City"
+        ],
+        correct: "Manchester United"
+    },
+
+    {
+        question: "Which club is nicknamed the Reds?",
+        answers: [
+            "Liverpool",
+            "Arsenal",
+            "Chelsea",
+            "Tottenham"
+        ],
+        correct: "Liverpool"
+    },
+
+    {
+        question: "Which team plays at the Emirates Stadium?",
+        answers: [
+            "Arsenal",
+            "Chelsea",
+            "Tottenham",
+            "West Ham"
+        ],
+        correct: "Arsenal"
+    },
+
+    {
+        question: "Which country hosted the 2022 FIFA World Cup?",
+        answers: [
+            "Qatar",
+            "Russia",
+            "Brazil",
+            "South Africa"
+        ],
+        correct: "Qatar"
+    },
+
+    {
+        question: "Which African country was the first to reach a World Cup semi-final?",
+        answers: [
+            "Morocco",
+            "Nigeria",
+            "Ghana",
+            "Egypt"
+        ],
+        correct: "Morocco"
+    },
+
+    {
+        question: "Which football organization governs world football?",
+        answers: [
+            "FIFA",
+            "UEFA",
+            "CAF",
+            "FA"
+        ],
+        correct: "FIFA"
+    },
+
+    {
+        question: "What does VAR stand for?",
+        answers: [
+            "Video Assistant Referee",
+            "Virtual Attack Review",
+            "Video Action Replay",
+            "Verified Assistant Referee"
+        ],
+        correct: "Video Assistant Referee"
+    },
+
+    {
+        question: "Which continent is the CAF Champions League associated with?",
+        answers: [
+            "Africa",
+            "Europe",
+            "Asia",
+            "South America"
+        ],
+        correct: "Africa"
+    },
+
+    {
+        question: "Which competition is the top domestic league in England?",
+        answers: [
+            "Premier League",
+            "Championship",
+            "FA Cup",
+            "League Cup"
+        ],
+        correct: "Premier League"
+    },
+
+    {
+        question: "Which country won AFCON 2023?",
+        answers: [
+            "Ivory Coast",
+            "Nigeria",
+            "Senegal",
+            "Egypt"
+        ],
+        correct: "Ivory Coast"
+    },
+
+    {
+        question: "Which Nigerian footballer is nicknamed Jay-Jay?",
+        answers: [
+            "Jay-Jay Okocha",
+            "Nwankwo Kanu",
+            "Victor Osimhen",
+            "Ahmed Musa"
+        ],
+        correct: "Jay-Jay Okocha"
+    },
+
+    {
+        question: "Which Nigerian striker won the 2023/24 Serie A title with Napoli?",
+        answers: [
+            "Victor Osimhen",
+            "Samuel Chukwueze",
+            "Kelechi Iheanacho",
+            "Alex Iwobi"
+        ],
+        correct: "Victor Osimhen"
+    },
+
+    {
+        question: "Which country is the club FC Barcelona from?",
+        answers: [
+            "Spain",
+            "Italy",
+            "France",
+            "Portugal"
+        ],
+        correct: "Spain"
+    },
+
+    {
+        question: "Which country is Bayern Munich from?",
+        answers: [
+            "Germany",
+            "Austria",
+            "Switzerland",
+            "Netherlands"
+        ],
+        correct: "Germany"
+    },
+
+    {
+        question: "Which country is Paris Saint-Germain from?",
+        answers: [
+            "France",
+            "Spain",
+            "Italy",
+            "Belgium"
+        ],
+        correct: "France"
+    },
+
+    {
+        question: "Which club has the nickname Los Blancos?",
+        answers: [
+            "Real Madrid",
+            "Barcelona",
+            "Atletico Madrid",
+            "Sevilla"
+        ],
+        correct: "Real Madrid"
+    },
+
+    {
+        question: "Which club is known as the Blaugrana?",
+        answers: [
+            "Barcelona",
+            "Real Madrid",
+            "Valencia",
+            "Atletico Madrid"
+        ],
+        correct: "Barcelona"
+    },
+
+    {
+        question: "Which country is famous for the football club Ajax?",
+        answers: [
+            "Netherlands",
+            "Belgium",
+            "Germany",
+            "Denmark"
+        ],
+        correct: "Netherlands"
+    },
+
+    {
+        question: "Which team won the 2023 UEFA Champions League?",
+        answers: [
+            "Manchester City",
+            "Inter Milan",
+            "Real Madrid",
+            "Bayern Munich"
+        ],
+        correct: "Manchester City"
+    },
+
+    {
+        question: "Which team won the 2024 UEFA Champions League?",
+        answers: [
+            "Real Madrid",
+            "Borussia Dortmund",
+            "Manchester City",
+            "Bayern Munich"
+        ],
+        correct: "Real Madrid"
+    },
+
+    {
+        question: "Which player is famous for the nickname 'The Egyptian King'?",
+        answers: [
+            "Mohamed Salah",
+            "Sadio Mane",
+            "Riyad Mahrez",
+            "Hakim Ziyech"
+        ],
+        correct: "Mohamed Salah"
+    },
+
+    {
+        question: "Which country does Mohamed Salah represent?",
+        answers: [
+            "Egypt",
+            "Morocco",
+            "Algeria",
+            "Tunisia"
+        ],
+        correct: "Egypt"
+    },
+
+    {
+        question: "Which country does Sadio Mane represent?",
+        answers: [
+            "Senegal",
+            "Ghana",
+            "Nigeria",
+            "Mali"
+        ],
+        correct: "Senegal"
+    },
+
+    {
+        question: "Which player is known for the nickname 'Ninja Turtle'?",
+        answers: [
+            "Kylian Mbappe",
+            "Neymar",
+            "Vinicius Junior",
+            "Antoine Griezmann"
+        ],
+        correct: "Kylian Mbappe"
+    },
+
+    {
+        question: "Which club did Kylian Mbappe join in 2024?",
+        answers: [
+            "Real Madrid",
+            "Manchester City",
+            "Barcelona",
+            "Bayern Munich"
+        ],
+        correct: "Real Madrid"
+    },
+
+    {
+        question: "Which footballer is famous for the 'Siuuu' celebration?",
+        answers: [
+            "Cristiano Ronaldo",
+            "Lionel Messi",
+            "Neymar",
+            "Erling Haaland"
+        ],
+        correct: "Cristiano Ronaldo"
+    },
+
+    {
+        question: "Which player is known for his powerful free kicks and long-range shots?",
+        answers: [
+            "David Beckham",
+            "Harry Kane",
+            "Thierry Henry",
+            "N'Golo Kante"
+        ],
+        correct: "David Beckham"
+    },
+
+    {
+        question: "Which Brazilian legend was famous for his free kick against France in 1997?",
+        answers: [
+            "Roberto Carlos",
+            "Ronaldo Nazario",
+            "Ronaldinho",
+            "Kaka"
+        ],
+        correct: "Roberto Carlos"
+    },
+
+    {
+        question: "Which player is nicknamed 'The Phenomenon'?",
+        answers: [
+            "Ronaldo Nazario",
+            "Ronaldinho",
+            "Rivaldo",
+            "Kaka"
+        ],
+        correct: "Ronaldo Nazario"
+    },
+
+    {
+        question: "Which Brazilian star was famous for his skills and played for Barcelona and AC Milan?",
+        answers: [
+            "Ronaldinho",
+            "Cafu",
+            "Romario",
+            "Roberto Carlos"
+        ],
+        correct: "Ronaldinho"
+    },
+
+    {
+        question: "What is the maximum number of substitutions commonly allowed in modern competitions?",
+        answers: [
+            "5",
+            "3",
+            "7",
+            "2"
+        ],
+        correct: "5"
+    }
+
+];
+
+
+/* ==================================================
+   QUIZ SETTINGS
+================================================== */
+
+const QUESTIONS_PER_QUIZ = 10;
+
+
+/* ==================================================
+   VARIABLES
+================================================== */
+
+let currentQuestions = [];
+
+let currentQuestionIndex = 0;
+
+let score = 0;
+
+let answered = false;
+
+
+/* ==================================================
+   SHUFFLE
+================================================== */
+
+function shuffle(array) {
+
+    const shuffled =
+        [...array];
+
+    for (
+        let i = shuffled.length - 1;
+        i > 0;
+        i--
+    ) {
+
+        const j =
+            Math.floor(
+                Math.random() * (i + 1)
+            );
+
+        [
+            shuffled[i],
+            shuffled[j]
+        ] =
+        [
+            shuffled[j],
+            shuffled[i]
+        ];
+
+    }
+
+    return shuffled;
+}
+
+
+/* ==================================================
+   CREATE NEW QUIZ
+================================================== */
+
+function createQuiz() {
+
+    score = 0;
+
+    currentQuestionIndex = 0;
+
+    answered = false;
+
+    currentQuestions =
+        shuffle(questionBank)
+            .slice(
+                0,
+                QUESTIONS_PER_QUIZ
+            )
+            .map(function(question) {
+
+                return {
+
+                    question:
+                        question.question,
+
+                    answers:
+                        shuffle(
+                            question.answers
+                        ),
+
+                    correct:
+                        question.correct
+
+                };
+
+            });
+
+
+    document.getElementById(
+        "quizScreen"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "result"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "scoreDisplay"
+    ).textContent =
+        "Score: 0";
+
+
+    showQuestion();
+
+}
+
+
+/* ==================================================
+   SHOW QUESTION
+================================================== */
+
+function showQuestion() {
+
+    answered = false;
+
+    const currentQuestion =
+        currentQuestions[
+            currentQuestionIndex
+        ];
+
+
+    const questionNumber =
+        document.getElementById(
+            "questionNumber"
+        );
+
+
+    const question =
+        document.getElementById(
+            "question"
+        );
+
+
+    const answers =
+        document.getElementById(
+            "answers"
+        );
+
+
+    const nextButton =
+        document.getElementById(
+            "nextButton"
+        );
+
+
+    const progress =
+        document.getElementById(
+            "progress"
+        );
+
+
+    questionNumber.textContent =
+        "Question " +
+        (currentQuestionIndex + 1) +
+        " of " +
+        QUESTIONS_PER_QUIZ;
+
+
+    question.textContent =
+        currentQuestion.question;
+
+
+    answers.innerHTML = "";
+
+
+    nextButton.style.display =
+        "none";
+
+
+    progress.style.width =
+        (
+            currentQuestionIndex /
+            QUESTIONS_PER_QUIZ *
+            100
+        ) +
+        "%";
+
+
+    currentQuestion.answers
+        .forEach(function(answer) {
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+
+            button.className =
+                "answer-button";
+
+
+            button.type =
+                "button";
+
+
+            button.textContent =
+                answer;
+
+
+            button.addEventListener(
+                "click",
+                function() {
+
+                    selectAnswer(
+                        button,
+                        answer,
+                        currentQuestion.correct
+                    );
+
+                }
+            );
+
+
+            answers.appendChild(
+                button
+            );
+
+        });
+
+}
+
+
+/* ==================================================
+   SELECT ANSWER
+================================================== */
+
+function selectAnswer(
+    selectedButton,
+    selectedAnswer,
+    correctAnswer
+) {
+
+    if (answered) {
+        return;
+    }
+
+
+    answered = true;
+
+
+    const buttons =
+        document.querySelectorAll(
+            ".answer-button"
+        );
+
+
+    buttons.forEach(
+        function(button) {
+
+            button.disabled =
+                true;
+
+
+            if (
+                button.textContent ===
+                correctAnswer
+            ) {
+
+                button.classList.add(
+                    "correct"
+                );
+
+            }
+
+        }
+    );
+
+
+    if (
+        selectedAnswer ===
+        correctAnswer
+    ) {
+
+        score++;
+
+        selectedButton.classList.add(
+            "correct"
+        );
+
+    }
+
+    else {
+
+        selectedButton.classList.add(
+            "wrong"
+        );
+
+    }
+
+
+    document.getElementById(
+        "scoreDisplay"
+    ).textContent =
+        "Score: " + score;
+
+
+    const nextButton =
+        document.getElementById(
+            "nextButton"
+        );
+
+
+    nextButton.style.display =
+        "block";
+
+
+    if (
+        currentQuestionIndex ===
+        QUESTIONS_PER_QUIZ - 1
+    ) {
+
+        nextButton.textContent =
+            "🏆 See My Score";
+
+    }
+
+}
+
+
+/* ==================================================
+   NEXT QUESTION
+================================================== */
+
+document.getElementById(
+    "nextButton"
+).addEventListener(
+    "click",
+    function() {
+
+        currentQuestionIndex++;
+
+
+        if (
+            currentQuestionIndex >=
+            QUESTIONS_PER_QUIZ
+        ) {
+
+            showResult();
+
+            return;
+
+        }
+
+
+        showQuestion();
+
+    }
+);
+
+
+/* ==================================================
+   SHOW RESULT
+================================================== */
+
+function showResult() {
+
+    document.getElementById(
+        "quizScreen"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "result"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "finalScore"
+    ).textContent =
+        score +
+        " / " +
+        QUESTIONS_PER_QUIZ;
+
+
+    const resultMessage =
+        document.getElementById(
+            "resultMessage"
+        );
+
+
+    const percentage =
+        (
+            score /
+            QUESTIONS_PER_QUIZ
+        ) *
+        100;
+
+
+    if (percentage === 100) {
+
+        resultMessage.textContent =
+            "🔥 Perfect score! You're a football master!";
+
+    }
+
+    else if (percentage >= 80) {
+
+        resultMessage.textContent =
+            "👏 Excellent! You really know your football!";
+
+    }
+
+    else if (percentage >= 60) {
+
+        resultMessage.textContent =
+            "⚽ Great job! Keep improving your football knowledge.";
+
+    }
+
+    else if (percentage >= 40) {
+
+        resultMessage.textContent =
+            "👍 Not bad! Try another quiz and beat your score.";
+
+    }
+
+    else {
+
+        resultMessage.textContent =
+            "💪 Keep practicing! You can do better in the next quiz.";
+
+    }
+
+}
+
+
+/* ==================================================
+   PLAY ANOTHER QUIZ
+================================================== */
+
+document.getElementById(
+    "restartButton"
+).addEventListener(
+    "click",
+    function() {
+
+        createQuiz();
+
+    }
+);
+
+
+/* ==================================================
+   START FIRST QUIZ
+================================================== */
+
+createQuiz();
+
+</script>
+
+</body>
+
+</html>

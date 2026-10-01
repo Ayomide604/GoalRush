@@ -1,0 +1,1749 @@
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description"
+      content="GoalRush Match Centre - live scores, match events, lineups and match information.">
+
+<title>GoalRush | Match Centre</title>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T98ZQQXXD9"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-T98ZQQXXD9");
+</script>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: #080d16;
+        color: #fff;
+        min-height: 100vh;
+    }
+
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    button {
+        font-family: inherit;
+    }
+
+    header {
+        background: #111827;
+        border-bottom: 1px solid #263244;
+        padding: 15px 20px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    .header-inner {
+        max-width: 1200px;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .logo {
+        font-size: 25px;
+        font-weight: 900;
+        color: #22c55e;
+    }
+
+    .logo span {
+        color: white;
+    }
+
+    nav {
+        display: flex;
+        gap: 18px;
+        flex-wrap: wrap;
+    }
+
+    nav a {
+        color: #cbd5e1;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    nav a:hover,
+    nav a.active {
+        color: #22c55e;
+    }
+
+    main {
+        max-width: 1100px;
+        margin: auto;
+        padding: 25px 15px 50px;
+    }
+
+    .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        background: #172033;
+        border: 1px solid #29364a;
+        padding: 10px 15px;
+        border-radius: 9px;
+        color: #dbeafe;
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    .back-btn:hover {
+        background: #223047;
+    }
+
+    .loading {
+        text-align: center;
+        padding: 60px 20px;
+        color: #94a3b8;
+    }
+
+    .spinner {
+        width: 42px;
+        height: 42px;
+        border: 4px solid #334155;
+        border-top-color: #22c55e;
+        border-radius: 50%;
+        animation: spin .8s linear infinite;
+        margin: 0 auto 15px;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    .error-box {
+        background: #17111a;
+        border: 1px solid #7f1d1d;
+        border-radius: 15px;
+        padding: 35px 20px;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .error-box h2 {
+        color: #f87171;
+        margin-bottom: 10px;
+    }
+
+    .error-box p {
+        color: #cbd5e1;
+        margin-bottom: 18px;
+    }
+
+    .retry-btn {
+        border: 0;
+        background: #22c55e;
+        color: #06110a;
+        padding: 11px 20px;
+        border-radius: 9px;
+        font-weight: 800;
+        cursor: pointer;
+    }
+
+    .match-card {
+        background: linear-gradient(145deg, #121a2a, #0e1624);
+        border: 1px solid #26344a;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 15px 45px rgba(0,0,0,.3);
+    }
+
+    .competition {
+        text-align: center;
+        padding: 17px;
+        color: #94a3b8;
+        font-size: 13px;
+        font-weight: 700;
+        border-bottom: 1px solid #26344a;
+    }
+
+    .match-status {
+        text-align: center;
+        padding: 14px;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 7px 14px;
+        border-radius: 20px;
+        background: #334155;
+        color: #e2e8f0;
+        font-size: 12px;
+        font-weight: 900;
+    }
+
+    .status-live {
+        background: #dc2626;
+        animation: pulse 1.5s infinite;
+    }
+
+    .status-finished {
+        background: #334155;
+    }
+
+    .status-upcoming {
+        background: #1d4ed8;
+    }
+
+    @keyframes pulse {
+        0%,100% { opacity: 1; }
+        50% { opacity: .6; }
+    }
+
+    .teams {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        gap: 20px;
+        padding: 30px 25px;
+    }
+
+    .team {
+        text-align: center;
+    }
+
+    .team-logo {
+        width: 78px;
+        height: 78px;
+        object-fit: contain;
+        margin-bottom: 12px;
+        background: rgba(255,255,255,.04);
+        border-radius: 50%;
+        padding: 8px;
+    }
+
+    .team-name {
+        font-size: 21px;
+        font-weight: 900;
+    }
+
+    .score {
+        font-size: 46px;
+        font-weight: 900;
+        min-width: 140px;
+        text-align: center;
+    }
+
+    .score-separator {
+        color: #64748b;
+        margin: 0 5px;
+    }
+
+    .match-time {
+        color: #94a3b8;
+        font-size: 13px;
+        margin-top: 8px;
+        text-align: center;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        padding: 0 20px 25px;
+        flex-wrap: wrap;
+    }
+
+    .action-btn,
+    .watch-btn {
+        border: 1px solid #334155;
+        background: #172033;
+        color: #e2e8f0;
+        padding: 11px 17px;
+        border-radius: 9px;
+        cursor: pointer;
+        font-weight: 800;
+    }
+
+    .action-btn:hover {
+        background: #223047;
+    }
+
+    .watch-btn {
+        display: inline-block;
+        background: #22c55e;
+        color: #041109;
+        border: none;
+    }
+
+    .watch-btn:hover {
+        background: #16a34a;
+    }
+
+    .stream-box {
+        margin: 0 20px 25px;
+        padding: 18px;
+        border-radius: 13px;
+        background: #101827;
+        border: 1px solid #27364c;
+        text-align: center;
+    }
+
+    .stream-box h3 {
+        margin-bottom: 8px;
+    }
+
+    .stream-box p {
+        color: #94a3b8;
+        font-size: 14px;
+        margin-bottom: 13px;
+    }
+
+    .section {
+        background: #111827;
+        border: 1px solid #263244;
+        border-radius: 16px;
+        margin-top: 20px;
+        overflow: hidden;
+    }
+
+    .section-title {
+        padding: 15px 18px;
+        border-bottom: 1px solid #263244;
+        font-size: 18px;
+        font-weight: 900;
+    }
+
+    .section-content {
+        padding: 18px;
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        gap: 12px;
+    }
+
+    .info-item {
+        background: #172033;
+        border-radius: 10px;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .info-label {
+        color: #64748b;
+        font-size: 12px;
+        margin-bottom: 6px;
+    }
+
+    .info-value {
+        color: #e2e8f0;
+        font-weight: 800;
+        word-break: break-word;
+    }
+
+    .timeline {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .event {
+        display: grid;
+        grid-template-columns: 65px 1fr;
+        gap: 12px;
+        align-items: center;
+        padding: 13px;
+        background: #172033;
+        border-radius: 10px;
+    }
+
+    .event-time {
+        color: #22c55e;
+        font-weight: 900;
+    }
+
+    .event-text {
+        color: #e2e8f0;
+        font-weight: 700;
+    }
+
+    .event-detail {
+        color: #94a3b8;
+        font-size: 13px;
+        margin-top: 4px;
+    }
+
+    .lineup-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+    }
+
+    .lineup-team {
+        background: #0d1522;
+        border: 1px solid #263244;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .lineup-header {
+        padding: 13px;
+        background: #172033;
+        text-align: center;
+        font-weight: 900;
+    }
+
+    .formation {
+        text-align: center;
+        color: #94a3b8;
+        font-size: 12px;
+        padding: 8px;
+        border-bottom: 1px solid #1e293b;
+    }
+
+    .player-list {
+        list-style: none;
+    }
+
+    .player-list li {
+        display: flex;
+        gap: 10px;
+        padding: 10px 13px;
+        border-bottom: 1px solid #1e293b;
+        color: #dbeafe;
+        font-size: 14px;
+    }
+
+    .player-number {
+        color: #64748b;
+        min-width: 25px;
+    }
+
+    .player-name {
+        flex: 1;
+    }
+
+    .empty {
+        text-align: center;
+        color: #64748b;
+        padding: 20px;
+    }
+
+    .last-updated {
+        text-align: center;
+        color: #64748b;
+        font-size: 12px;
+        margin-top: 15px;
+    }
+
+    footer {
+        text-align: center;
+        color: #64748b;
+        padding: 30px 15px;
+        border-top: 1px solid #1e293b;
+        font-size: 13px;
+    }
+
+    @media(max-width:700px) {
+        header {
+            padding: 13px 15px;
+        }
+
+        .header-inner {
+            flex-direction: column;
+        }
+
+        nav {
+            justify-content: center;
+            gap: 13px;
+        }
+
+        main {
+            padding: 18px 10px 40px;
+        }
+
+        .teams {
+            grid-template-columns: 1fr;
+            gap: 18px;
+            padding: 25px 15px;
+        }
+
+        .score {
+            font-size: 38px;
+        }
+
+        .team-logo {
+            width: 65px;
+            height: 65px;
+        }
+
+        .team-name {
+            font-size: 18px;
+        }
+
+        .info-grid,
+        .lineup-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .stream-box {
+            margin-left: 12px;
+            margin-right: 12px;
+        }
+    }
+</style>
+
+</head><body><header>
+    <div class="header-inner">
+        <a href="index.html" class="logo">Goal<span>Rush</span></a>    <nav>
+        <a href="index.html">Home</a>
+        <a href="news.html">News</a>
+        <a href="scores.html" class="active">Scores</a>
+        <a href="quiz.html">Quiz</a>
+    </nav>
+</div>
+
+</header><main><a href="scores.html" class="back-btn">← Back to Scores</a>
+
+<div id="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Loading match...</p>
+</div>
+
+<div id="errorBox" class="error-box" style="display:none;">
+    <h2>Match Centre Error</h2>
+    <p id="errorMessage">Could not load this match.</p>
+    <button class="retry-btn" onclick="loadMatch()">Try Again</button>
+</div>
+
+<div id="matchContent" style="display:none;">
+
+    <div class="match-card">
+
+        <div class="competition" id="competition">
+            Football Match
+        </div>
+
+        <div class="match-status">
+            <span id="statusBadge" class="status-badge">Loading</span>
+        </div>
+
+        <div class="teams">
+
+            <div class="team">
+                <img id="homeLogo"
+                     class="team-logo"
+                     alt="Home team">
+
+                <div id="homeName" class="team-name">
+                    Home
+                </div>
+            </div>
+
+            <div>
+                <div class="score">
+                    <span id="homeScore">-</span>
+                    <span class="score-separator">:</span>
+                    <span id="awayScore">-</span>
+                </div>
+
+                <div id="matchTime" class="match-time">--</div>
+            </div>
+
+            <div class="team">
+                <img id="awayLogo"
+                     class="team-logo"
+                     alt="Away team">
+
+                <div id="awayName" class="team-name">
+                    Away
+                </div>
+            </div>
+
+        </div>
+
+        <div class="actions">
+            <button class="action-btn" onclick="shareMatch()">
+                ↗ Share
+            </button>
+
+            <button class="action-btn" onclick="loadMatch()">
+                ↻ Refresh
+            </button>
+        </div>
+
+        <div id="streamSection" class="stream-box">
+            <h3>📺 Watch Match</h3>
+            <p id="streamMessage">
+                Checking for an official watch link...
+            </p>
+            <div id="streamButton"></div>
+        </div>
+
+    </div>
+
+    <div class="section">
+
+        <div class="section-title">
+            Match Information
+        </div>
+
+        <div class="section-content">
+
+            <div class="info-grid">
+
+                <div class="info-item">
+                    <div class="info-label">Competition</div>
+                    <div id="infoCompetition" class="info-value">-</div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Venue</div>
+                    <div id="infoVenue" class="info-value">-</div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Date & Time</div>
+                    <div id="infoDate" class="info-value">-</div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="section">
+
+        <div class="section-title">
+            Match Timeline
+        </div>
+
+        <div class="section-content">
+            <div id="timeline" class="timeline">
+                <div class="empty">Loading events...</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="section">
+
+        <div class="section-title">
+            Lineups
+        </div>
+
+        <div class="section-content">
+            <div id="lineups" class="lineup-grid">
+                <div class="empty">Loading lineups...</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="lastUpdated" class="last-updated">
+        Last updated: --
+    </div>
+
+</div>
+
+</main><footer>
+    © 2026 GoalRush. Football Starts Here.
+</footer><script>
+
+const API_BASE = "https://goalrush-api.vercel.app";
+
+const params = new URLSearchParams(window.location.search);
+const matchId = params.get("id");
+
+let currentMatch = null;
+
+
+/* =========================================================
+   BASIC HELPERS
+========================================================= */
+
+function escapeHTML(value) {
+    if (value === null || value === undefined) return "";
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+function safeUrl(url) {
+    if (!url) return null;
+
+    try {
+        const parsed = new URL(url);
+
+        if (
+            parsed.protocol !== "http:" &&
+            parsed.protocol !== "https:"
+        ) {
+            return null;
+        }
+
+        return parsed.href;
+
+    } catch {
+        return null;
+    }
+}
+
+
+function firstValue(...values) {
+    for (const value of values) {
+        if (
+            value !== undefined &&
+            value !== null &&
+            value !== ""
+        ) {
+            return value;
+        }
+    }
+
+    return null;
+}
+
+
+/* =========================================================
+   TEAM HELPERS
+========================================================= */
+
+function getTeamName(team) {
+
+    if (!team) return "Unknown Team";
+
+    if (typeof team === "string") {
+        return team;
+    }
+
+    return firstValue(
+        team.name,
+        team.shortName,
+        team.teamName,
+        team.title
+    ) || "Unknown Team";
+}
+
+
+function getTeamLogo(team) {
+
+    if (!team || typeof team === "string") {
+        return "";
+    }
+
+    return firstValue(
+        team.crest,
+        team.logo,
+        team.badge,
+        team.image,
+        team.logoUrl
+    ) || "";
+}
+
+
+/* =========================================================
+   API OBJECT EXTRACTION
+========================================================= */
+
+function extractMatch(data) {
+
+    if (!data) return null;
+
+    if (data.match) return data.match;
+
+    if (data.fixture) return data.fixture;
+
+    if (
+        Array.isArray(data.response) &&
+        data.response.length
+    ) {
+        return data.response[0];
+    }
+
+    if (
+        Array.isArray(data.matches) &&
+        data.matches.length
+    ) {
+        return data.matches[0];
+    }
+
+    return data;
+}
+
+
+/* =========================================================
+   NORMALIZE MATCH
+========================================================= */
+
+function normalizeMatch(raw) {
+
+    if (!raw) return null;
+
+    const teams = raw.teams || {};
+
+    const home =
+        raw.homeTeam ||
+        raw.home ||
+        teams.home ||
+        {};
+
+    const away =
+        raw.awayTeam ||
+        raw.away ||
+        teams.away ||
+        {};
+
+    const score = raw.score || {};
+    const fullTime = score.fullTime || {};
+
+    const goals = raw.goals || {};
+
+    const homeScore = firstValue(
+        home.score,
+        home.goals,
+        goals.home,
+        fullTime.home,
+        score.home,
+        raw.homeScore
+    );
+
+    const awayScore = firstValue(
+        away.score,
+        away.goals,
+        goals.away,
+        fullTime.away,
+        score.away,
+        raw.awayScore
+    );
+
+    const competition =
+        raw.competition ||
+        raw.league ||
+        raw.tournament ||
+        {};
+
+    const competitionName =
+        typeof competition === "string"
+            ? competition
+            : firstValue(
+                competition.name,
+                competition.title,
+                raw.competitionName,
+                raw.leagueName
+            ) || "Football Match";
+
+    const date = firstValue(
+        raw.utcDate,
+        raw.date,
+        raw.startTime,
+        raw.kickoff,
+        raw.fixture?.date
+    );
+
+    const venue =
+        typeof raw.venue === "string"
+            ? raw.venue
+            : firstValue(
+                raw.venue?.name,
+                raw.fixture?.venue?.name,
+                raw.stadium?.name,
+                raw.stadium
+            ) || "Not available";
+
+    const status =
+        typeof raw.status === "object"
+            ? firstValue(
+                raw.status.short,
+                raw.status.long,
+                raw.status.type
+            )
+            : firstValue(
+                raw.status,
+                raw.matchStatus
+            ) || "NS";
+
+    return {
+        raw,
+
+        home: {
+            name: getTeamName(home),
+            logo: getTeamLogo(home)
+        },
+
+        away: {
+            name: getTeamName(away),
+            logo: getTeamLogo(away)
+        },
+
+        homeScore,
+        awayScore,
+
+        competition: competitionName,
+        venue,
+        date,
+        status,
+
+        events:
+            raw.events ||
+            raw.timeline ||
+            [],
+
+        lineups:
+            raw.lineups ||
+            raw.lineup ||
+            [],
+
+        streamUrl:
+            raw.streamUrl ||
+            raw.officialStreamUrl ||
+            raw.watchUrl ||
+            raw.broadcastUrl ||
+            raw.tv?.url ||
+            raw.links?.stream ||
+            raw.links?.watch ||
+            null
+    };
+}
+
+
+/* =========================================================
+   API FETCHER
+========================================================= */
+
+async function apiGet(path) {
+
+    const url =
+        `${API_BASE}${path}${path.includes("?") ? "&" : "?"}t=${Date.now()}`;
+
+    console.log("GoalRush API:", url);
+
+    const response = await fetch(url, {
+        method: "GET",
+        cache: "no-store",
+        headers: {
+            "Accept": "application/json"
+        }
+    });
+
+    if (!response.ok) {
+        throw new Error(
+            `API returned HTTP ${response.status}`
+        );
+    }
+
+    return await response.json();
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function getStatusInfo(status) {
+
+    const s = String(status || "").toLowerCase();
+
+    if (
+        s.includes("live") ||
+        s === "1h" ||
+        s === "2h" ||
+        s === "ht" ||
+        s === "et" ||
+        s === "p" ||
+        s === "in_play" ||
+        s === "in-play" ||
+        s === "paused"
+    ) {
+        return {
+            text: "LIVE",
+            type: "live"
+        };
+    }
+
+    if (
+        s.includes("finished") ||
+        s === "ft" ||
+        s === "aet" ||
+        s === "pen"
+    ) {
+        return {
+            text: "FULL TIME",
+            type: "finished"
+        };
+    }
+
+    if (
+        s.includes("scheduled") ||
+        s.includes("upcoming") ||
+        s === "ns" ||
+        s === "timed"
+    ) {
+        return {
+            text: "UPCOMING",
+            type: "upcoming"
+        };
+    }
+
+    if (s.includes("postpon")) {
+        return {
+            text: "POSTPONED",
+            type: ""
+        };
+    }
+
+    if (s.includes("cancel")) {
+        return {
+            text: "CANCELLED",
+            type: ""
+        };
+    }
+
+    return {
+        text: String(status || "MATCH").toUpperCase(),
+        type: ""
+    };
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+function formatDate(date) {
+
+    if (!date) return "Not available";
+
+    const d = new Date(date);
+
+    if (Number.isNaN(d.getTime())) {
+        return String(date);
+    }
+
+    return d.toLocaleString("en-NG", {
+        dateStyle: "medium",
+        timeStyle: "short",
+        timeZone: "Africa/Lagos"
+    }) + " WAT";
+}
+
+
+/* =========================================================
+   LOGOS
+========================================================= */
+
+function setLogo(id, url, name) {
+
+    const img = document.getElementById(id);
+
+    if (!img) return;
+
+    const safe = safeUrl(url);
+
+    if (!safe) {
+        img.style.display = "none";
+        return;
+    }
+
+    img.src = safe;
+    img.alt = name;
+
+    img.style.display = "inline-block";
+
+    img.onerror = function() {
+        this.style.display = "none";
+    };
+}
+
+
+/* =========================================================
+   STREAM
+========================================================= */
+
+function displayStream(match) {
+
+    const message =
+        document.getElementById("streamMessage");
+
+    const button =
+        document.getElementById("streamButton");
+
+    button.innerHTML = "";
+
+    const url = safeUrl(match.streamUrl);
+
+    if (url) {
+
+        message.textContent =
+            "An official watch link is available.";
+
+        const link =
+            document.createElement("a");
+
+        link.href = url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.className = "watch-btn";
+        link.textContent = "▶ WATCH NOW";
+
+        button.appendChild(link);
+
+    } else {
+
+        message.textContent =
+            "An official live stream link is not available for this match.";
+    }
+}
+
+
+/* =========================================================
+   EVENTS
+========================================================= */
+
+function normalizeEvents(data) {
+
+    if (!data) return [];
+
+    if (Array.isArray(data)) return data;
+
+    if (Array.isArray(data.events)) {
+        return data.events;
+    }
+
+    if (Array.isArray(data.timeline)) {
+        return data.timeline;
+    }
+
+    if (Array.isArray(data.response)) {
+        return data.response;
+    }
+
+    if (data.match) {
+        return normalizeEvents(data.match);
+    }
+
+    return [];
+}
+
+
+function displayTimeline(events) {
+
+    const container =
+        document.getElementById("timeline");
+
+    if (!events.length) {
+
+        container.innerHTML =
+            `<div class="empty">
+                No match events available yet.
+             </div>`;
+
+        return;
+    }
+
+    container.innerHTML = events.map(event => {
+
+        const minute = firstValue(
+            event.time?.elapsed,
+            event.minute,
+            event.elapsed,
+            event.time
+        );
+
+        const player = firstValue(
+            event.player?.name,
+            typeof event.player === "string"
+                ? event.player
+                : null,
+            event.scorer,
+            event.name
+        );
+
+        const assist = firstValue(
+            event.assist?.name,
+            typeof event.assist === "string"
+                ? event.assist
+                : null
+        );
+
+        const type = firstValue(
+            event.detail,
+            event.type,
+            event.event,
+            "Match event"
+        );
+
+        let detail = String(type);
+
+        if (assist) {
+            detail += ` · Assist: ${assist}`;
+        }
+
+        return `
+            <div class="event">
+
+                <div class="event-time">
+                    ${escapeHTML(minute ?? "")}
+                    ${minute !== null && minute !== ""
+                        ? "'"
+                        : ""}
+                </div>
+
+                <div>
+                    <div class="event-text">
+                        ${escapeHTML(player || type)}
+                    </div>
+
+                    <div class="event-detail">
+                        ${escapeHTML(detail)}
+                    </div>
+                </div>
+
+            </div>
+        `;
+
+    }).join("");
+}
+
+
+/* =========================================================
+   LINEUPS
+========================================================= */
+
+function normalizeLineups(data) {
+
+    if (!data) return [];
+
+    if (Array.isArray(data)) return data;
+
+    if (Array.isArray(data.lineups)) {
+        return data.lineups;
+    }
+
+    if (Array.isArray(data.response)) {
+        return data.response;
+    }
+
+    if (data.match) {
+        return normalizeLineups(data.match);
+    }
+
+    return [];
+}
+
+
+function displayLineups(lineups) {
+
+    const container =
+        document.getElementById("lineups");
+
+    if (!lineups.length) {
+
+        container.innerHTML =
+            `<div class="empty">
+                Lineups are not available yet.
+             </div>`;
+
+        return;
+    }
+
+    let html = "";
+
+    lineups.forEach(lineup => {
+
+        const team =
+            lineup.team || {};
+
+        const teamName =
+            getTeamName(team);
+
+        const formation =
+            lineup.formation || "";
+
+        const starting =
+            lineup.startXI ||
+            lineup.startingXI ||
+            lineup.players ||
+            lineup.lineup ||
+            [];
+
+        const players =
+            starting.map(item =>
+                item.player || item
+            );
+
+        html += `
+            <div class="lineup-team">
+
+                <div class="lineup-header">
+                    ${escapeHTML(teamName)}
+                </div>
+
+                ${
+                    formation
+                    ? `<div class="formation">
+                        Formation: ${escapeHTML(formation)}
+                       </div>`
+                    : ""
+                }
+
+                <ul class="player-list">
+
+                    ${
+                        players.length
+                        ? players.map(player => {
+
+                            const number =
+                                firstValue(
+                                    player.number,
+                                    player.shirtNumber,
+                                    ""
+                                );
+
+                            const name =
+                                firstValue(
+                                    player.name,
+                                    player.playerName
+                                ) || "Unknown Player";
+
+                            return `
+                                <li>
+                                    <span class="player-number">
+                                        ${escapeHTML(number)}
+                                    </span>
+
+                                    <span class="player-name">
+                                        ${escapeHTML(name)}
+                                    </span>
+                                </li>
+                            `;
+
+                        }).join("")
+                        :
+                        `<li>
+                            <span class="player-name">
+                                No players available
+                            </span>
+                         </li>`
+                    }
+
+                </ul>
+
+            </div>
+        `;
+    });
+
+    container.innerHTML = html;
+}
+
+
+/* =========================================================
+   DISPLAY MATCH
+========================================================= */
+
+function displayMatch(raw) {
+
+    const match =
+        normalizeMatch(raw);
+
+    if (!match) {
+        throw new Error(
+            "The API returned no match data."
+        );
+    }
+
+    currentMatch = match;
+
+    document.getElementById("homeName")
+        .textContent = match.home.name;
+
+    document.getElementById("awayName")
+        .textContent = match.away.name;
+
+    document.getElementById("homeScore")
+        .textContent =
+        match.homeScore ?? "-";
+
+    document.getElementById("awayScore")
+        .textContent =
+        match.awayScore ?? "-";
+
+    setLogo(
+        "homeLogo",
+        match.home.logo,
+        match.home.name
+    );
+
+    setLogo(
+        "awayLogo",
+        match.away.logo,
+        match.away.name
+    );
+
+    document.getElementById("competition")
+        .textContent =
+        match.competition;
+
+    document.getElementById("infoCompetition")
+        .textContent =
+        match.competition;
+
+    document.getElementById("infoVenue")
+        .textContent =
+        match.venue;
+
+    document.getElementById("infoDate")
+        .textContent =
+        formatDate(match.date);
+
+    const status =
+        getStatusInfo(match.status);
+
+    const badge =
+        document.getElementById("statusBadge");
+
+    badge.textContent =
+        status.text;
+
+    badge.className =
+        "status-badge";
+
+    if (status.type) {
+        badge.classList.add(
+            `status-${status.type}`
+        );
+    }
+
+    document.getElementById("matchTime")
+        .textContent =
+        status.type === "live"
+            ? "Live now"
+            : formatDate(match.date);
+
+    displayStream(match);
+
+    displayTimeline(
+        normalizeEvents(match.events)
+    );
+
+    displayLineups(
+        normalizeLineups(match.lineups)
+    );
+
+    document.getElementById("lastUpdated")
+        .textContent =
+        "Last updated: " +
+        new Date().toLocaleTimeString(
+            "en-NG",
+            {
+                timeZone: "Africa/Lagos"
+            }
+        ) +
+        " WAT";
+
+    document.getElementById("loading")
+        .style.display = "none";
+
+    document.getElementById("errorBox")
+        .style.display = "none";
+
+    document.getElementById("matchContent")
+        .style.display = "block";
+}
+
+
+/* =========================================================
+   LOAD EXTRA EVENTS
+========================================================= */
+
+async function loadEvents() {
+
+    try {
+
+        const data =
+            await apiGet(
+                `/api/match/${encodeURIComponent(matchId)}/events`
+            );
+
+        const events =
+            normalizeEvents(data);
+
+        if (events.length) {
+            displayTimeline(events);
+        }
+
+    } catch (error) {
+
+        console.log(
+            "Events endpoint unavailable:",
+            error.message
+        );
+    }
+}
+
+
+/* =========================================================
+   LOAD EXTRA LINEUPS
+========================================================= */
+
+async function loadLineups() {
+
+    try {
+
+        const data =
+            await apiGet(
+                `/api/match/${encodeURIComponent(matchId)}/lineups`
+            );
+
+        const lineups =
+            normalizeLineups(data);
+
+        if (lineups.length) {
+            displayLineups(lineups);
+        }
+
+    } catch (error) {
+
+        console.log(
+            "Lineups endpoint unavailable:",
+            error.message
+        );
+    }
+}
+
+
+/* =========================================================
+   LOAD LIVE DATA
+========================================================= */
+
+async function loadLive() {
+
+    try {
+
+        const data =
+            await apiGet(
+                `/api/match/${encodeURIComponent(matchId)}/live`
+            );
+
+        const liveMatch =
+            extractMatch(data);
+
+        if (liveMatch) {
+
+            const normalized =
+                normalizeMatch(liveMatch);
+
+            if (normalized) {
+
+                document.getElementById("homeScore")
+                    .textContent =
+                    normalized.homeScore ?? "-";
+
+                document.getElementById("awayScore")
+                    .textContent =
+                    normalized.awayScore ?? "-";
+
+                const status =
+                    getStatusInfo(normalized.status);
+
+                const badge =
+                    document.getElementById("statusBadge");
+
+                badge.textContent =
+                    status.text;
+
+                badge.className =
+                    "status-badge";
+
+                if (status.type) {
+                    badge.classList.add(
+                        `status-${status.type}`
+                    );
+                }
+
+                if (normalized.events?.length) {
+                    displayTimeline(
+                        normalized.events
+                    );
+                }
+            }
+        }
+
+    } catch (error) {
+
+        console.log(
+            "Live endpoint unavailable:",
+            error.message
+        );
+    }
+}
+
+
+/* =========================================================
+   MAIN LOAD
+========================================================= */
+
+async function loadMatch() {
+
+    const loading =
+        document.getElementById("loading");
+
+    const errorBox =
+        document.getElementById("errorBox");
+
+    const content =
+        document.getElementById("matchContent");
+
+    const errorMessage =
+        document.getElementById("errorMessage");
+
+    if (!matchId) {
+
+        loading.style.display = "none";
+        content.style.display = "none";
+        errorBox.style.display = "block";
+
+        errorMessage.textContent =
+            "No match ID was found in the URL.";
+
+        return;
+    }
+
+    loading.style.display = "block";
+    errorBox.style.display = "none";
+
+    try {
+
+        const data =
+            await apiGet(
+                `/api/match/${encodeURIComponent(matchId)}`
+            );
+
+        const match =
+            extractMatch(data);
+
+        if (!match) {
+            throw new Error(
+                "No match was returned by the API."
+            );
+        }
+
+        displayMatch(match);
+
+        /*
+         * Ask the dedicated endpoints for
+         * information that may not be included
+         * in the main match response.
+         */
+
+        await Promise.allSettled([
+            loadEvents(),
+            loadLineups()
+        ]);
+
+        /*
+         * If this is a live match, get the latest
+         * score/status as well.
+         */
+
+        const status =
+            getStatusInfo(
+                normalizeMatch(match)?.status
+            );
+
+        if (status.type === "live") {
+            await loadLive();
+        }
+
+    } catch (error) {
+
+        console.error(
+            "GoalRush Match Centre error:",
+            error
+        );
+
+        loading.style.display = "none";
+        content.style.display = "none";
+        errorBox.style.display = "block";
+
+        errorMessage.textContent =
+            error.message ||
+            "Could not load this match.";
+
+    }
+}
+
+
+/* =========================================================
+   SHARE
+========================================================= */
+
+async function shareMatch() {
+
+    const shareData = {
+        title: "GoalRush Match Centre",
+        text: "Check this football match on GoalRush!",
+        url: window.location.href
+    };
+
+    try {
+
+        if (navigator.share) {
+
+            await navigator.share(
+                shareData
+            );
+
+        } else {
+
+            await navigator.clipboard.writeText(
+                window.location.href
+            );
+
+            alert(
+                "Match link copied!"
+            );
+        }
+
+    } catch (error) {
+
+        console.log(
+            "Share cancelled:",
+            error
+        );
+    }
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+loadMatch();
+
+
+/*
+ * Refresh Match Centre every 30 seconds.
+ */
+setInterval(() => {
+
+    if (matchId) {
+        loadMatch();
+    }
+
+}, 30000);
+
+</script></body>
+</html>
