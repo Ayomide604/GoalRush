@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>About GoalRush | Your Football Hub</title>
+  <meta name="description" content="Learn about GoalRush, a football hub for live scores, fixtures, results, football news, league tables, match updates and quizzes.">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7f6;
+      color: #17202a;
+      line-height: 1.7;
+    }
+
+    header {
+      background: white;
+      padding: 18px 6%;
+      border-bottom: 1px solid #e5e5e5;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .nav {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 800;
+      color: #17202a;
+      text-decoration: none;
+    }
+
+    .logo span {
+      color: #19b957;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 600;
+    }
+
+    nav a:hover {
+      color: #19b957;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #075c3f, #0b9f62);
+      color: white;
+      padding: 70px 20px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(38px, 7vw, 64px);
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      max-width: 700px;
+      margin: auto;
+      font-size: 19px;
+      opacity: 0.95;
+    }
+
+    main {
+      max-width: 950px;
+      margin: 45px auto;
+      padding: 0 20px;
+    }
+
+    section {
+      background: white;
+      padding: 32px;
+      margin-bottom: 25px;
+      border-radius: 18px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    }
+
+    h2 {
+      color: #087447;
+      margin-bottom: 14px;
+      font-size: 28px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .feature {
+      padding: 22px;
+      border-radius: 15px;
+      background: #f3faf6;
+      border: 1px solid #dcefe4;
+    }
+
+    .feature h3 {
+      margin-bottom: 8px;
+    }
+
+    footer {
+      background: #111;
+      color: #ddd;
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 50px;
+    }
+
+    footer a {
+      color: #6ee7a5;
+      text-decoration: none;
+    }
+
+    @media (max-width: 650px) {
+      .nav {
+        flex-direction: column;
+      }
+
+      nav {
+        justify-content: center;
+      }
+
+      section {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="nav">
+
+      <a href="index.html" class="logo">
+        ⚽ Goal<span>Rush</span>
+      </a>
+
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="news.html">News</a>
+        <a href="scores.html">Scores</a>
+        <a href="quiz.html">Quiz</a>
+        <a href="about.html">About</a>
+      </nav>
+
+    </div>
+  </header>
+
+  <div class="hero">
+    <h1>About GoalRush</h1>
+    <p>
+      Your football hub for scores, news, fixtures, results,
+      league tables, match updates and more.
+    </p>
+  </div>
+
+  <main>
+
+    <section>
+      <h2>Welcome to GoalRush</h2>
+
+      <p>
+        GoalRush is a football hub built for fans who want the game
+        in one place.
+      </p>
+
+      <p>
+        From live scores and fixtures to football news, league tables,
+        match updates and quizzes, GoalRush brings together the
+        information football fans want to follow throughout the season.
+      </p>
+    </section>
+
+    <section>
+      <h2>What We Offer</h2>
+
+      <div class="features">
+
+        <div class="feature">
+          <h3>⚽ Live Scores</h3>
+          <p>
+            Follow match scores and updates as games happen.
+          </p>
+        </div>
+
+        <div class="feature">
+          <h3>📰 Football News</h3>
+          <p>
+            Stay updated with stories and developments from the
+            football world.
+          </p>
+        </div>
+
+        <div class="feature">
+          <h3>🏆 League Tables</h3>
+          <p>
+            Keep track of standings and see how teams are performing.
+          </p>
+        </div>
+
+        <div class="feature">
+          <h3>📅 Fixtures & Results</h3>
+          <p>
+            Find upcoming matches and check completed results.
+          </p>
+        </div>
+
+        <div class="feature">
+          <h3>📊 Match Centre</h3>
+          <p>
+            Explore match information, events and other available
+            match details.
+          </p>
+        </div>
+
+        <div class="feature">
+          <h3>🧠 Football Quiz</h3>
+          <p>
+            Test your football knowledge with GoalRush quizzes.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <section>
+      <h2>Our Mission</h2>
+
+      <p>
+        Our goal is simple: make following football easier, faster
+        and more enjoyable.
+      </p>
+
+      <p>
+        GoalRush is designed to give football fans a convenient place
+        to check what's happening across the game without having to
+        search through multiple websites.
+      </p>
+    </section>
+
+    <section>
+      <h2>Built for Football Fans</h2>
+
+      <p>
+        Whether you're checking a score, following your favourite
+        team's latest result, looking at the league table or testing
+        your football knowledge, GoalRush is made to be a simple and
+        accessible football destination.
+      </p>
+
+      <p style="margin-top: 15px; font-weight: bold;">
+        Football starts here.
+      </p>
+    </section>
+
+    <section>
+      <h2>Disclaimer</h2>
+
+      <p>
+        GoalRush provides football information for fans and general
+        informational purposes. Match information, scores, fixtures
+        and other data may come from third-party football data
+        providers and may occasionally be delayed or contain
+        inaccuracies.
+      </p>
+
+      <p style="margin-top: 15px;">
+        GoalRush does not claim ownership of third-party trademarks,
+        team names, logos or other copyrighted materials displayed
+        for identification or informational purposes.
+      </p>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© 2026 GoalRush. All rights reserved.</p>
+
+    <p style="margin-top: 10px;">
+      <a href="index.html">Home</a>
+      &nbsp; | &nbsp;
+      <a href="about.html">About</a>
+    </p>
+  </footer>
+
+</body>
+</html>
